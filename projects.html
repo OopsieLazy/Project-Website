@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width initial-scale=1.0">
         <title>Personal Portfolio</title>
         <link rel="stylesheet" href="projyles.css">
+        <script src="projcript.js"></script>
     </head>
     
     <body class="thehomepage" cz-shortcut-listen="true">
@@ -22,6 +23,12 @@
 
                     <!-- Left Side Of Header -->
                     <div class="header-column-left">
+                        <li class="header-left-item" id="item-Home">
+                                    <a class="menu-link" href="/homepage.html">Home</a></li>
+                                    <li class="header-left-item" id="item-finder">
+                                    <a class="menu-link" href="/projects.html">CAD Portfolio</a></li>
+                                    <li class="header-left-item" id="item-finder">
+                                    <a class="menu-link" href="https://visithumboldt.com/things-to-do/">Code Portfolio</a></li>
                                <li class="header-left-item" id="item-finder">
                                     <a class="menu-link" href="https://visithumboldt.com/things-to-do/">Project Finder</a></li>
                                 <li class="header-left-item" id="item-art">
@@ -29,7 +36,7 @@
                                 <li class="header-left-item" id="item-about">
                                     <a class="menu-link" href="https://visithumboldt.com/seasonal-county-events/">About Me</a></li>
                                 <li class="header-left-item" id="item-contact">
-                                    <a class="menu-link" href="https://visithumboldt.com/places-to-stay/">Contact and CV</a></li>
+                                    <a class="menu-link" href="https://visithumboldt.com/places-to-stay/">Contact and Resume</a></li>
                     </div>
 
                     <!-- Center Of Header -->
@@ -108,12 +115,12 @@
 
                 <hr class="item-image-seperator is-stylized">
                 <section id="slideshow">
-                  <div class="entire-content">
-                    <div class="content-carrousel">
+                  <div class="entire-content" id="content">
+                    <div class="content-carrousel" id="carousel-c">
                             <figure class="shadow"><img src="300x300.jpg"></figure>
-                            <figure class="shadow"><img src="300x300.jpg"></figure>
-                            <figure class="shadow"><img src="300x300.jpg"></figure>
-                            <figure class="shadow"><img src="300x300.jpg"></figure>
+                            <figure class="shadow"><img src="Geetech End Stop Cap v4.png"></figure>
+                            <figure class="shadow"><img src="Bridge Guitar v8.png"></figure>
+                            <figure class="shadow"><img src="LATCH HINGE --_ SUCCESS (OVERTIME LIMIT) v1.png"></figure>
                             <figure class="shadow"><img src="300x300.jpg"></figure>
                             <figure class="shadow"><img src="300x300.jpg"></figure>
                             <figure class="shadow"><img src="300x300.jpg"></figure>
@@ -125,8 +132,12 @@
                 </section>
 
                 <hr class="item-image-seperator is-stylized">
-                <div class="item-image-block">
+                <div class="larger-projects">
+                    <!-- This will be growing style, where you see part and expands to image or project view -->
                     <figure>
+                        <img src="300x300.jpg">
+                        <img src="300x300.jpg">
+                        <img src="300x300.jpg">
                         <img src="300x300.jpg">
                         <figcaption class="item-caption">This is a test caption</figcaption>
                     </figure>
