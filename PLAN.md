@@ -46,7 +46,7 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 
 **PR A · `chore/workflow`**: how we work
 - [x] **1.0a** PR template (`.github/pull_request_template.md`) with a what / why / tested checklist.
-- [ ] **1.0b** *(Owner, on GitHub)* Branch protection on `main`: changes arrive only through PRs.
+- [ ] **1.0b** *(Owner, on GitHub)* Branch protection on `main`: changes arrive only through PRs. ⚠ Free private repos don't enforce rulesets. **Decision: make the repo public** (also needed for free GitHub Pages), then re-create the ruleset.
 - [ ] **1.0c** GitHub Actions check that runs the HTML validator on every PR (automated QA, as companies do).
 
 **PR B · `feat/design-tokens`**: the look and one shared stylesheet
@@ -74,8 +74,7 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 
 **PR F · `feat/responsive-projects`**: the CAD page on any screen
 - [ ] **1.15** Carousel radius and figure size scale with the screen (one JS value goes from fixed to calculated).
-- [ ] **1.15b** Hovering pauses the spin, and leaving resumes it (JS `mouseenter`/`mouseleave`).
-- [ ] **1.15c** Motion controls: a pause/play toggle plus a speed slider (`<input type="range">`). If the system asks for reduced motion (`prefers-reduced-motion`), the carousel starts paused.
+- [ ] **1.15b** Hovering pauses the spin, and leaving resumes it (JS `mouseenter`/`mouseleave`).- [ ] **1.15c** Motion controls: a pause/play toggle plus a speed slider (`<input type="range">`). If the system asks for reduced motion (`prefers-reduced-motion`), the carousel starts paused.
 - [ ] **1.16** On phones the popup becomes a bottom sheet instead of sitting to the right.
 - [ ] **1.17** Remove the fixed `#slideshow` height, and make the other sections wrap on small screens.
 
@@ -131,6 +130,16 @@ Design doc first (art style, room ↔ section map, controls), then build in smal
 - Contact form: a form service (e.g. Formspree) plus a honeypot field against spam bots.
 - Filmography: lazy-loaded video embeds (`youtube-nocookie.com`).
 - Shared header injected by JS instead of copied (D3 step b).
+
+## Experiments
+
+**🔍 Code Lens**: a magnifying-glass toggle. A circular lens follows the cursor (or a finger on touch screens) and shows the page's *own source code* "underneath" the rendered page, as if seeing through it.
+- **Live, not screenshots.** The page fetches its own source (`fetch(location.href)`, plus its CSS/JS files), so the lens is always up to date. Screenshots would go stale after every change.
+- **How it's drawn.** A full-page `<pre>` code layer sits on top, and a CSS `clip-path: circle()` that follows the pointer shows only the lens area. Translucency comes from `opacity` / `backdrop-filter`.
+- **Security.** The code is inserted with `textContent` (D7), so it's displayed and never run. Same-origin fetch only, which fits CSP `connect-src 'self'`.
+- **Accessibility.** Off by default, toggled by a `<button aria-pressed>`, decorative layer `aria-hidden`, respects `prefers-reduced-motion`.
+- **Ideas.** Tabs for HTML / CSS / JS. Syntax colors. Style it as a Renaissance brass loupe so it matches the museum. Possibly a museum exhibit in its own right.
+- **When.** After Phase 1, once the header has a spot for the toggle. Could live in The Laboratory first.
 
 ---
 
