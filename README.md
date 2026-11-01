@@ -1,6 +1,6 @@
 # MyWeb: Personal Portfolio
 
-A hand-built portfolio for CAD, code, art, and film work. It is planned around a pixel-art Renaissance museum you can walk through.
+A portfolio for CAD, code, art, and film work. It is planned around a pixel-art Renaissance museum you can walk through.
 Plain HTML, CSS, and JavaScript, with no framework and no build step.
 
 ## Run it locally
@@ -27,8 +27,7 @@ Use a local server rather than double-clicking the file, because JS modules (Pha
 
 ## How this project is built
 
-I'm learning web development by building this site, and I use AI-assisted coding with Claude Code as both instructor and pair programmer.
-I planned the site and wrote the first version myself. Since then the work has been shared, and I review and commit every change.
+I'm learning web development by building this site, working with Claude Code as both instructor and pair programmer.
 
 Each task follows the same cycle:
 plan → build (by Claude, or by me when a dice roll says I write it) → review → commit.
