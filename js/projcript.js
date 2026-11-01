@@ -10,7 +10,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let spinning = true;
     let selectedFigure = null; 
 
-    function closeSidebar() {                                      // ← ADD THIS WHOLE FUNCTION
+    // Hide the details sidebar, forget the selection, and let the carousel spin again
+    function closeSidebar() {
         sidebar.style.display = "none";
         selectedFigure = null;
         spinning = true;
