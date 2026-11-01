@@ -35,6 +35,10 @@ python -m http.server 8000   # then visit http://localhost:8000/
 
 All internal links and asset paths are **relative** (`projects.html`, `css/styles.css`), never root-absolute (`/projects.html`). Relative links keep working when the site is hosted in a subfolder, such as a GitHub Pages project site (`user.github.io/MyWeb/`).
 
+## Checks
+
+There are no tests. `.github/workflows/validate-html.yml` runs the W3C Nu validator (`vnu-jar`, pinned version, `--errors-only`) on every non-empty `.html` file for each PR and push to `main`. To check one page by hand, paste it into https://validator.w3.org/#validate_by_input.
+
 ## Structure
 
 Each page pairs with its own stylesheet and script. The names are abbreviated:

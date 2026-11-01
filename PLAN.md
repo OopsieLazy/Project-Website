@@ -47,7 +47,7 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 **PR A · `chore/workflow`**: how we work
 - [x] **1.0a** PR template (`.github/pull_request_template.md`) with a what / why / tested checklist.
 - [ ] **1.0b** *(Owner, on GitHub)* Branch protection on `main`: changes arrive only through PRs. ⚠ Free private repos don't enforce rulesets. **Decision: make the repo public** (also needed for free GitHub Pages), then re-create the ruleset.
-- [ ] **1.0c** GitHub Actions check that runs the HTML validator on every PR (automated QA, as companies do).
+- [x] **1.0c** GitHub Actions check that runs the HTML validator on every PR (automated QA, as companies do).
 
 **PR B · `feat/design-tokens`**: the look and one shared stylesheet
 - [ ] **1.1** Pick a palette and fonts from a preview page of 2–3 options (throwaway page, not in the repo).
