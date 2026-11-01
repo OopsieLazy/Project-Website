@@ -35,3 +35,8 @@ As on a professional team, work happens on feature branches and reaches `main` o
 
 - `PLAN.md`: the roadmap, task breakdown, and why each architecture decision was made.
 - `CLAUDE.md`: the rules the AI follows in this project (teach as it goes, small tasks, I make all commits).
+
+## License
+
+- **Code** (HTML, CSS, JavaScript, config): [MIT](LICENSE). Feel free to learn from it and reuse it.
+- **Content**: everything in `assets/` (CAD renders, artwork, photography, video) and the site's written text (bio, project descriptions) is © 2026 OopsieLazy, **all rights reserved**. Please don't reuse it without permission.

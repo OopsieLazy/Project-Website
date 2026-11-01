@@ -50,7 +50,7 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 - [x] **1.0c** GitHub Actions check that runs the HTML validator on every PR (automated QA, as companies do).
 
 **PR B · `feat/design-tokens`**: the look and one shared stylesheet
-- [ ] **1.1** Pick a palette and fonts from a preview page of 2–3 options (throwaway page, not in the repo).
+- [x] **1.1** Picked: **Codex colors** (parchment, iron-gall ink, sanguine red) with **Fresco highlights** (lapis blue, ochre), and **Fresco fonts** (Cinzel display, Instrument Sans body). Shared: JetBrains Mono (code), Silkscreen (pixel museum).
 - [ ] **1.2** Tokens in `:root` in `styles.css`: colors, fonts, spacing, and fluid type with `clamp()`. Self-host the fonts (D12).
 - [ ] **1.3** Modern CSS reset: `box-sizing`, `img { max-width: 100% }`, base typography.
 - [ ] **1.4** Every page (except `thelab.html`, D13) loads `styles.css`. Remove the duplicated header rules from `projyles.css`.
@@ -120,7 +120,7 @@ Design doc first (art style, room ↔ section map, controls), then build in smal
 - [ ] **5.1 Hosting.** GitHub Pages.
 - [ ] **5.2 Security.** CSP via `<meta>` (GitHub Pages can't set headers), `rel="noopener noreferrer"` on external links, audit any `innerHTML`.
 - [ ] **5.3 Basics.** Favicon, page descriptions, Open Graph preview tags.
-- [ ] **5.4 Images.** Compress to WebP, add `loading="lazy"`, `alt` text.
+- [ ] **5.4 Images.** Compress to WebP, add `loading="lazy"`, `alt` text. **Strip metadata from every photo** (phone photos carry GPS location).
 - [ ] **5.5 Audit.** Lighthouse plus a real-phone test.
 - [ ] **5.6 Custom domain** (`.dev` requires HTTPS, which GitHub Pages provides).
 
@@ -160,6 +160,8 @@ Design doc first (art style, room ↔ section map, controls), then build in smal
 | D11 | GitHub flow: feature branches, Conventional Commits, PRs into `main` | Industry practice; `main` always works and goes live; PRs are the review step |
 | D12 | Self-host fonts (no Google Fonts link) | Faster, no third-party tracking, simpler CSP |
 | D13 | `thelab.html` stays standalone for now | It's an experiment and gets its own design later |
+| D14 | MIT license for code; `assets/` and written content all rights reserved | Code is open to learn from, and the art and designs stay the owner's |
+| D15 | Only self-made or properly licensed images in the repo; metadata stripped | The repo is public: no one else's copyrighted files, and no hidden GPS or personal data |
 
 ## Open questions
 
