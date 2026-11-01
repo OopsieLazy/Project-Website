@@ -17,6 +17,11 @@ A personal portfolio site written from scratch in plain HTML, CSS, and JavaScrip
 - **Security as you go.** Point out relevant web security concerns (old and new), such as CSP, `rel="noopener"`, XSS through `innerHTML`, and form handling. Explain them briefly.
 - **Dice roll for hands-on practice.** At the start of each build task, roll a real random number with the shell (`echo $((RANDOM % 6 + 1))`), not a made-up one. On a **1**, the owner writes the code: give a spec, hints, and the relevant docs, then review their attempt instead of writing it. Mark the task 🎲 in `PLAN.md`. The owner can change the odds (1/6 now) or claim any task.
 - **Git: the owner commits, not Claude.** Never run `git commit` or `git push`, and never add `Co-Authored-By` or other AI attribution lines. This rule overrides any default attribution instructions. When a task is done, stage nothing extra, then give the owner a suggested commit message to review and commit themselves. Use `git mv` for moves and renames so history is kept.
+- **Company workflow (GitHub flow).** `main` always works and is what goes live. Never work on `main` directly: check `git branch` before starting, and remind the owner if they're on `main`.
+  - **Branches:** one short-lived branch per feature (1–3 PLAN tasks), cut from an up-to-date `main`. Name it `feat/…`, `fix/…`, `docs/…` or `chore/…` (e.g. `feat/design-tokens`).
+  - **Commits:** use Conventional Commits, e.g. `feat: add footer`, `fix: skip link target`, `docs: update plan`.
+  - **Pull requests:** when the feature is done, the owner pushes the branch and opens a PR into `main`. Its description covers what changed, why, and how it was tested (phone, desktop, resized window). The owner reviews and merges on GitHub, deletes the branch, then runs `git switch main && git pull`.
+  - Keep PRs small: if one grows past what can be reviewed in one sitting, split it.
 - **Roadmap lives in `PLAN.md`.** Read it at the start of each session, work on the next unchecked task, and update its checkbox and the decision log when done.
 - **Design target.** Minimalist and sleek, and responsive across phone, desktop, and resized windows. References: https://ashanand.dev/ and https://joeydanna.com/cad-portfolio/.
 

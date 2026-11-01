@@ -32,6 +32,7 @@ I planned the site and wrote the first version myself. Since then the work has b
 
 Each task follows the same cycle:
 plan → build (by Claude, or by me when a dice roll says I write it) → review → commit.
+As on a professional team, work happens on feature branches and reaches `main` only through a reviewed pull request.
 
 - `PLAN.md`: the roadmap, task breakdown, and why each architecture decision was made.
 - `CLAUDE.md`: the rules the AI follows in this project (teach as it goes, small tasks, I make all commits).
