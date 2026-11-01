@@ -1,0 +1,35 @@
+# Runs the W3C Nu HTML validator on every pull request and on main.
+# A red ✗ on a PR means a page has an HTML error: click "Details" to see the file and line.
+name: Validate HTML
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# Least privilege: this job only reads the code, so it can't change anything in the repo
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v4
+
+      - name: Set up Java (the validator is a Java program)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Download the validator (pinned version, so results don't change by surprise)
+        run: npm install --no-save --no-audit --no-fund vnu-jar@26.10.12
+
+      - name: Validate every non-empty HTML page
+        # --errors-only: info notes and warnings don't fail the check
+        # -size +0: skips empty placeholder pages such as aboutme.html
+        run: |
+          find . -name '*.html' -not -path './.git/*' -not -path './node_modules/*' -size +0 -print0 \
+            | xargs -0 java -jar node_modules/vnu-jar/build/dist/vnu.jar --errors-only
