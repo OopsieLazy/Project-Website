@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <!-- Self-made placeholder: blueprint grid with a label. Swap for a real image when one exists. -->
+  <defs>
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M20 0H0V20" fill="none" stroke="#c9bfa8" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="300" height="300" fill="#efe3c8"/>
+  <rect width="300" height="300" fill="url(#grid)"/>
+  <rect x="70" y="95" width="160" height="110" rx="6" fill="none" stroke="#6b5d4f" stroke-width="3" stroke-dasharray="10 6"/>
+  <text x="150" y="157" text-anchor="middle" font-family="Georgia, serif" font-size="20" fill="#2a2420">Placeholder</text>
+</svg>
