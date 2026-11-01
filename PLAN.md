@@ -45,7 +45,7 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 - [x] Adopt GitHub flow (D11) and write this breakdown.
 
 **PR A · `chore/workflow`**: how we work
-- [ ] **1.0a** PR template (`.github/pull_request_template.md`) with a what / why / tested checklist.
+- [x] **1.0a** PR template (`.github/pull_request_template.md`) with a what / why / tested checklist.
 - [ ] **1.0b** *(Owner, on GitHub)* Branch protection on `main`: changes arrive only through PRs.
 - [ ] **1.0c** GitHub Actions check that runs the HTML validator on every PR (automated QA, as companies do).
 
