@@ -39,7 +39,9 @@ Goal: a clean, valid, organized base before adding anything new.
 - [x] **0.3 Entry page.** Renamed `homepage.html` → `index.html` (hosts serve `index.html` by default). Made the root-absolute links (`/projects.html`) relative.
 - [x] **0.4 Header validity.** Fixed the viewport comma, removed the DevTools/extension leftovers, made ids unique, wrapped the nav in a `<ul>`, trimmed the unused WordPress classes and fake `aria-expanded`, and changed the placeholder links to `#`.
 - [x] **0.5 Housekeeping.** Deleted `TEST CODE/` and the empty `script.js`, and added a `.gitignore`.
-- [ ] **0.6 Validate.** Run every page through https://validator.w3.org/ and fix the errors.
+- [x] **0.6 Validate.** Every page has 0 errors on https://validator.w3.org/. Added alt text, a real `<h1>`, and fixed the heading order. Info notes left on purpose: the empty popup `<h2>` (JS fills it), the carousel `<section>` with no heading, and the `/>` in `thelab.html`.
+
+**Phase 0 complete.**
 
 ## Phase 1: Responsive shell
 
