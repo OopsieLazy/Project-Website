@@ -2,6 +2,7 @@
 
 Roadmap, task breakdown, and architecture decisions for the portfolio site.
 Rule: each task should be small enough to review in one sitting and gets its own commit.
+Each feature (1–3 tasks) is a branch plus a pull request into `main` (GitHub flow; see CLAUDE.md).
 Keep this file under ~300 lines. When a phase is done, collapse it to a one-line summary.
 
 Status key: `[ ]` todo · `[~]` in progress · `[x]` done · 🎲 = rolled "you code it"
@@ -30,30 +31,55 @@ The museum is an *extra layer*: every page can also be reached through normal na
 
 ---
 
-## Phase 0: Foundation cleanup
+## Phase 0: Foundation cleanup ✅
 
-Goal: a clean, valid, organized base before adding anything new.
-
-- [x] **0.1 Folders.** Create `css/`, `js/`, `assets/images/`. Move files into them and update every `href`/`src`.
-- [x] **0.2 Image names.** Rename to lowercase-kebab (`Bridge Guitar v8.png` → `bridge-guitar-v8.png`). Spaces and `--_` break URLs on some hosts.
-- [x] **0.3 Entry page.** Renamed `homepage.html` → `index.html` (hosts serve `index.html` by default). Made the root-absolute links (`/projects.html`) relative.
-- [x] **0.4 Header validity.** Fixed the viewport comma, removed the DevTools/extension leftovers, made ids unique, wrapped the nav in a `<ul>`, trimmed the unused WordPress classes and fake `aria-expanded`, and changed the placeholder links to `#`.
-- [x] **0.5 Housekeeping.** Deleted `TEST CODE/` and the empty `script.js`, and added a `.gitignore`.
-- [x] **0.6 Validate.** Every page has 0 errors on https://validator.w3.org/. Added alt text, a real `<h1>`, and fixed the heading order. Info notes left on purpose: the empty popup `<h2>` (JS fills it), the carousel `<section>` with no heading, and the `/>` in `thelab.html`.
-
-**Phase 0 complete.**
+Done. Organized folders, URL-safe image names, `index.html`, relative links, a valid header, `.gitignore`, and 0 W3C errors.
+Info notes left on purpose: the empty popup `<h2>` (JS fills it), the carousel `<section>` with no heading, and the `/>` in `thelab.html`.
 
 ## Phase 1: Responsive shell
 
-Goal: one shared look and layout that adapts from phone to wide desktop.
+Goal: one shared look and layout that adapts from phone to wide desktop, built feature by feature, with one PR per feature.
+Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768 / 1024 / 1440 px, drag-resize the window, tab through with the keyboard, W3C validator.
 
-- [ ] **1.1 Design tokens.** Put `:root` CSS variables in shared `styles.css` (colors, fonts, spacing). These give one place to restyle the whole site.
-- [ ] **1.2 Mobile-first layout.** Write base styles for phones, then use `min-width` media queries to widen the layout.
-- [ ] **1.3 Mobile nav.** A hamburger `<button aria-expanded>` that toggles the left nav on small screens.
-- [ ] **1.4 Footer.** Name, links, ©, the same on every page.
-- [ ] **1.5 Day/night toggle.** `data-theme` on `<html>`. The default follows the OS setting (`prefers-color-scheme`) and the choice is remembered in `localStorage`. A tiny inline script in `<head>` prevents a white flash on page load.
-- [ ] **1.6 Carousel sizing.** Make the radius and figure size scale with screen width. *Only the sizing changes; the carousel and popup logic stay as written (needs owner OK).*
-- [ ] **1.7 Spread the shell.** Copy the final header and footer into every page (decision D3).
+**PR 0 · `docs/phase-1-roadmap`**
+- [x] Adopt GitHub flow (D11) and write this breakdown.
+
+**PR A · `chore/workflow`**: how we work
+- [ ] **1.0a** PR template (`.github/pull_request_template.md`) with a what / why / tested checklist.
+- [ ] **1.0b** *(Owner, on GitHub)* Branch protection on `main`: changes arrive only through PRs.
+- [ ] **1.0c** GitHub Actions check that runs the HTML validator on every PR (automated QA, as companies do).
+
+**PR B · `feat/design-tokens`**: the look and one shared stylesheet
+- [ ] **1.1** Pick a palette and fonts from a preview page of 2–3 options (throwaway page, not in the repo).
+- [ ] **1.2** Tokens in `:root` in `styles.css`: colors, fonts, spacing, and fluid type with `clamp()`. Self-host the fonts (D12).
+- [ ] **1.3** Modern CSS reset: `box-sizing`, `img { max-width: 100% }`, base typography.
+- [ ] **1.4** Every page (except `thelab.html`, D13) loads `styles.css`. Remove the duplicated header rules from `projyles.css`.
+- [ ] **1.4b** Cleanup in `projyles.css`: remove the unused `.sub-heading-*` and `.slideshow-title` (the font was never loaded), and the dead `:hover` animation pause (the real pause is 1.15b). The `nth-child` rules stay (owner's choice).
+
+**PR C · `feat/page-skeleton`**: the same frame on every page
+- [ ] **1.5** Landmarks on every page: `<header>`, `<main id="content">`, `<footer>`. This fixes the home page's skip link.
+- [ ] **1.6** Skip link hidden until it receives keyboard focus.
+- [ ] **1.7** Layout container: a max content width, fluid padding, mobile-first breakpoints.
+- [ ] **1.8** Footer: name, links, ©.
+- [ ] **1.9** `aboutme.html` gets the shell. Rename `projects.html`'s body class `thehomepage` → `theprojectspage`.
+
+**PR D · `feat/header-nav`**: the adaptive header
+- [ ] **1.10** Desktop: a three-column CSS grid (nav | logo | Lab menu), with the logo sized.
+- [ ] **1.11** Mobile: hamburger `<button aria-expanded>`. First shared JS file: `js/script.js`.
+- [ ] **1.12** Lab dropdown: opens on hover and `:focus-within` on desktop, and folds into the mobile menu.
+
+**PR E · `feat/theme-toggle`**: day and night
+- [ ] **1.13** Dark-mode token values. The default follows the OS setting (`prefers-color-scheme`).
+- [ ] **1.14** Toggle button that remembers the choice in `localStorage`, plus a no-flash script in `<head>` (note: CSP needs a hash for inline scripts in Phase 5).
+
+**PR F · `feat/responsive-projects`**: the CAD page on any screen
+- [ ] **1.15** Carousel radius and figure size scale with the screen (one JS value goes from fixed to calculated).
+- [ ] **1.15b** Hovering pauses the spin, and leaving resumes it (JS `mouseenter`/`mouseleave`).
+- [ ] **1.15c** Motion controls: a pause/play toggle plus a speed slider (`<input type="range">`). If the system asks for reduced motion (`prefers-reduced-motion`), the carousel starts paused.
+- [ ] **1.16** On phones the popup becomes a bottom sheet instead of sitting to the right.
+- [ ] **1.17** Remove the fixed `#slideshow` height, and make the other sections wrap on small screens.
+
+**Phase close:** real-phone test over Wi-Fi (`python -m http.server 8000 --bind 0.0.0.0`), Lighthouse accessibility run.
 
 ## Phase 2: Content pages
 
@@ -119,10 +145,12 @@ Design doc first (art style, room ↔ section map, controls), then build in smal
 | D5 | The museum is progressive enhancement over normal pages | Recruiters, screen readers, and SEO still work |
 | D6 | Project displays are pluggable via `data-display` | New display types are added without editing old ones |
 | D7 | Use `textContent`, never `innerHTML`, for dynamic text | Prevents XSS (script injection) |
-
 | D8 | Owner makes all commits; no AI attribution | The repo history is the owner's, and committing doubles as the review step |
 | D9 | Pixel art from found or drawn images, not a canvas | Easier to learn and edit, and doors stay real links |
 | D10 | Relative links only, no leading `/` | Work locally, from a subfolder, and on any host |
+| D11 | GitHub flow: feature branches, Conventional Commits, PRs into `main` | Industry practice; `main` always works and goes live; PRs are the review step |
+| D12 | Self-host fonts (no Google Fonts link) | Faster, no third-party tracking, simpler CSP |
+| D13 | `thelab.html` stays standalone for now | It's an experiment and gets its own design later |
 
 ## Open questions
 
