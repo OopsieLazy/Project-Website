@@ -89,6 +89,98 @@
 }
 
 /* =========================================================
+   RESET: smooth out browser defaults so every page starts level
+   Kept small on purpose: only fixes we actually need
+   ========================================================= */
+
+/* width now includes padding and border, so "width: 50%" really means 50% */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Browsers add margins to body, headings, p, figure...; we set spacing ourselves with --space-* */
+* {
+  margin: 0;
+}
+
+/* Media never overflows its container, and sits on its own line (no gap under images) */
+img,
+picture,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Form controls don't inherit fonts by default, which looks off next to the body text */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* =========================================================
+   BASE TYPOGRAPHY: the tokens first show up on the page here
+   ========================================================= */
+body {
+  min-height: 100vh;
+  background-color: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  line-height: 1.6;                /* airy body text is easier to read */
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  line-height: 1.2;                /* big text needs less line gap than body text */
+  text-wrap: balance;              /* evens out line lengths in multi-line headings */
+}
+
+h1 { font-size: var(--step-3); }
+h2 { font-size: var(--step-2); }
+h3 { font-size: var(--step-1); }
+
+p {
+  max-width: var(--measure);       /* ~65 characters per line, comfortable to read */
+  text-wrap: pretty;               /* avoids a lonely last word on its own line */
+}
+
+a {
+  color: var(--color-accent);
+  text-underline-offset: 0.2em;    /* underline sits below descenders (g, y, p) */
+}
+
+a:hover {
+  color: var(--color-highlight);
+}
+
+/* Visible ring for keyboard users only; mouse clicks don't show it */
+:focus-visible {
+  outline: 2px solid var(--color-highlight);
+  outline-offset: 2px;
+}
+
+code,
+pre {
+  font-family: var(--font-mono);
+}
+
+/* The only section divider: a hairline, like the joeydanna reference (no shadows or boxes) */
+hr {
+  border: 0;
+  border-top: 1px solid var(--color-line);
+  margin-block: var(--space-7);
+}
+
+/* =========================================================
    HEADER
    ========================================================= */
 .header-column-left {
