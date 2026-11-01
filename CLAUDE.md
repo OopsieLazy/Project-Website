@@ -22,13 +22,13 @@ A personal portfolio site written from scratch in plain HTML, CSS, and JavaScrip
 
 ## Running locally
 
-Open the HTML files directly, or serve the repo root so that root-absolute links such as `/homepage.html` and `/projects.html` resolve:
+Serve the repo root (VS Code Live Server also works):
 
 ```
-python -m http.server 8000   # then visit http://localhost:8000/homepage.html
+python -m http.server 8000   # then visit http://localhost:8000/
 ```
 
-(VS Code Live Server also works.) Navigation links begin with `/`, so they break when a page is opened as a `file://` URL.
+All internal links and asset paths are **relative** (`projects.html`, `css/styles.css`), never root-absolute (`/projects.html`). Relative links keep working when the site is hosted in a subfolder, such as a GitHub Pages project site (`user.github.io/MyWeb/`).
 
 ## Structure
 
@@ -36,7 +36,7 @@ Each page pairs with its own stylesheet and script. The names are abbreviated:
 
 | Page | CSS | JS |
 |---|---|---|
-| `homepage.html` | `css/styles.css` | `js/script.js` (empty, not linked yet) |
+| `index.html` (Home) | `css/styles.css` | `js/script.js` (empty, not linked yet) |
 | `projects.html` (CAD Portfolio) | `css/projyles.css` | `js/projcript.js` |
 | `thelab.html` | inline `<style>` | inline |
 | `aboutme.html` | empty placeholder | |

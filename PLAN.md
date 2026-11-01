@@ -18,7 +18,7 @@ The museum is an *extra layer*: every page can also be reached through normal na
 
 | Page | File (planned) | Phase |
 |---|---|---|
-| Home / museum entrance | `index.html` (renamed from `homepage.html`) | 0, 4 |
+| Home / museum entrance | `index.html` | 0, 4 |
 | CAD Portfolio | `projects.html` | 1–3 |
 | Code Portfolio | `code.html` | 2 |
 | Browse Art (art journals + photography) | `art.html` | 2 |
@@ -36,7 +36,7 @@ Goal: a clean, valid, organized base before adding anything new.
 
 - [x] **0.1 Folders.** Create `css/`, `js/`, `assets/images/`. Move files into them and update every `href`/`src`.
 - [x] **0.2 Image names.** Rename to lowercase-kebab (`Bridge Guitar v8.png` → `bridge-guitar-v8.png`). Spaces and `--_` break URLs on some hosts.
-- [ ] **0.3 Entry page.** Rename `homepage.html` → `index.html`, because hosts (including GitHub Pages) serve `index.html` by default. Update links.
+- [x] **0.3 Entry page.** Renamed `homepage.html` → `index.html` (hosts serve `index.html` by default). Made the root-absolute links (`/projects.html`) relative.
 - [ ] **0.4 Header validity.** Fix the viewport meta comma. Remove the stray `::after` text and the `cz-shortcut-listen` attribute (DevTools/extension leftovers). Make duplicate ids unique. Wrap the left-nav `<li>`s in a `<ul>`. Trim copied WordPress `mega-menu-*` classes that no CSS uses (check first).
 - [ ] **0.5 Housekeeping.** Delete `TEST CODE/` (an exact copy of `thelab.html`), add `.gitignore`, and delete the empty `script.js` if it is still unused.
 - [ ] **0.6 Validate.** Run every page through https://validator.w3.org/ and fix the errors.
@@ -120,6 +120,7 @@ Design doc first (art style, room ↔ section map, controls), then build in smal
 
 | D8 | Owner makes all commits; no AI attribution | The repo history is the owner's, and committing doubles as the review step |
 | D9 | Pixel art from found or drawn images, not a canvas | Easier to learn and edit, and doors stay real links |
+| D10 | Relative links only, no leading `/` | Work locally, from a subfolder, and on any host |
 
 ## Open questions
 

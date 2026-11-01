@@ -11,14 +11,14 @@ From the project folder:
 python -m http.server 8000
 ```
 
-Then open http://localhost:8000/homepage.html (this becomes `index.html` in Phase 0).
-Use a local server rather than double-clicking the file. Links start with `/`, and JS modules (Phase 3) only load over `http://`.
+Then open http://localhost:8000/.
+Use a local server rather than double-clicking the file, because JS modules (Phase 3) only load over `http://`.
 
 ## Project layout
 
 | File | Purpose |
 |---|---|
-| `homepage.html` + `css/styles.css` | Home page and shared header styles |
+| `index.html` + `css/styles.css` | Home page and shared header styles |
 | `projects.html` + `css/projyles.css` + `js/projcript.js` | CAD portfolio with the 3D carousel and side popup |
 | `assets/images/` | All images |
 | `thelab.html` | Laboratory experiment (notebook-on-desk design) |
