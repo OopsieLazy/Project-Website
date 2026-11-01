@@ -41,6 +41,15 @@ Info notes left on purpose: the empty popup `<h2>` (JS fills it), the carousel `
 Goal: one shared look and layout that adapts from phone to wide desktop, built feature by feature, with one PR per feature.
 Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768 / 1024 / 1440 px, drag-resize the window, tab through with the keyboard, W3C validator.
 
+### ▶ Where we left off (update at the end of every session)
+
+*Last session: 2026-11-01*
+- **Branch:** `feat/design-tokens` (PR B). **1.1 and 1.2 are done and committed locally, not pushed yet.**
+- **Owner's homework:** read through the tokens and `@font-face` rules at the top of `css/styles.css`, and ask about anything unclear.
+- **Next task:** 1.3 (CSS reset and base typography: the first time the tokens show on the page), then 1.4 and 1.4b, then push and open PR B.
+- **Owner to-dos on GitHub (new repo):** re-create the ruleset (1.0b), turn on secret scanning and push protection, set Actions to read-only, turn off the wiki, run `git push origin --delete chore/public-repo-hygiene`. Delete the old backup bundle once happy.
+- **Merged so far:** docs/roadmap, chore/workflow (PR template and CI), chore/public-repo-hygiene (placeholder SVG and license). History rewritten to the noreply email; repo recreated public.
+
 **PR 0 · `docs/phase-1-roadmap`**
 - [x] Adopt GitHub flow (D11) and write this breakdown.
 
@@ -74,7 +83,8 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 
 **PR F · `feat/responsive-projects`**: the CAD page on any screen
 - [ ] **1.15** Carousel radius and figure size scale with the screen (one JS value goes from fixed to calculated).
-- [ ] **1.15b** Hovering pauses the spin, and leaving resumes it (JS `mouseenter`/`mouseleave`).- [ ] **1.15c** Motion controls: a pause/play toggle plus a speed slider (`<input type="range">`). If the system asks for reduced motion (`prefers-reduced-motion`), the carousel starts paused.
+- [ ] **1.15b** Hovering pauses the spin, and leaving resumes it (JS `mouseenter`/`mouseleave`).
+- [ ] **1.15c** Motion controls: a pause/play toggle plus a speed slider (`<input type="range">`). If the system asks for reduced motion (`prefers-reduced-motion`), the carousel starts paused.
 - [ ] **1.16** On phones the popup becomes a bottom sheet instead of sitting to the right.
 - [ ] **1.17** Remove the fixed `#slideshow` height, and make the other sections wrap on small screens.
 

@@ -22,7 +22,7 @@ A personal portfolio site written from scratch in plain HTML, CSS, and JavaScrip
   - **Commits:** use Conventional Commits, e.g. `feat: add footer`, `fix: skip link target`, `docs: update plan`.
   - **Pull requests:** when the feature is done, the owner pushes the branch and opens a PR into `main`. Its description covers what changed, why, and how it was tested (phone, desktop, resized window). The owner reviews and merges on GitHub, deletes the branch, then runs `git switch main && git pull`.
   - Keep PRs small: if one grows past what can be reviewed in one sitting, split it.
-- **Roadmap lives in `PLAN.md`.** Read it at the start of each session, work on the next unchecked task, and update its checkbox and the decision log when done.
+- **Roadmap lives in `PLAN.md`.** Start each session by reading its "Where we left off" section and running `git status`. Update that section when the owner wraps up. Read it at the start of each session, work on the next unchecked task, and update its checkbox and the decision log when done.
 - **Design target.** Minimalist and sleek, and responsive across phone, desktop, and resized windows. References: https://ashanand.dev/ and https://joeydanna.com/cad-portfolio/.
 
 ## Running locally
