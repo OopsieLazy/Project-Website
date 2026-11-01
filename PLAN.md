@@ -35,7 +35,7 @@ The museum is an *extra layer*: every page can also be reached through normal na
 Goal: a clean, valid, organized base before adding anything new.
 
 - [x] **0.1 Folders.** Create `css/`, `js/`, `assets/images/`. Move files into them and update every `href`/`src`.
-- [ ] **0.2 Image names.** Rename to lowercase-kebab (`Bridge Guitar v8.png` → `bridge-guitar-v8.png`). Spaces and `--_` break URLs on some hosts.
+- [x] **0.2 Image names.** Rename to lowercase-kebab (`Bridge Guitar v8.png` → `bridge-guitar-v8.png`). Spaces and `--_` break URLs on some hosts.
 - [ ] **0.3 Entry page.** Rename `homepage.html` → `index.html`, because hosts (including GitHub Pages) serve `index.html` by default. Update links.
 - [ ] **0.4 Header validity.** Fix the viewport meta comma. Remove the stray `::after` text and the `cz-shortcut-listen` attribute (DevTools/extension leftovers). Make duplicate ids unique. Wrap the left-nav `<li>`s in a `<ul>`. Trim copied WordPress `mega-menu-*` classes that no CSS uses (check first).
 - [ ] **0.5 Housekeeping.** Delete `TEST CODE/` (an exact copy of `thelab.html`), add `.gitignore`, and delete the empty `script.js` if it is still unused.

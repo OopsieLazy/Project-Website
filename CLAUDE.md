@@ -43,7 +43,7 @@ Each page pairs with its own stylesheet and script. The names are abbreviated:
 
 - **The header and nav are copied by hand into every page**: the left link list, the center logo, and the right "The Laboratory" mega menu. There are no includes, so a nav change has to be made in each page.
 - Many nav links still point at placeholder `visithumboldt.com` URLs. Real pages will replace them.
-- HTML pages stay at the repo root. CSS goes in `css/`, JS in `js/`, and images in `assets/images/` (`300x300.jpg` is the generic placeholder). Pages reference them with relative paths such as `css/styles.css`.
+- HTML pages stay at the repo root. CSS goes in `css/`, JS in `js/`, and images in `assets/images/` (`300x300.jpg` is the generic placeholder). Image filenames are lowercase-kebab-case with no spaces (`bridge-guitar-v8.png`). Pages reference them with relative paths such as `css/styles.css`.
 - New per-page files follow the owner's blended naming: page prefix + "yles"/"cript" (`projyles.css`, `artyles.css`, `homcript.js`).
 - `TEST CODE/test.html` is a scratch copy of `thelab.html` and is currently identical to it.
 
