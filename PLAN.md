@@ -51,7 +51,7 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 
 **PR B · `feat/design-tokens`**: the look and one shared stylesheet
 - [x] **1.1** Picked: **Codex colors** (parchment, iron-gall ink, sanguine red) with **Fresco highlights** (lapis blue, ochre), and **Fresco fonts** (Cinzel display, Instrument Sans body). Shared: JetBrains Mono (code), Silkscreen (pixel museum).
-- [ ] **1.2** Tokens in `:root` in `styles.css`: colors, fonts, spacing, and fluid type with `clamp()`. Self-host the fonts (D12).
+- [x] **1.2** Tokens in `:root` in `styles.css`: colors, fonts, spacing, and fluid type with `clamp()`. Self-host the fonts (D12).
 - [ ] **1.3** Modern CSS reset: `box-sizing`, `img { max-width: 100% }`, base typography.
 - [ ] **1.4** Every page (except `thelab.html`, D13) loads `styles.css`. Remove the duplicated header rules from `projyles.css`.
 - [ ] **1.4b** Cleanup in `projyles.css`: remove the unused `.sub-heading-*` and `.slideshow-title` (the font was never loaded), and the dead `:hover` animation pause (the real pause is 1.15b). The `nth-child` rules stay (owner's choice).
