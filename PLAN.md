@@ -37,7 +37,7 @@ Goal: a clean, valid, organized base before adding anything new.
 - [x] **0.1 Folders.** Create `css/`, `js/`, `assets/images/`. Move files into them and update every `href`/`src`.
 - [x] **0.2 Image names.** Rename to lowercase-kebab (`Bridge Guitar v8.png` → `bridge-guitar-v8.png`). Spaces and `--_` break URLs on some hosts.
 - [x] **0.3 Entry page.** Renamed `homepage.html` → `index.html` (hosts serve `index.html` by default). Made the root-absolute links (`/projects.html`) relative.
-- [ ] **0.4 Header validity.** Fix the viewport meta comma. Remove the stray `::after` text and the `cz-shortcut-listen` attribute (DevTools/extension leftovers). Make duplicate ids unique. Wrap the left-nav `<li>`s in a `<ul>`. Trim copied WordPress `mega-menu-*` classes that no CSS uses (check first).
+- [x] **0.4 Header validity.** Fixed the viewport comma, removed the DevTools/extension leftovers, made ids unique, wrapped the nav in a `<ul>`, trimmed the unused WordPress classes and fake `aria-expanded`, and changed the placeholder links to `#`.
 - [ ] **0.5 Housekeeping.** Delete `TEST CODE/` (an exact copy of `thelab.html`), add `.gitignore`, and delete the empty `script.js` if it is still unused.
 - [ ] **0.6 Validate.** Run every page through https://validator.w3.org/ and fix the errors.
 
