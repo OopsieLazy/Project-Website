@@ -1,0 +1,16 @@
+# Operating system junk files (created automatically, never part of the site)
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Editor and tool settings that are personal to this computer
+.vscode/
+.claude/settings.local.json
+
+# Secrets: API keys and passwords never go in git, even in a private repo
+.env
+.env.*
+
+# Logs and dependencies (if a tool ever creates them)
+*.log
+node_modules/

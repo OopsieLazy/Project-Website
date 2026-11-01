@@ -36,7 +36,7 @@ Each page pairs with its own stylesheet and script. The names are abbreviated:
 
 | Page | CSS | JS |
 |---|---|---|
-| `index.html` (Home) | `css/styles.css` | `js/script.js` (empty, not linked yet) |
+| `index.html` (Home) | `css/styles.css` | none yet |
 | `projects.html` (CAD Portfolio) | `css/projyles.css` | `js/projcript.js` |
 | `thelab.html` | inline `<style>` | inline |
 | `aboutme.html` | empty placeholder | |
@@ -45,8 +45,6 @@ Each page pairs with its own stylesheet and script. The names are abbreviated:
 - Many nav links still point at placeholder `visithumboldt.com` URLs. Real pages will replace them.
 - HTML pages stay at the repo root. CSS goes in `css/`, JS in `js/`, and images in `assets/images/` (`300x300.jpg` is the generic placeholder). Image filenames are lowercase-kebab-case with no spaces (`bridge-guitar-v8.png`). Pages reference them with relative paths such as `css/styles.css`.
 - New per-page files follow the owner's blended naming: page prefix + "yles"/"cript" (`projyles.css`, `artyles.css`, `homcript.js`).
-- `TEST CODE/test.html` is a scratch copy of `thelab.html` and is currently identical to it.
-
 ## projects.html carousel
 
 `projcript.js` builds a 3D rotating carousel out of the `<figure>` elements inside `#carousel-c`:
