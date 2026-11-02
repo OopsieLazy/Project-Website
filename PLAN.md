@@ -86,6 +86,7 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 - [ ] **1.15b** Hovering pauses the spin, and leaving resumes it (JS `mouseenter`/`mouseleave`).
 - [ ] **1.15c** Motion controls: a pause/play toggle plus a speed slider (`<input type="range">`). If the system asks for reduced motion (`prefers-reduced-motion`), the carousel starts paused.
 - [ ] **1.16** On phones the popup becomes a bottom sheet instead of sitting to the right.
+- [ ] **1.16b** Phone mini-player (D16): tapping a figure shrinks the carousel and docks it to the left, like YouTube's mini-player, while the project info slides up. On phones the carousel **keeps spinning** (desktop still stops and faces the pick). Tapping the mini carousel or Close restores it. CSS `transform: scale()` + `transition`, and JS picks the behavior with `matchMedia`. Reduced motion (1.15c) keeps it paused. *Open question: can you pick another project from the mini carousel, or only restore it?*
 - [ ] **1.17** Remove the fixed `#slideshow` height, and make the other sections wrap on small screens.
 
 **Phase close:** real-phone test over Wi-Fi (`python -m http.server 8000 --bind 0.0.0.0`), Lighthouse accessibility run.
@@ -172,6 +173,7 @@ Design doc first (art style, room ↔ section map, controls), then build in smal
 | D13 | `thelab.html` stays standalone for now | It's an experiment and gets its own design later |
 | D14 | MIT license for code; `assets/` and written content all rights reserved | Code is open to learn from, and the art and designs stay the owner's |
 | D15 | Only self-made or properly licensed images in the repo; metadata stripped | The repo is public: no one else's copyrighted files, and no hidden GPS or personal data |
+| D16 | On phones, a picked project docks the carousel as a spinning mini-player | Small screens can't fit the carousel and the info side by side; a familiar pattern keeps the gallery in view while you read |
 
 ## Open questions
 
