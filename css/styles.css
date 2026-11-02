@@ -181,6 +181,35 @@ hr {
 }
 
 /* =========================================================
+   ACCESSIBILITY HELPERS
+   ========================================================= */
+
+/* Hidden from sight but still read by screen readers and reachable with Tab.
+   display: none or visibility: hidden would remove it for everyone, keyboard included */
+.screen-reader-text {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);   /* trims the 1px box down to nothing */
+  white-space: nowrap;     /* stops screen readers from reading the words squashed together */
+}
+
+/* The skip link reappears in the top-left corner when it gets keyboard focus */
+.skip-link:focus {
+  top: var(--space-2);
+  left: var(--space-2);
+  z-index: 100;            /* sits above the header */
+  width: auto;
+  height: auto;
+  padding: var(--space-2) var(--space-4);
+  clip-path: none;
+  background-color: var(--color-surface);
+  color: var(--color-ink);
+  border-radius: var(--radius);
+}
+
+/* =========================================================
    HEADER
    ========================================================= */
 .header-column-left {

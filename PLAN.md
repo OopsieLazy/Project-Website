@@ -43,10 +43,10 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 
 ### ▶ Where we left off (update at the end of every session)
 
-*Last session: 2026-11-01*
-- **Branch:** `feat/design-tokens` (PR B). **1.1–1.4 committed locally (not pushed); 1.4b done, waiting for the owner to review and commit.**
+*Last session: 2026-11-02*
+- **Branch:** `feat/page-skeleton` (PR C). PR B merged as #2.
 - **Owner's homework:** read through the tokens and `@font-face` rules at the top of `css/styles.css`, and ask about anything unclear.
-- **Next task:** owner pushes and opens PR B. After merging, start PR C (`feat/page-skeleton`, 1.5–1.9: layout and skeleton).
+- **Next task:** owner pushes `feat/page-skeleton` and opens PR C. After merging, cut `feat/layout-footer` for PR C2 (1.7, 1.8).
 - **Owner to-dos on GitHub (new repo):** re-create the ruleset (1.0b), turn on secret scanning and push protection, set Actions to read-only, turn off the wiki, run `git push origin --delete chore/public-repo-hygiene`. Delete the old backup bundle once happy.
 - **Merged so far:** docs/roadmap, chore/workflow (PR template and CI), chore/public-repo-hygiene (placeholder SVG and license). History rewritten to the noreply email; repo recreated public.
 
@@ -65,12 +65,14 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 - [x] **1.4** Every page (except `thelab.html`, D13) loads `styles.css`. Remove the duplicated header rules from `projyles.css`. (`aboutme.html` is empty, so it gets the link in 1.9.)
 - [x] **1.4b** Cleanup in `projyles.css`: remove the unused `.sub-heading-*` and `.slideshow-title` (the font was never loaded), and the dead `:hover` animation pause (the real pause is 1.15b). The `nth-child` rules stay (owner's choice).
 
-**PR C · `feat/page-skeleton`**: the same frame on every page
-- [ ] **1.5** Landmarks on every page: `<header>`, `<main id="content">`, `<footer>`. This fixes the home page's skip link.
-- [ ] **1.6** Skip link hidden until it receives keyboard focus.
-- [ ] **1.7** Layout container: a max content width, fluid padding, mobile-first breakpoints.
-- [ ] **1.8** Footer: name, links, ©.
-- [ ] **1.9** `aboutme.html` gets the shell. Rename `projects.html`'s body class `thehomepage` → `theprojectspage`.
+**PR C · `feat/page-skeleton`**: the same frame on every page (split from the layout, D17)
+- [x] **1.5** Landmarks on every page: `<header>`, `<main id="content">`, `<footer>`, all inside the owner's `#page` wrapper (projects' `<article>` moves in). The skip link now lands on `<main>`, not the carousel.
+- [x] **1.6** Skip link hidden until it receives keyboard focus (`.screen-reader-text` + `.skip-link:focus` in `styles.css`).
+- [x] 🎲 **1.9** `aboutme.html` gets the shell. Rename `projects.html`'s body class `thehomepage` → `theprojectspage`.
+
+**PR C2 · `feat/layout-footer`**: the minimal column
+- [ ] **1.7** Reusable `.wrapper` class (D17): `--content-max` cap, `clamp()` side padding, two mobile-first breakpoints (`40rem`, `64rem`).
+- [ ] **1.8** Footer: name, ©, and placeholder links (GitHub, LinkedIn, email, résumé, plus the nav) that all share one markup pattern, so filling one in is a one-line edit.
 
 **PR D · `feat/header-nav`**: the adaptive header
 - [ ] **1.10** Desktop: a three-column CSS grid (nav | logo | Lab menu), with the logo sized.
@@ -86,6 +88,7 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 - [ ] **1.15b** Hovering pauses the spin, and leaving resumes it (JS `mouseenter`/`mouseleave`).
 - [ ] **1.15c** Motion controls: a pause/play toggle plus a speed slider (`<input type="range">`). If the system asks for reduced motion (`prefers-reduced-motion`), the carousel starts paused.
 - [ ] **1.16** On phones the popup becomes a bottom sheet instead of sitting to the right.
+- [ ] **1.16b** Phone mini-player (D16): tapping a figure shrinks the carousel and docks it to the left, like YouTube's mini-player, while the project info slides up. On phones the carousel **keeps spinning** (desktop still stops and faces the pick). Tapping the mini carousel or Close restores it. CSS `transform: scale()` + `transition`, and JS picks the behavior with `matchMedia`. Reduced motion (1.15c) keeps it paused. *Open question: can you pick another project from the mini carousel, or only restore it?*
 - [ ] **1.17** Remove the fixed `#slideshow` height, and make the other sections wrap on small screens.
 
 **Phase close:** real-phone test over Wi-Fi (`python -m http.server 8000 --bind 0.0.0.0`), Lighthouse accessibility run.
@@ -172,6 +175,8 @@ Design doc first (art style, room ↔ section map, controls), then build in smal
 | D13 | `thelab.html` stays standalone for now | It's an experiment and gets its own design later |
 | D14 | MIT license for code; `assets/` and written content all rights reserved | Code is open to learn from, and the art and designs stay the owner's |
 | D15 | Only self-made or properly licensed images in the repo; metadata stripped | The repo is public: no one else's copyrighted files, and no hidden GPS or personal data |
+| D16 | On phones, a picked project docks the carousel as a spinning mini-player | Small screens can't fit the carousel and the info side by side; a familiar pattern keeps the gallery in view while you read |
+| D17 | Skeleton and layout are separate PRs; keep the `#page` wrapper; the width cap is a reusable `.wrapper` class; two `rem` breakpoints | Smaller reviews; respects the owner's structure; a class can be reused, and the carousel can skip it when it needs more width; breakpoints give more control than fluid sizing alone |
 
 ## Open questions
 

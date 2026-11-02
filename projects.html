@@ -4,13 +4,13 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Personal Portfolio</title>
+        <title>Projects</title>
         <link rel="stylesheet" href="css/styles.css">
         <link rel="stylesheet" href="css/projyles.css">
         <script src="js/projcript.js"></script>
     </head>
     
-    <body class="thehomepage">
+    <body class="theprojectspage">
 
         <div id="page" class="site">
             <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
@@ -73,71 +73,77 @@
                     </div>
                 </nav>
             </header>
-            
-        </div>
 
-        <article>
-            <header class="content-headers"><h1>CAD's Creations</h1></header>
-            <div class="content">
-                <p>There is an old idiom that has had a hold of my heart for years: "Create something from nothing". 
-                    This beautifully represents why I started my journey in CAD. To create for the sake of creating, to let imagination run wild. 
-                    An idea one second could become something real in an instant. I began about 7 years ago at the start of my university adventures when 
-                    my love for CAD was small, not a passion but it steadily grew. It is a blast from start to finish, and when you're done you get
-                    to actually hold your hard work. So here are a few of the designs, parts, and projects I've made over the years! 
-                </p>
+            <!-- Landmarks: screen readers can jump straight to main or footer. The skip link targets #content -->
+            <main id="content" class="site-main">
+                <article>
+                    <header class="content-headers"><h1>CAD's Creations</h1></header>
+                    <div class="content">
+                        <p>There is an old idiom that has had a hold of my heart for years: "Create something from nothing". 
+                            This beautifully represents why I started my journey in CAD. To create for the sake of creating, to let imagination run wild. 
+                            An idea one second could become something real in an instant. I began about 7 years ago at the start of my university adventures when 
+                            my love for CAD was small, not a passion but it steadily grew. It is a blast from start to finish, and when you're done you get
+                            to actually hold your hard work. So here are a few of the designs, parts, and projects I've made over the years! 
+                        </p>
 
-                <hr class="item-image-seperator is-stylized">
-                <section id="slideshow">
-                  <div class="entire-content" id="content">
-                    <div class="content-carrousel" id="carousel-c">
-                            <figure class="shadow" data-title="Coming soon" data-description="Another project is on its way."><img src="assets/images/placeholder.svg" alt="Placeholder image"></figure>
-                            <figure class="shadow" data-title="End Stop Cap" data-description="Geetech end stop cap for 3D printer."><img src="assets/images/geetech-end-stop-cap-v4.png" alt="End stop cap for a Geetech 3D printer, CAD render"></figure>
-                            <figure class="shadow"><img src="assets/images/bridge-guitar-v8.png" alt="Bridge guitar, CAD render"></figure>
-                            <figure class="shadow"><img src="assets/images/latch-hinge-v1.png" alt="Latch hinge, CAD render"></figure>
-                            <figure class="shadow"><img src="assets/images/placeholder.svg" alt="Placeholder image"></figure>
-                            <figure class="shadow"><img src="assets/images/placeholder.svg" alt="Placeholder image"></figure>
-                            <figure class="shadow"><img src="assets/images/placeholder.svg" alt="Placeholder image"></figure>
-                            <figure class="shadow"><img src="assets/images/placeholder.svg" alt="Placeholder image"></figure>
-                            <figure class="shadow"><img src="assets/images/placeholder.svg" alt="Placeholder image"></figure>
+                        <hr class="item-image-seperator is-stylized">
+                        <section id="slideshow">
+                          <div class="entire-content">
+                            <div class="content-carrousel" id="carousel-c">
+                                    <figure class="shadow" data-title="Coming soon" data-description="Another project is on its way."><img src="assets/images/placeholder.svg" alt="Placeholder image"></figure>
+                                    <figure class="shadow" data-title="End Stop Cap" data-description="Geetech end stop cap for 3D printer."><img src="assets/images/geetech-end-stop-cap-v4.png" alt="End stop cap for a Geetech 3D printer, CAD render"></figure>
+                                    <figure class="shadow"><img src="assets/images/bridge-guitar-v8.png" alt="Bridge guitar, CAD render"></figure>
+                                    <figure class="shadow"><img src="assets/images/latch-hinge-v1.png" alt="Latch hinge, CAD render"></figure>
+                                    <figure class="shadow"><img src="assets/images/placeholder.svg" alt="Placeholder image"></figure>
+                                    <figure class="shadow"><img src="assets/images/placeholder.svg" alt="Placeholder image"></figure>
+                                    <figure class="shadow"><img src="assets/images/placeholder.svg" alt="Placeholder image"></figure>
+                                    <figure class="shadow"><img src="assets/images/placeholder.svg" alt="Placeholder image"></figure>
+                                    <figure class="shadow"><img src="assets/images/placeholder.svg" alt="Placeholder image"></figure>
+                                </div>
+                            </div>
+
+                            <aside class="sidebar-dwg-details" id="selected-sidebar">
+                                <div class="information-popup">
+                                    <button id="close-sidebar">Close</button>
+                                    <h2 id="popup-title"></h2>
+                                    <figure class="popup-image-frame">
+                                        <img id="popup-image" src="assets/images/placeholder.svg" alt="Project Preview">
+                                    </figure>
+                                    <p id="popup-desc"></p>
+                                </div>
+
+                            </aside>
+
+                        </section>
+
+                        <hr class="item-image-seperator is-stylized">
+                        <div class="larger-projects">
+                            <!-- This will be growing style, where you see part and expands to image or project view -->
+                            <figure>
+                                <img src="assets/images/placeholder.svg" alt="Placeholder image">
+                                <img src="assets/images/placeholder.svg" alt="Placeholder image">
+                                <img src="assets/images/placeholder.svg" alt="Placeholder image">
+                                <img src="assets/images/placeholder.svg" alt="Placeholder image">
+                                <figcaption class="item-caption">This is a test caption</figcaption>
+                            </figure>
+                        </div>
+
+                        <hr class="item-image-seperator is-stylized">
+                        <div class="item-image-block">
+                            <figure>
+                                <img src="assets/images/placeholder.svg" alt="Placeholder image">
+                                <figcaption class="item-caption">This is a test caption</figcaption>
+                            </figure>
                         </div>
                     </div>
 
-                    <aside class="sidebar-dwg-details" id="selected-sidebar">
-                        <div class="information-popup">
-                            <button id="close-sidebar">Close</button>
-                            <h2 id="popup-title"></h2>
-                            <figure class="popup-image-frame">
-                                <img id="popup-image" src="assets/images/placeholder.svg" alt="Project Preview">
-                            </figure>
-                            <p id="popup-desc"></p>
-                        </div>
+                </article>
+            </main>
 
-                    </aside>
-
-                </section>
-
-                <hr class="item-image-seperator is-stylized">
-                <div class="larger-projects">
-                    <!-- This will be growing style, where you see part and expands to image or project view -->
-                    <figure>
-                        <img src="assets/images/placeholder.svg" alt="Placeholder image">
-                        <img src="assets/images/placeholder.svg" alt="Placeholder image">
-                        <img src="assets/images/placeholder.svg" alt="Placeholder image">
-                        <img src="assets/images/placeholder.svg" alt="Placeholder image">
-                        <figcaption class="item-caption">This is a test caption</figcaption>
-                    </figure>
-                </div>
-
-                <hr class="item-image-seperator is-stylized">
-                <div class="item-image-block">
-                    <figure>
-                        <img src="assets/images/placeholder.svg" alt="Placeholder image">
-                        <figcaption class="item-caption">This is a test caption</figcaption>
-                    </figure>
-                </div>
-            </div>
-
-        </article>
+            <footer class="site-footer">
+                <!-- Filled in task 1.8 -->
+            </footer>
+        </div>
     </body>
 
 </html>
