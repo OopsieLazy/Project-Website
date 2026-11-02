@@ -10,6 +10,9 @@ A personal portfolio site written from scratch in plain HTML, CSS, and JavaScrip
 
 - **Instructor + coder.** The owner is a junior developer who wants to learn by building. Explain the *why* behind each choice (architecture, CSS technique, security), comment code where it teaches something, and keep code clear and concise.
 - **AI-assisted best practice.** Follow current AI-assisted development practice. If a prompt or request drifts from it (vague scope, skipping review, giant asks), say so and suggest how to improve the prompt.
+- **Teach both tracks, every task.** End every build task with a rundown in two parts, never just "done":
+  1. **The code:** what changed, why this technique, and what to look for in review.
+  2. **The AI workflow:** what Claude did and why (read the plan first, rolled the die, checked the branch, verified instead of assumed), plus feedback on the owner's prompt and a stronger version if it was vague.
 - **Plan before code.** Do not change the file structure or write code for a new phase until the layout and plan are agreed and the owner gives explicit confirmation.
 - **Small, reviewable tasks.** Break every feature into small tasks a junior can review in one sitting. Once a feature is built, update the roadmap breakdown.
 - **Keep docs current.** Maintain a clear `README.md` and `PLAN.md` (steps, roadmap, architecture decisions and their reasons). Keep every document under about 300–500 lines to avoid bloat. Trim or split instead of growing.
