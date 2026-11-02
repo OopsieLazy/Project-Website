@@ -1,3 +1,188 @@
+/* =========================================================
+   FONTS: self-hosted (D12), so visitors never contact Google
+   Paths are relative to THIS css file, hence the ../
+   Variable fonts: one file holds every weight in the range
+   font-display: swap shows fallback text right away instead of invisible text
+   ========================================================= */
+@font-face {
+  font-family: "Cinzel";
+  src: url("../assets/fonts/cinzel-latin-wght-normal.woff2") format("woff2");
+  font-weight: 400 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Instrument Sans";
+  src: url("../assets/fonts/instrument-sans-latin-wght-normal.woff2") format("woff2");
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Instrument Sans";
+  src: url("../assets/fonts/instrument-sans-latin-wght-italic.woff2") format("woff2");
+  font-weight: 400 700;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("../assets/fonts/jetbrains-mono-latin-wght-normal.woff2") format("woff2");
+  font-weight: 100 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Silkscreen";
+  src: url("../assets/fonts/silkscreen-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* =========================================================
+   DESIGN TOKENS: the one place to restyle the whole site
+   Palette: Codex (Leonardo's notebooks) + Fresco highlights (Sistine pigments)
+   Contrast vs --color-bg (WCAG AA text needs 4.5:1) is noted on each color
+   Night values come in task 1.13
+   ========================================================= */
+:root {
+  /* Colors */
+  --color-bg: #EFE3C8;         /* parchment, the page background */
+  --color-surface: #F7EEDA;    /* lighter paper for cards and panels */
+  --color-ink: #2A2420;        /* iron-gall ink, main text: 12.0:1 */
+  --color-muted: #6B5D4F;      /* faded ink, captions and secondary text: 5.0:1 */
+  --color-line: #D6C6A3;       /* borders and dividers (decoration) */
+  --color-accent: #9B3B28;     /* sanguine red chalk, links and buttons: 5.4:1 */
+  --color-highlight: #23408E;  /* lapis lazuli, highlights and active states: 7.5:1 */
+  --color-gold: #B7832F;       /* ochre, decoration only (2.6:1, never use for text) */
+
+  /* Fonts: every stack ends in fallbacks in case a file fails to load */
+  --font-display: "Cinzel", "Trajan Pro", Georgia, serif;
+  --font-body: "Instrument Sans", system-ui, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+  --font-pixel: "Silkscreen", "Courier New", monospace;
+
+  /* Fluid type scale: clamp(min, preferred, max) grows smoothly with screen width,
+     so no media queries are needed just to resize text */
+  --step--1: clamp(0.83rem, 0.8rem + 0.15vw, 0.9rem);   /* small print, captions */
+  --step-0: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);    /* body text */
+  --step-1: clamp(1.2rem, 1.1rem + 0.5vw, 1.45rem);     /* small headings */
+  --step-2: clamp(1.45rem, 1.25rem + 0.9vw, 1.9rem);    /* section headings */
+  --step-3: clamp(1.75rem, 1.4rem + 1.6vw, 2.6rem);     /* page title (h1) */
+  --step-4: clamp(2.1rem, 1.5rem + 2.8vw, 3.6rem);      /* hero / museum sign */
+
+  /* Spacing scale: use these for margin, padding and gap instead of random numbers */
+  --space-1: 0.25rem;  /*  4px */
+  --space-2: 0.5rem;   /*  8px */
+  --space-3: 0.75rem;  /* 12px */
+  --space-4: 1rem;     /* 16px */
+  --space-5: 1.5rem;   /* 24px */
+  --space-6: 2rem;     /* 32px */
+  --space-7: 3rem;     /* 48px */
+  --space-8: 4rem;     /* 64px */
+
+  /* Layout */
+  --measure: 65ch;         /* comfortable reading width for paragraphs */
+  --content-max: 72rem;    /* widest the page content gets (~1152px) */
+  --radius: 4px;           /* small, crisp corners to keep it minimal */
+}
+
+/* =========================================================
+   RESET: smooth out browser defaults so every page starts level
+   Kept small on purpose: only fixes we actually need
+   ========================================================= */
+
+/* width now includes padding and border, so "width: 50%" really means 50% */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Browsers add margins to body, headings, p, figure...; we set spacing ourselves with --space-* */
+* {
+  margin: 0;
+}
+
+/* Media never overflows its container, and sits on its own line (no gap under images) */
+img,
+picture,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Form controls don't inherit fonts by default, which looks off next to the body text */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* =========================================================
+   BASE TYPOGRAPHY: the tokens first show up on the page here
+   ========================================================= */
+body {
+  min-height: 100vh;
+  background-color: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  line-height: 1.6;                /* airy body text is easier to read */
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  line-height: 1.2;                /* big text needs less line gap than body text */
+  text-wrap: balance;              /* evens out line lengths in multi-line headings */
+}
+
+h1 { font-size: var(--step-3); }
+h2 { font-size: var(--step-2); }
+h3 { font-size: var(--step-1); }
+
+p {
+  max-width: var(--measure);       /* ~65 characters per line, comfortable to read */
+  text-wrap: pretty;               /* avoids a lonely last word on its own line */
+}
+
+a {
+  color: var(--color-accent);
+  text-underline-offset: 0.2em;    /* underline sits below descenders (g, y, p) */
+}
+
+a:hover {
+  color: var(--color-highlight);
+}
+
+/* Visible ring for keyboard users only; mouse clicks don't show it */
+:focus-visible {
+  outline: 2px solid var(--color-highlight);
+  outline-offset: 2px;
+}
+
+code,
+pre {
+  font-family: var(--font-mono);
+}
+
+/* The only section divider: a hairline, like the joeydanna reference (no shadows or boxes) */
+hr {
+  border: 0;
+  border-top: 1px solid var(--color-line);
+  margin-block: var(--space-7);
+}
+
+/* =========================================================
+   HEADER
+   ========================================================= */
 .header-column-left {
   text-align: right;
 }

@@ -10,6 +10,9 @@ A personal portfolio site written from scratch in plain HTML, CSS, and JavaScrip
 
 - **Instructor + coder.** The owner is a junior developer who wants to learn by building. Explain the *why* behind each choice (architecture, CSS technique, security), comment code where it teaches something, and keep code clear and concise.
 - **AI-assisted best practice.** Follow current AI-assisted development practice. If a prompt or request drifts from it (vague scope, skipping review, giant asks), say so and suggest how to improve the prompt.
+- **Teach both tracks, every task.** End every build task with a rundown in two parts, never just "done":
+  1. **The code:** what changed, why this technique, and what to look for in review.
+  2. **The AI workflow:** what Claude did and why (read the plan first, rolled the die, checked the branch, verified instead of assumed), plus feedback on the owner's prompt and a stronger version if it was vague.
 - **Plan before code.** Do not change the file structure or write code for a new phase until the layout and plan are agreed and the owner gives explicit confirmation.
 - **Small, reviewable tasks.** Break every feature into small tasks a junior can review in one sitting. Once a feature is built, update the roadmap breakdown.
 - **Keep docs current.** Maintain a clear `README.md` and `PLAN.md` (steps, roadmap, architecture decisions and their reasons). Keep every document under about 300–500 lines to avoid bloat. Trim or split instead of growing.
@@ -22,7 +25,7 @@ A personal portfolio site written from scratch in plain HTML, CSS, and JavaScrip
   - **Commits:** use Conventional Commits, e.g. `feat: add footer`, `fix: skip link target`, `docs: update plan`.
   - **Pull requests:** when the feature is done, the owner pushes the branch and opens a PR into `main`. Its description covers what changed, why, and how it was tested (phone, desktop, resized window). The owner reviews and merges on GitHub, deletes the branch, then runs `git switch main && git pull`.
   - Keep PRs small: if one grows past what can be reviewed in one sitting, split it.
-- **Roadmap lives in `PLAN.md`.** Read it at the start of each session, work on the next unchecked task, and update its checkbox and the decision log when done.
+- **Roadmap lives in `PLAN.md`.** Start each session by reading its "Where we left off" section and running `git status`. Update that section when the owner wraps up. Read it at the start of each session, work on the next unchecked task, and update its checkbox and the decision log when done.
 - **Design target.** Minimalist and sleek, and responsive across phone, desktop, and resized windows. References: https://ashanand.dev/ and https://joeydanna.com/cad-portfolio/.
 
 ## Running locally
@@ -52,7 +55,8 @@ Each page pairs with its own stylesheet and script. The names are abbreviated:
 
 - **The header and nav are copied by hand into every page**: the left link list, the center logo, and the right "The Laboratory" mega menu. There are no includes, so a nav change has to be made in each page.
 - Many nav links still point at placeholder `visithumboldt.com` URLs. Real pages will replace them.
-- HTML pages stay at the repo root. CSS goes in `css/`, JS in `js/`, and images in `assets/images/` (`placeholder.svg` is the self-made generic placeholder). Image filenames are lowercase-kebab-case with no spaces (`bridge-guitar-v8.png`). The repo is public, so only add images the owner made or that have a reuse license, and strip metadata (EXIF/GPS) from photos first. Code is MIT (`LICENSE`); `assets/` and written content are all rights reserved. Pages reference them with relative paths such as `css/styles.css`.
+- HTML pages stay at the repo root. CSS goes in `css/`, JS in `js/`, and images in `assets/images/` (`placeholder.svg` is the self-made generic placeholder). Image filenames are lowercase-kebab-case with no spaces (`bridge-guitar-v8.png`). The repo is public, so only add images the owner made or that have a reuse license, and strip metadata (EXIF/GPS) from photos first. Code is MIT (`LICENSE`); `assets/` and written content are all rights reserved, except `assets/fonts/` (OFL, licenses kept beside the files).
+- **Styling uses the design tokens** at the top of `css/styles.css` (`--color-*`, `--font-*`, `--step-*` type scale, `--space-*`). Never hard-code a color, font or size that a token covers. `--color-gold` is decoration only, because it fails text contrast. Fonts are self-hosted WOFF2 files with `@font-face` in `styles.css`. Pages reference them with relative paths such as `css/styles.css`.
 - New per-page files follow the owner's blended naming: page prefix + "yles"/"cript" (`projyles.css`, `artyles.css`, `homcript.js`).
 ## projects.html carousel
 

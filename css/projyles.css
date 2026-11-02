@@ -1,19 +1,4 @@
-.header-column-left {
-  text-align: right;
-}
-
-/* Reset the browser's default list look (bullets, indent, margins) so the nav sits like before */
-.header-left-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.header-left-item {
- display: inline-block;
- padding: 15px;
- white-space: nowrap;
-}
+/* Shared header, reset and typography live in styles.css, which loads first */
 
 #slideshow {
   position: relative;
@@ -22,38 +7,6 @@
   height: 600px;
   width: 100%;
   box-sizing: border-box;
-}
-
-.slideshow-title {
-  font-family: 'Allerta Stencil';
-  font-size: 62px;
-  color: #fff;
-  margin: 0 auto;
-  text-align: center;
-  margin-top: 25%;
-  letter-spacing: 3px;
-  font-weight: 300;
-}
-
-.sub-heading {
-  padding-top: 50px;
-  font-size: 18px;
-} .sub-heading-two {
-  font-size: 15px;
-} .sub-heading-three {
-  font-size: 13px;
-} .sub-heading-four {
-  font-size: 11px;
-} .sub-heading-five {
-  font-size: 9px;
-} .sub-heading-six {
-  font-size: 7px;
-} .sub-heading-seven {
-  font-size: 5px;
-} .sub-heading-eight {
-  font-size: 3px;
-} .sub-heading-nine {
-  font-size: 1px;
 }
 
 .entire-content {
@@ -73,8 +26,8 @@
   transform-style: preserve-3d;
 }
 
+/* The spin is JS (requestAnimationFrame), so the hover pause lives in projcript.js (task 1.15b) */
 .content-carrousel:hover {
-  animation-play-state: paused;
   cursor: pointer;
 }
 

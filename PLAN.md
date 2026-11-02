@@ -41,6 +41,15 @@ Info notes left on purpose: the empty popup `<h2>` (JS fills it), the carousel `
 Goal: one shared look and layout that adapts from phone to wide desktop, built feature by feature, with one PR per feature.
 Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768 / 1024 / 1440 px, drag-resize the window, tab through with the keyboard, W3C validator.
 
+### ▶ Where we left off (update at the end of every session)
+
+*Last session: 2026-11-01*
+- **Branch:** `feat/design-tokens` (PR B). **1.1–1.4 committed locally (not pushed); 1.4b done, waiting for the owner to review and commit.**
+- **Owner's homework:** read through the tokens and `@font-face` rules at the top of `css/styles.css`, and ask about anything unclear.
+- **Next task:** owner pushes and opens PR B. After merging, start PR C (`feat/page-skeleton`, 1.5–1.9: layout and skeleton).
+- **Owner to-dos on GitHub (new repo):** re-create the ruleset (1.0b), turn on secret scanning and push protection, set Actions to read-only, turn off the wiki, run `git push origin --delete chore/public-repo-hygiene`. Delete the old backup bundle once happy.
+- **Merged so far:** docs/roadmap, chore/workflow (PR template and CI), chore/public-repo-hygiene (placeholder SVG and license). History rewritten to the noreply email; repo recreated public.
+
 **PR 0 · `docs/phase-1-roadmap`**
 - [x] Adopt GitHub flow (D11) and write this breakdown.
 
@@ -51,10 +60,10 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 
 **PR B · `feat/design-tokens`**: the look and one shared stylesheet
 - [x] **1.1** Picked: **Codex colors** (parchment, iron-gall ink, sanguine red) with **Fresco highlights** (lapis blue, ochre), and **Fresco fonts** (Cinzel display, Instrument Sans body). Shared: JetBrains Mono (code), Silkscreen (pixel museum).
-- [ ] **1.2** Tokens in `:root` in `styles.css`: colors, fonts, spacing, and fluid type with `clamp()`. Self-host the fonts (D12).
-- [ ] **1.3** Modern CSS reset: `box-sizing`, `img { max-width: 100% }`, base typography.
-- [ ] **1.4** Every page (except `thelab.html`, D13) loads `styles.css`. Remove the duplicated header rules from `projyles.css`.
-- [ ] **1.4b** Cleanup in `projyles.css`: remove the unused `.sub-heading-*` and `.slideshow-title` (the font was never loaded), and the dead `:hover` animation pause (the real pause is 1.15b). The `nth-child` rules stay (owner's choice).
+- [x] **1.2** Tokens in `:root` in `styles.css`: colors, fonts, spacing, and fluid type with `clamp()`. Self-host the fonts (D12).
+- [x] **1.3** Modern CSS reset: `box-sizing`, `img { max-width: 100% }`, base typography (body, headings, links, `:focus-visible`).
+- [x] **1.4** Every page (except `thelab.html`, D13) loads `styles.css`. Remove the duplicated header rules from `projyles.css`. (`aboutme.html` is empty, so it gets the link in 1.9.)
+- [x] **1.4b** Cleanup in `projyles.css`: remove the unused `.sub-heading-*` and `.slideshow-title` (the font was never loaded), and the dead `:hover` animation pause (the real pause is 1.15b). The `nth-child` rules stay (owner's choice).
 
 **PR C · `feat/page-skeleton`**: the same frame on every page
 - [ ] **1.5** Landmarks on every page: `<header>`, `<main id="content">`, `<footer>`. This fixes the home page's skip link.
@@ -74,7 +83,8 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 
 **PR F · `feat/responsive-projects`**: the CAD page on any screen
 - [ ] **1.15** Carousel radius and figure size scale with the screen (one JS value goes from fixed to calculated).
-- [ ] **1.15b** Hovering pauses the spin, and leaving resumes it (JS `mouseenter`/`mouseleave`).- [ ] **1.15c** Motion controls: a pause/play toggle plus a speed slider (`<input type="range">`). If the system asks for reduced motion (`prefers-reduced-motion`), the carousel starts paused.
+- [ ] **1.15b** Hovering pauses the spin, and leaving resumes it (JS `mouseenter`/`mouseleave`).
+- [ ] **1.15c** Motion controls: a pause/play toggle plus a speed slider (`<input type="range">`). If the system asks for reduced motion (`prefers-reduced-motion`), the carousel starts paused.
 - [ ] **1.16** On phones the popup becomes a bottom sheet instead of sitting to the right.
 - [ ] **1.17** Remove the fixed `#slideshow` height, and make the other sections wrap on small screens.
 
