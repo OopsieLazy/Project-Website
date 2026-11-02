@@ -44,11 +44,12 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 ### ▶ Where we left off (update at the end of every session)
 
 *Last session: 2026-11-02*
-- **Branch:** `feat/layout-footer` (PR C2). PR C merged as #3.
-- **Owner's homework:** read through the tokens and `@font-face` rules at the top of `css/styles.css`, and ask about anything unclear.
-- **Next task:** 1.8 done (owner claimed it back for Claude; to review and commit), then push and open PR C2.
-- **Owner to-dos on GitHub (new repo):** re-create the ruleset (1.0b), turn on secret scanning and push protection, set Actions to read-only, turn off the wiki, run `git push origin --delete chore/public-repo-hygiene`. Delete the old backup bundle once happy.
-- **Merged so far:** docs/roadmap, chore/workflow (PR template and CI), chore/public-repo-hygiene (placeholder SVG and license). History rewritten to the noreply email; repo recreated public.
+- **Branch:** `feat/header-nav` (PR D), freshly cut from `main` at `c427bb5`. Only this handoff note is uncommitted on it.
+- **Owner's homework:** read the new LAYOUT, FOOTER and ACCESSIBILITY HELPERS sections in `css/styles.css`, and ask about anything unclear.
+- **Next task:** before 1.10, brief the owner on PR D (goals, what to expect, choices: hamburger breakpoint, how the Lab menu folds into mobile) and agree the plan. PR D has 3 tasks, within the 1–3 limit.
+- **Owner to-dos on GitHub:** re-create the ruleset (1.0b), turn on secret scanning and push protection, set Actions to read-only, turn off the wiki, turn on "Automatically delete head branches". Delete the old backup bundle once happy.
+- **Merged so far:** #1 public-repo hygiene, #2 design tokens (PR B), #3 page skeleton (PR C), #4 layout and footer (PR C2). Old remote branches deleted.
+- **Open ideas:** page titles still say "Personal Portfolio" (home) / placeholder names; footer links are `#` placeholders (email waits for 2.2). PR F (6 tasks) should be split before starting it.
 
 **PR 0 · `docs/phase-1-roadmap`**
 - [x] Adopt GitHub flow (D11) and write this breakdown.
