@@ -44,9 +44,9 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 ### ▶ Where we left off (update at the end of every session)
 
 *Last session: 2026-11-01*
-- **Branch:** `feat/design-tokens` (PR B). **1.1 and 1.2 committed locally (not pushed); 1.3 done, waiting for the owner to review and commit.**
+- **Branch:** `feat/design-tokens` (PR B). **1.1–1.3 committed locally (not pushed); 1.4 done, waiting for the owner to review and commit.**
 - **Owner's homework:** read through the tokens and `@font-face` rules at the top of `css/styles.css`, and ask about anything unclear.
-- **Next task:** 1.4, then 1.4b, then push and open PR B.
+- **Next task:** 1.4b, then push and open PR B.
 - **Owner to-dos on GitHub (new repo):** re-create the ruleset (1.0b), turn on secret scanning and push protection, set Actions to read-only, turn off the wiki, run `git push origin --delete chore/public-repo-hygiene`. Delete the old backup bundle once happy.
 - **Merged so far:** docs/roadmap, chore/workflow (PR template and CI), chore/public-repo-hygiene (placeholder SVG and license). History rewritten to the noreply email; repo recreated public.
 
@@ -62,7 +62,7 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 - [x] **1.1** Picked: **Codex colors** (parchment, iron-gall ink, sanguine red) with **Fresco highlights** (lapis blue, ochre), and **Fresco fonts** (Cinzel display, Instrument Sans body). Shared: JetBrains Mono (code), Silkscreen (pixel museum).
 - [x] **1.2** Tokens in `:root` in `styles.css`: colors, fonts, spacing, and fluid type with `clamp()`. Self-host the fonts (D12).
 - [x] **1.3** Modern CSS reset: `box-sizing`, `img { max-width: 100% }`, base typography (body, headings, links, `:focus-visible`).
-- [ ] **1.4** Every page (except `thelab.html`, D13) loads `styles.css`. Remove the duplicated header rules from `projyles.css`.
+- [x] **1.4** Every page (except `thelab.html`, D13) loads `styles.css`. Remove the duplicated header rules from `projyles.css`. (`aboutme.html` is empty, so it gets the link in 1.9.)
 - [ ] **1.4b** Cleanup in `projyles.css`: remove the unused `.sub-heading-*` and `.slideshow-title` (the font was never loaded), and the dead `:hover` animation pause (the real pause is 1.15b). The `nth-child` rules stay (owner's choice).
 
 **PR C · `feat/page-skeleton`**: the same frame on every page
