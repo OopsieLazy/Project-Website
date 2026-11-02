@@ -46,7 +46,7 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 *Last session: 2026-11-02*
 - **Branch:** `feat/layout-footer` (PR C2). PR C merged as #3.
 - **Owner's homework:** read through the tokens and `@font-face` rules at the top of `css/styles.css`, and ask about anything unclear.
-- **Next task:** 1.7 done (owner to review and commit), then 1.8 footer, then push and open PR C2.
+- **Next task:** 1.8 done (owner claimed it back for Claude; to review and commit), then push and open PR C2.
 - **Owner to-dos on GitHub (new repo):** re-create the ruleset (1.0b), turn on secret scanning and push protection, set Actions to read-only, turn off the wiki, run `git push origin --delete chore/public-repo-hygiene`. Delete the old backup bundle once happy.
 - **Merged so far:** docs/roadmap, chore/workflow (PR template and CI), chore/public-repo-hygiene (placeholder SVG and license). History rewritten to the noreply email; repo recreated public.
 
@@ -72,7 +72,7 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 
 **PR C2 · `feat/layout-footer`**: the minimal column
 - [x] **1.7** Reusable `.wrapper` class (D17): `--content-max` cap, `clamp()` side padding, two mobile-first breakpoints (`40rem`, `64rem`).
-- [ ] **1.8** Footer: name, ©, and placeholder links (GitHub, LinkedIn, email, résumé, plus the nav) that all share one markup pattern, so filling one in is a one-line edit.
+- [x] **1.8** Footer: name, ©, and placeholder links (GitHub, LinkedIn, email, résumé, plus the nav) that all share one markup pattern, so filling one in is a one-line edit.
 
 **PR D · `feat/header-nav`**: the adaptive header
 - [ ] **1.10** Desktop: a three-column CSS grid (nav | logo | Lab menu), with the logo sized.
