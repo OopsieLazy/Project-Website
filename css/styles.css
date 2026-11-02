@@ -210,6 +210,41 @@ hr {
 }
 
 /* =========================================================
+   LAYOUT: one centered, minimal column (D17)
+   Mobile-first: base styles are for phones, and min-width queries add to them
+   Breakpoints: 40rem (~640px, tablet) and 64rem (~1024px, desktop).
+   They're typed out because var() doesn't work inside @media conditions
+   ========================================================= */
+
+/* Reusable column: add class="wrapper" to anything that should line up with the page */
+.wrapper {
+  width: 100%;                     /* needed because auto margins in a flex column would shrink it */
+  max-width: var(--content-max);   /* stops lines getting too wide on big screens */
+  margin-inline: auto;             /* centers it (inline = left and right) */
+  padding-inline: clamp(var(--space-4), 5vw, var(--space-7));  /* 16px gutter on phones, up to 48px */
+}
+
+/* Flex column on the page wrapper: main grows to fill the space, so the footer stays at the bottom */
+.site {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;              /* dvh = the visible height on phones, minus the browser's address bar */
+}
+
+.site-main {
+  flex: 1;
+  padding-block: var(--space-6);   /* block = top and bottom */
+}
+
+@media (min-width: 40rem) {
+  .site-main { padding-block: var(--space-7); }
+}
+
+@media (min-width: 64rem) {
+  .site-main { padding-block: var(--space-8); }
+}
+
+/* =========================================================
    HEADER
    ========================================================= */
 .header-column-left {
