@@ -46,7 +46,7 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 *Last session: 2026-11-02*
 - **Branch:** `feat/page-skeleton` (PR C). PR B merged as #2.
 - **Owner's homework:** read through the tokens and `@font-face` rules at the top of `css/styles.css`, and ask about anything unclear.
-- **Next task:** PR C on `feat/page-skeleton`: 1.5 committed; 1.6 done (owner to review and commit), then 1.9. Then PR C2 `feat/layout-footer` (1.7, 1.8).
+- **Next task:** owner pushes `feat/page-skeleton` and opens PR C. After merging, cut `feat/layout-footer` for PR C2 (1.7, 1.8).
 - **Owner to-dos on GitHub (new repo):** re-create the ruleset (1.0b), turn on secret scanning and push protection, set Actions to read-only, turn off the wiki, run `git push origin --delete chore/public-repo-hygiene`. Delete the old backup bundle once happy.
 - **Merged so far:** docs/roadmap, chore/workflow (PR template and CI), chore/public-repo-hygiene (placeholder SVG and license). History rewritten to the noreply email; repo recreated public.
 
@@ -68,7 +68,7 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 **PR C · `feat/page-skeleton`**: the same frame on every page (split from the layout, D17)
 - [x] **1.5** Landmarks on every page: `<header>`, `<main id="content">`, `<footer>`, all inside the owner's `#page` wrapper (projects' `<article>` moves in). The skip link now lands on `<main>`, not the carousel.
 - [x] **1.6** Skip link hidden until it receives keyboard focus (`.screen-reader-text` + `.skip-link:focus` in `styles.css`).
-- [ ] **1.9** `aboutme.html` gets the shell. Rename `projects.html`'s body class `thehomepage` → `theprojectspage`.
+- [x] 🎲 **1.9** `aboutme.html` gets the shell. Rename `projects.html`'s body class `thehomepage` → `theprojectspage`.
 
 **PR C2 · `feat/layout-footer`**: the minimal column
 - [ ] **1.7** Reusable `.wrapper` class (D17): `--content-max` cap, `clamp()` side padding, two mobile-first breakpoints (`40rem`, `64rem`).
