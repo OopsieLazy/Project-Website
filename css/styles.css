@@ -284,12 +284,15 @@ hr {
 }
 
 /* =========================================================
-   HEADER: mobile-first. Phones get logo + Menu button on one row, with the
-   links below (hidden until the button opens them). Desktop puts all three
-   columns in one row and hides the button.
+   HEADER: the same markup is copied into every page.
+   Order: frame, links, Menu button, Lab dropdown, then one phone block
+   and one desktop block at the end, so every screen-size change for the
+   header lives in one place.
    Use classes here, never a bare "header" selector: projects.html has a second
    <header> inside its article, and a bare selector would style that too
    ========================================================= */
+
+/* ---------- Frame ---------- */
 
 /* Hairline below, mirroring the footer's hairline on top */
 .site-header {
@@ -297,8 +300,8 @@ hr {
   border-bottom: 1px solid var(--color-line);
 }
 
-/* Named grid areas: each part says where it goes by name, so the phone and
-   desktop layouts below are easy to read and compare */
+/* Phone layout. Named grid areas: each part says where it goes by name,
+   and the desktop block at the end rearranges the same names */
 .main-nav {
   display: grid;
   grid-template-columns: 1fr auto;
@@ -321,8 +324,32 @@ hr {
   height: var(--logo-size);
 }
 
-/* Never set display on .menu-toggle outside the desktop query: it would
-   override the hidden attribute and show a dead button when JS is off */
+/* ---------- Links ---------- */
+
+/* One step smaller than body text, like the dazprojects reference */
+.menu-link {
+  font-size: var(--step--1);
+}
+
+/* No bullets or indent; the left and right lists share these rules */
+.header-left-list,
+.menu-horizontal {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Phones: one link per row, and the padding makes each row a big tap target */
+.header-left-item,
+.header-right-item {
+ padding: 15px;
+ white-space: nowrap;
+}
+
+/* ---------- Menu button (phones) ----------
+   Both buttons start with the hidden attribute (see js/script.js).
+   Never set display on them outside the desktop block, or hidden stops
+   working and a dead button shows when JS is off */
 .menu-toggle {
   min-height: var(--space-7);          /* 48px: a comfortable finger-sized target */
   padding-inline: var(--space-4);
@@ -334,79 +361,19 @@ hr {
   cursor: pointer;
 }
 
-/* Closed menu on phones only. "~" means "any later sibling", which is why the
-   button comes first inside the nav. (width < 64rem) is the newer range syntax,
-   and it ends exactly where the desktop query below begins */
-@media (width < 64rem) {
-  .menu-toggle[aria-expanded="false"] ~ .header-column-left,
-  .menu-toggle[aria-expanded="false"] ~ .header-column-right {
-    display: none;
-  }
-}
-
-@media (min-width: 64rem) {
-  /* 1fr auto 1fr: the logo column is only as wide as the logo, and the two sides
-     split the rest equally, so the logo stays truly centered even though the
-     two sides hold different links (flexbox can't promise that) */
-  .main-nav {
-    grid-template-columns: 1fr auto 1fr;
-    grid-template-areas: "left logo right";
-    gap: var(--space-5);
-  }
-
-  .menu-toggle {
-    display: none;
-  }
-
-  .header-column-left {
-    text-align: right;
-  }
-
-  .header-left-item,
-  .header-right-item {
-    display: inline-block;
-  }
-}
-
-/* Nav text one step smaller than body text, like the dazprojects reference:
-   quieter, and three links fit beside the logo at 1024px */
-.menu-link {
-  font-size: var(--step--1);
-}
-
-/* Reset the browser's default list look (bullets, indent, margins) so the nav sits like before.
-   The right list mirrors the left one, so both share these rules */
-.header-left-list,
-.menu-horizontal {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-/* Phones: one link per row (list items are blocks by default), and the
-   15px padding makes each row a big tap target. Desktop lines them up inline */
-.header-left-item,
-.header-right-item {
- padding: 15px;
- white-space: nowrap;
-}
-
-/* ---------- Lab dropdown (1.12) ----------
-   Phones: a small ▸ button folds the sub-links open and shut inside the Menu.
+/* ---------- Lab dropdown ----------
+   Phones: a ▸ button folds the sub-links open and shut inside the Menu.
    Desktop: the sub-links float in a panel that opens on hover or keyboard focus */
-
-/* Phones: the sub-links sit indented under "The Laboratory" */
 .mega-sub-menu {
   list-style: none;
   margin: 0;
-  padding-inline-start: var(--space-4);
+  padding-inline-start: var(--space-4);   /* indented under "The Laboratory" */
 }
 
 .mega-sub-menu li {
   padding-block: var(--space-2);
 }
 
-/* Same rule as .menu-toggle: never set display here, or the hidden attribute stops working */
 .submenu-toggle {
   min-width: var(--space-7);           /* 48px tap target */
   min-height: var(--space-7);
@@ -428,14 +395,39 @@ hr {
   transform: rotate(90deg);
 }
 
+/* ---------- Phones only: closed states ----------
+   "~" means "any later sibling", so each button must come before what it hides.
+   (width < 64rem) ends exactly where the desktop block begins */
 @media (width < 64rem) {
+  .menu-toggle[aria-expanded="false"] ~ .header-column-left,
+  .menu-toggle[aria-expanded="false"] ~ .header-column-right,
   .submenu-toggle[aria-expanded="false"] ~ .mega-sub-menu {
     display: none;
   }
 }
 
+/* ---------- Desktop ---------- */
 @media (min-width: 64rem) {
-  /* Hover and focus open the panel here, so the button isn't needed */
+  /* 1fr auto 1fr: the logo column is only as wide as the logo, and the two sides
+     split the rest equally, so the logo stays truly centered */
+  .main-nav {
+    grid-template-columns: 1fr auto 1fr;
+    grid-template-areas: "left logo right";
+    gap: var(--space-5);
+  }
+
+  /* Links sit in a row, the left ones pushed toward the logo */
+  .header-column-left {
+    text-align: right;
+  }
+
+  .header-left-item,
+  .header-right-item {
+    display: inline-block;
+  }
+
+  /* Hover and focus do the opening here, so no buttons */
+  .menu-toggle,
   .submenu-toggle {
     display: none;
   }
@@ -445,7 +437,7 @@ hr {
     position: relative;
   }
 
-  /* top: 100% puts the panel flush under the li. The li's own 15px padding is
+  /* top: 100% puts the panel flush under the li. The li's own padding is
      part of the li, so the mouse never crosses a gap where :hover would end */
   .mega-sub-menu {
     display: none;
