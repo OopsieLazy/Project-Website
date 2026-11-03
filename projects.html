@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Projects</title>
         <link rel="stylesheet" href="css/styles.css">
+        <script src="js/script.js" defer></script>
         <link rel="stylesheet" href="css/projyles.css">
         <script src="js/projcript.js"></script>
     </head>
@@ -14,38 +15,36 @@
 
         <div id="page" class="site">
             <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
-            <header id="topbranch" class="site-header">
+            <!-- Same header in index.html, projects.html and aboutme.html: change all three together -->
+            <header id="topbranch" class="site-header wrapper">
                 <div class="site-branding">
                 </div>
 
-                <nav id="site-nav" class="main-nav">
+                <nav id="site-nav" class="main-nav" aria-label="Main">
+                    <!-- Mobile menu button: hidden until js/script.js runs, so without JS the links just stay visible -->
+                    <button id="menu-toggle" class="menu-toggle" type="button" aria-expanded="true" hidden>
+                        <span aria-hidden="true">&#9776;</span> Menu
+                    </button>
 
                     <!-- Left Side Of Header -->
                     <div class="header-column-left">
                         <ul class="header-left-list">
-                            <li class="header-left-item" id="item-home">
-                                <a class="menu-link" href="index.html">Home</a></li>
                             <li class="header-left-item" id="item-cad">
                                 <a class="menu-link" href="projects.html">CAD Portfolio</a></li>
                             <li class="header-left-item" id="item-code">
                                 <a class="menu-link" href="#">Code Portfolio</a></li>
-                            <li class="header-left-item" id="item-finder">
-                                <a class="menu-link" href="#">Project Finder</a></li>
                             <li class="header-left-item" id="item-art">
                                 <a class="menu-link" href="#">Browse Art</a></li>
-                            <li class="header-left-item" id="item-about">
-                                <a class="menu-link" href="aboutme.html">About Me</a></li>
-                            <li class="header-left-item" id="item-contact">
-                                <a class="menu-link" href="#">Contact and Resume</a></li>
                         </ul>
                     </div>
 
                     <!-- Center Of Header -->
+                    <!-- The logo is the Home link, so its alt text names where it goes, not what it looks like -->
                     <div class="header-column-center">
                         <a href="index.html" class="size-spacing-style-logo">
                             <span class="header-center-logo-original-container">
                                 <!-- Place Holder Image -->
-                                <img src="assets/images/placeholder.svg" alt="Site logo">
+                                <img src="assets/images/placeholder.svg" alt="Home">
                             </span>
                         </a>
                     </div>
@@ -55,8 +54,15 @@
                         <div class="inner-menu">
                             <div id="primary-nav" class="menu-wrap">
                                 <ul class="menu-horizontal">
-                                    <li class="mega-menu-item" id="item-lab">
+                                    <li class="header-right-item" id="item-about">
+                                        <a class="menu-link" href="aboutme.html">About Me</a></li>
+                                    <li class="header-right-item" id="item-contact">
+                                        <a class="menu-link" href="#">Contact and Resume</a></li>
+                                    <li class="header-right-item mega-menu-item" id="item-lab">
                                         <a class="menu-link" href="thelab.html">The Laboratory</a>
+                                        <!-- Phone-only toggle for the Lab links: hidden until js/script.js runs, like the Menu button.
+                                             It must come before the list, because the CSS "~" only reaches later siblings -->
+                                        <button class="submenu-toggle" type="button" aria-expanded="true" aria-label="Laboratory links" hidden><span aria-hidden="true">&#9656;</span></button>
                                         <ul class="mega-sub-menu">
                                             <li class="mega-menu-item"><a class="menu-link" href="#">Electronics and Circuitry</a></li>
                                             <li class="mega-menu-item"><a class="menu-link" href="#">Computer Design and Code</a></li>

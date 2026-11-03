@@ -5,7 +5,7 @@ Rule: each task should be small enough to review in one sitting and gets its own
 Each feature (1–3 tasks) is a branch plus a pull request into `main` (GitHub flow; see CLAUDE.md).
 Keep this file under ~300 lines. When a phase is done, collapse it to a one-line summary.
 
-Status key: `[ ]` todo · `[~]` in progress · `[x]` done · 🎲 = rolled "you code it"
+Status key: `[ ]` todo · `[~]` in progress · `[x]` done
 
 ---
 
@@ -43,12 +43,13 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 
 ### ▶ Where we left off (update at the end of every session)
 
-*Last session: 2026-11-02*
-- **Branch:** `feat/layout-footer` (PR C2). PR C merged as #3.
-- **Owner's homework:** read through the tokens and `@font-face` rules at the top of `css/styles.css`, and ask about anything unclear.
-- **Next task:** 1.8 done (owner claimed it back for Claude; to review and commit), then push and open PR C2.
-- **Owner to-dos on GitHub (new repo):** re-create the ruleset (1.0b), turn on secret scanning and push protection, set Actions to read-only, turn off the wiki, run `git push origin --delete chore/public-repo-hygiene`. Delete the old backup bundle once happy.
-- **Merged so far:** docs/roadmap, chore/workflow (PR template and CI), chore/public-repo-hygiene (placeholder SVG and license). History rewritten to the noreply email; repo recreated public.
+*Last session: 2026-11-03*
+- **Branch:** `feat/header-nav` (PR D). All 3 tasks are done. Next: push it and open the PR.
+- **Next task:** PR D2 `feat/restyle-tokens` (1.12a), cut from `main` after PR D merges.
+- **Owner to-dos on GitHub:** re-create the ruleset (1.0b), turn on secret scanning and push protection, set Actions to read-only, turn off the wiki, turn on "Automatically delete head branches". Delete the old backup bundle once happy.
+- **Merged so far:** #1 public-repo hygiene, #2 design tokens (PR B), #3 page skeleton (PR C), #4 layout and footer (PR C2). Old remote branches deleted.
+- **Design reference:** https://dazprojects.com/collections/all. White, Inter only (400 body, 500 nav, 700 headings), black text at 81% opacity, `#dfdfdf` hairlines, no shadows. It feeds PR D2 and 3.3b.
+- **Open ideas:** page titles still say "Personal Portfolio" (home) / placeholder names; footer links are `#` placeholders (email waits for 2.2). PR F (6 tasks) should be split before starting it.
 
 **PR 0 · `docs/phase-1-roadmap`**
 - [x] Adopt GitHub flow (D11) and write this breakdown.
@@ -68,16 +69,21 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 **PR C · `feat/page-skeleton`**: the same frame on every page (split from the layout, D17)
 - [x] **1.5** Landmarks on every page: `<header>`, `<main id="content">`, `<footer>`, all inside the owner's `#page` wrapper (projects' `<article>` moves in). The skip link now lands on `<main>`, not the carousel.
 - [x] **1.6** Skip link hidden until it receives keyboard focus (`.screen-reader-text` + `.skip-link:focus` in `styles.css`).
-- [x] 🎲 **1.9** `aboutme.html` gets the shell. Rename `projects.html`'s body class `thehomepage` → `theprojectspage`.
+- [x] **1.9** `aboutme.html` gets the shell. Rename `projects.html`'s body class `thehomepage` → `theprojectspage`.
 
 **PR C2 · `feat/layout-footer`**: the minimal column
 - [x] **1.7** Reusable `.wrapper` class (D17): `--content-max` cap, `clamp()` side padding, two mobile-first breakpoints (`40rem`, `64rem`).
 - [x] **1.8** Footer: name, ©, and placeholder links (GitHub, LinkedIn, email, résumé, plus the nav) that all share one markup pattern, so filling one in is a one-line edit.
 
 **PR D · `feat/header-nav`**: the adaptive header
-- [ ] **1.10** Desktop: a three-column CSS grid (nav | logo | Lab menu), with the logo sized.
-- [ ] **1.11** Mobile: hamburger `<button aria-expanded>`. First shared JS file: `js/script.js`.
-- [ ] **1.12** Lab dropdown: opens on hover and `:focus-within` on desktop, and folds into the mobile menu.
+- [x] **1.10** Desktop: grid `1fr auto 1fr` with a centered logo (the Home link). Links are split around it (D18).
+- [x] **1.11** Phones: a Menu button opens the links. First shared JS, `js/script.js`. Without JS, the links just show.
+- [x] **1.12** Lab dropdown: on desktop it opens on hover or keyboard focus, and on phones a ▸ button folds it.
+
+**PR D2 · `feat/restyle-tokens`**: the dazprojects look (D19). Runs before PR E, so the night colors are made from the new day colors only once.
+- [ ] **1.12a** White palette in `:root`: white background, near-black ink, light-gray hairlines, and **cool highlights**: lapis blue (`--color-highlight` already is one) plus one more cool accent to pick. Check text contrast for every color, as PR B did.
+- [ ] **1.12b** Fonts: self-host **Inter** (OFL) for body and nav. Decide whether Cinzel stays for headings or Inter does everything like daz. Remove font files that end up unused.
+- [ ] **1.12c** Small-label style: uppercase plus wider `letter-spacing` for nav and captions (the daz "ALL PROJECTS" look). Generous white space, no shadows.
 
 **PR E · `feat/theme-toggle`**: day and night
 - [ ] **1.13** Dark-mode token values. The default follows the OS setting (`prefers-color-scheme`).
@@ -113,6 +119,7 @@ Pattern: each display is a self-contained JS file that sets itself up on any con
 - [ ] **3.1 Display loader.** A small script that finds `[data-display]` elements and calls the matching module.
 - [ ] **3.2 Register the carousel.** Wrap the existing `projcript.js` logic as the first display, with minimal edits.
 - [ ] **3.3 Slideshow display.**
+- [ ] **3.3b Grid display** (dazprojects pattern). Classic catalog grid: each project is an image on a pale tile, then its title and one short line of info (tools, year). CSS grid `repeat(auto-fill, minmax(…, 1fr))`: about 5 columns on desktop, 2 on phones, no media queries. Optional: a density toggle (big/small tiles) like daz's two icons. Each card is a real link (to the write-up from 2.5).
 - [ ] **3.4 Lightbox/popup display** (reuses the sidebar popup idea).
 - [ ] **3.5 Doc: "How to add a display"** in README.
 
@@ -176,9 +183,13 @@ Design doc first (art style, room ↔ section map, controls), then build in smal
 | D14 | MIT license for code; `assets/` and written content all rights reserved | Code is open to learn from, and the art and designs stay the owner's |
 | D15 | Only self-made or properly licensed images in the repo; metadata stripped | The repo is public: no one else's copyrighted files, and no hidden GPS or personal data |
 | D16 | On phones, a picked project docks the carousel as a spinning mini-player | Small screens can't fit the carousel and the info side by side; a familiar pattern keeps the gallery in view while you read |
+| D18 | Header links split three and three around a centered logo; the logo is the Home link; "Project Finder" leaves the header until Filmography exists | Seven links on one side wrapped onto three rows even at 1440px; balanced sides make centering honest (same model as dazprojects.com) |
+| D19 | Restyle toward dazprojects: white with cool highlights, replacing parchment as the site's day look | The owner prefers a sleek, white, catalog-style look; tokens make it a `:root` swap, not a rewrite. The museum (Phase 4) can keep a Renaissance palette inside its rooms |
 | D17 | Skeleton and layout are separate PRs; keep the `#page` wrapper; the width cap is a reusable `.wrapper` class; two `rem` breakpoints | Smaller reviews; respects the owner's structure; a class can be reused, and the carousel can skip it when it needs more width; breakpoints give more control than fluid sizing alone |
 
 ## Open questions
 
 - Pixel art source: which asset packs? Check licenses (CC0 is safest) at Phase 4.1.
 - Which pixel font, accent color, and Renaissance palette?
+- D19: which second cool accent (teal? ice blue?), and does Cinzel survive the restyle?
+- "Old school" = **both** (owner, 2026-11-03): the plain daz catalog as the base, plus a few retro early-web details (e.g. visible borders, monospace labels, underlined links). Which details exactly: decide at 1.12c.

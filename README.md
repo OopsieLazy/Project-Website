@@ -30,7 +30,7 @@ Use a local server rather than double-clicking the file, because JS modules (Pha
 I'm learning web development by building this site, working with Claude Code as both instructor and pair programmer.
 
 Each task follows the same cycle:
-plan → build (by Claude, or by me when a dice roll says I write it) → review → commit.
+plan → build (by Claude or by me) → review → commit.
 As on a professional team, work happens on feature branches and reaches `main` only through a reviewed pull request.
 
 - `PLAN.md`: the roadmap, task breakdown, and why each architecture decision was made.
