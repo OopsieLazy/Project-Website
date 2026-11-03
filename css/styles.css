@@ -86,6 +86,7 @@
   --measure: 65ch;         /* comfortable reading width for paragraphs */
   --content-max: 72rem;    /* widest the page content gets (~1152px) */
   --radius: 4px;           /* small, crisp corners to keep it minimal */
+  --logo-size: var(--space-7);  /* header logo, 48px: square, so one value sets width and height */
 }
 
 /* =========================================================
@@ -283,20 +284,57 @@ hr {
 }
 
 /* =========================================================
-   HEADER
+   HEADER: phones stack the three columns for now (the hamburger comes in 1.11),
+   and desktop puts them in one row with a grid
+   Use classes here, never a bare "header" selector: projects.html has a second
+   <header> inside its article, and a bare selector would style that too
    ========================================================= */
+
+/* Hairline below, mirroring the footer's hairline on top */
+.site-header {
+  padding-block: var(--space-4);
+  border-bottom: 1px solid var(--color-line);
+}
+
+/* The SVG is 300x300; without a size it fills the whole column */
+.header-column-center img {
+  width: var(--logo-size);
+  height: var(--logo-size);
+}
+
+@media (min-width: 64rem) {
+  /* 1fr auto 1fr: the logo column is only as wide as the logo, and the two sides
+     split the rest equally, so the logo stays truly centered even though the
+     left nav is much wider than the Lab menu (flexbox can't promise that) */
+  .main-nav {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: var(--space-5);
+  }
+}
+
+/* Nav text one step smaller than body text, like the dazprojects reference:
+   quieter, and three links fit beside the logo at 1024px */
+.menu-link {
+  font-size: var(--step--1);
+}
+
 .header-column-left {
   text-align: right;
 }
 
-/* Reset the browser's default list look (bullets, indent, margins) so the nav sits like before */
-.header-left-list {
+/* Reset the browser's default list look (bullets, indent, margins) so the nav sits like before.
+   The right list mirrors the left one, so both share these rules */
+.header-left-list,
+.menu-horizontal {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.header-left-item {
+.header-left-item,
+.header-right-item {
  display: inline-block;
  padding: 15px;
  white-space: nowrap;

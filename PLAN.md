@@ -49,6 +49,7 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 - **Next task:** before 1.10, brief the owner on PR D (goals, what to expect, choices: hamburger breakpoint, how the Lab menu folds into mobile) and agree the plan. PR D has 3 tasks, within the 1–3 limit.
 - **Owner to-dos on GitHub:** re-create the ruleset (1.0b), turn on secret scanning and push protection, set Actions to read-only, turn off the wiki, turn on "Automatically delete head branches". Delete the old backup bundle once happy.
 - **Merged so far:** #1 public-repo hygiene, #2 design tokens (PR B), #3 page skeleton (PR C), #4 layout and footer (PR C2). Old remote branches deleted.
+- **New design reference (2026-11-03):** https://dazprojects.com/collections/all. White, Inter only (400 body, 500 nav, 700 headings), near-black text at 81% opacity, hairline borders `#dfdfdf`, no shadows, 50px logo. A full restyle toward it would be its own branch (`feat/restyle-tokens`), not part of PR D.
 - **Open ideas:** page titles still say "Personal Portfolio" (home) / placeholder names; footer links are `#` placeholders (email waits for 2.2). PR F (6 tasks) should be split before starting it.
 
 **PR 0 · `docs/phase-1-roadmap`**
@@ -76,7 +77,7 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 - [x] **1.8** Footer: name, ©, and placeholder links (GitHub, LinkedIn, email, résumé, plus the nav) that all share one markup pattern, so filling one in is a one-line edit.
 
 **PR D · `feat/header-nav`**: the adaptive header
-- [ ] **1.10** Desktop: a three-column CSS grid (nav | logo | Lab menu), with the logo sized.
+- [x] **1.10** Desktop (≥64rem): a three-column grid `1fr auto 1fr` with the logo truly centered. Links are split around the logo (D18): CAD · Code · Art | logo (= Home, placeholder) | About · Contact · Lab. Nav text is `--step--1`, and the logo is `--logo-size`.
 - [ ] **1.11** Mobile: hamburger `<button aria-expanded>`. First shared JS file: `js/script.js`.
 - [ ] **1.12** Lab dropdown: opens on hover and `:focus-within` on desktop, and folds into the mobile menu.
 
@@ -177,6 +178,7 @@ Design doc first (art style, room ↔ section map, controls), then build in smal
 | D14 | MIT license for code; `assets/` and written content all rights reserved | Code is open to learn from, and the art and designs stay the owner's |
 | D15 | Only self-made or properly licensed images in the repo; metadata stripped | The repo is public: no one else's copyrighted files, and no hidden GPS or personal data |
 | D16 | On phones, a picked project docks the carousel as a spinning mini-player | Small screens can't fit the carousel and the info side by side; a familiar pattern keeps the gallery in view while you read |
+| D18 | Header links split three and three around a centered logo; the logo is the Home link; "Project Finder" leaves the header until Filmography exists | Seven links on one side wrapped onto three rows even at 1440px; balanced sides make centering honest (same model as dazprojects.com) |
 | D17 | Skeleton and layout are separate PRs; keep the `#page` wrapper; the width cap is a reusable `.wrapper` class; two `rem` breakpoints | Smaller reviews; respects the owner's structure; a class can be reused, and the carousel can skip it when it needs more width; breakpoints give more control than fluid sizing alone |
 
 ## Open questions
