@@ -5,7 +5,7 @@ Rule: each task should be small enough to review in one sitting and gets its own
 Each feature (1–3 tasks) is a branch plus a pull request into `main` (GitHub flow; see CLAUDE.md).
 Keep this file under ~300 lines. When a phase is done, collapse it to a one-line summary.
 
-Status key: `[ ]` todo · `[~]` in progress · `[x]` done · 🎲 = rolled "you code it"
+Status key: `[ ]` todo · `[~]` in progress · `[x]` done
 
 ---
 
@@ -43,13 +43,12 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 
 ### ▶ Where we left off (update at the end of every session)
 
-*Last session: 2026-11-02*
-- **Branch:** `feat/header-nav` (PR D), freshly cut from `main` at `c427bb5`. Only this handoff note is uncommitted on it.
-- **Owner's homework:** read the new LAYOUT, FOOTER and ACCESSIBILITY HELPERS sections in `css/styles.css`, and ask about anything unclear.
-- **Next task:** before 1.10, brief the owner on PR D (goals, what to expect, choices: hamburger breakpoint, how the Lab menu folds into mobile) and agree the plan. PR D has 3 tasks, within the 1–3 limit.
+*Last session: 2026-11-03*
+- **Branch:** `feat/header-nav` (PR D). All 3 tasks are done. Next: push it and open the PR.
+- **Next task:** PR D2 `feat/restyle-tokens` (1.12a), cut from `main` after PR D merges.
 - **Owner to-dos on GitHub:** re-create the ruleset (1.0b), turn on secret scanning and push protection, set Actions to read-only, turn off the wiki, turn on "Automatically delete head branches". Delete the old backup bundle once happy.
 - **Merged so far:** #1 public-repo hygiene, #2 design tokens (PR B), #3 page skeleton (PR C), #4 layout and footer (PR C2). Old remote branches deleted.
-- **New design reference (2026-11-03):** https://dazprojects.com/collections/all. White, Inter only (400 body, 500 nav, 700 headings), near-black text at 81% opacity, hairline borders `#dfdfdf`, no shadows, 50px logo. Roadmapped as PR D2 (restyle) and 3.3b (grid display).
+- **Design reference:** https://dazprojects.com/collections/all. White, Inter only (400 body, 500 nav, 700 headings), black text at 81% opacity, `#dfdfdf` hairlines, no shadows. It feeds PR D2 and 3.3b.
 - **Open ideas:** page titles still say "Personal Portfolio" (home) / placeholder names; footer links are `#` placeholders (email waits for 2.2). PR F (6 tasks) should be split before starting it.
 
 **PR 0 · `docs/phase-1-roadmap`**
@@ -70,16 +69,16 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 **PR C · `feat/page-skeleton`**: the same frame on every page (split from the layout, D17)
 - [x] **1.5** Landmarks on every page: `<header>`, `<main id="content">`, `<footer>`, all inside the owner's `#page` wrapper (projects' `<article>` moves in). The skip link now lands on `<main>`, not the carousel.
 - [x] **1.6** Skip link hidden until it receives keyboard focus (`.screen-reader-text` + `.skip-link:focus` in `styles.css`).
-- [x] 🎲 **1.9** `aboutme.html` gets the shell. Rename `projects.html`'s body class `thehomepage` → `theprojectspage`.
+- [x] **1.9** `aboutme.html` gets the shell. Rename `projects.html`'s body class `thehomepage` → `theprojectspage`.
 
 **PR C2 · `feat/layout-footer`**: the minimal column
 - [x] **1.7** Reusable `.wrapper` class (D17): `--content-max` cap, `clamp()` side padding, two mobile-first breakpoints (`40rem`, `64rem`).
 - [x] **1.8** Footer: name, ©, and placeholder links (GitHub, LinkedIn, email, résumé, plus the nav) that all share one markup pattern, so filling one in is a one-line edit.
 
 **PR D · `feat/header-nav`**: the adaptive header
-- [x] **1.10** Desktop (≥64rem): a three-column grid `1fr auto 1fr` with the logo truly centered. Links are split around the logo (D18): CAD · Code · Art | logo (= Home, placeholder) | About · Contact · Lab. Nav text is `--step--1`, and the logo is `--logo-size`.
-- [x] **1.11** Mobile (<64rem): logo left, "☰ Menu" `<button aria-expanded>` right, links stacked below when open. First shared JS file `js/script.js` (`defer`). The button starts `hidden` and expanded in the HTML, so without JS the links stay visible. CSS hides the links with `[aria-expanded="false"] ~` siblings. Named grid areas for both layouts.
-- [x] **1.12** *(rolled 🎲, owner handed it back)* Lab dropdown. Desktop: a floating panel (`position: absolute` under the `li`) that opens on `:hover` and `:focus-within`, with no gap to cross. Phones: a ▸ toggle that reuses the Menu pattern. `script.js` now has one `setupToggle()` for both buttons.
+- [x] **1.10** Desktop: grid `1fr auto 1fr` with a centered logo (the Home link). Links are split around it (D18).
+- [x] **1.11** Phones: a Menu button opens the links. First shared JS, `js/script.js`. Without JS, the links just show.
+- [x] **1.12** Lab dropdown: on desktop it opens on hover or keyboard focus, and on phones a ▸ button folds it.
 
 **PR D2 · `feat/restyle-tokens`**: the dazprojects look (D19). Runs before PR E, so the night colors are made from the new day colors only once.
 - [ ] **1.12a** White palette in `:root`: white background, near-black ink, light-gray hairlines, and **cool highlights**: lapis blue (`--color-highlight` already is one) plus one more cool accent to pick. Check text contrast for every color, as PR B did.
