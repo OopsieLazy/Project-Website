@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>About Me | Place Holder</title>
         <link rel="stylesheet" href="css/styles.css">
+        <script src="js/script.js" defer></script>
     </head>
     
     <body class="theaboutpage">
@@ -16,7 +17,11 @@
                 <div class="site-branding">
                 </div>
 
-                <nav id="site-nav" class="main-nav">
+                <nav id="site-nav" class="main-nav" aria-label="Main">
+                    <!-- Mobile menu button: hidden until js/script.js runs, so without JS the links just stay visible -->
+                    <button id="menu-toggle" class="menu-toggle" type="button" aria-expanded="true" hidden>
+                        <span aria-hidden="true">&#9776;</span> Menu
+                    </button>
 
                     <!-- Left Side Of Header -->
                     <div class="header-column-left">
