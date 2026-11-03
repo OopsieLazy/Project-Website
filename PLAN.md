@@ -79,7 +79,7 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 **PR D · `feat/header-nav`**: the adaptive header
 - [x] **1.10** Desktop (≥64rem): a three-column grid `1fr auto 1fr` with the logo truly centered. Links are split around the logo (D18): CAD · Code · Art | logo (= Home, placeholder) | About · Contact · Lab. Nav text is `--step--1`, and the logo is `--logo-size`.
 - [x] **1.11** Mobile (<64rem): logo left, "☰ Menu" `<button aria-expanded>` right, links stacked below when open. First shared JS file `js/script.js` (`defer`). The button starts `hidden` and expanded in the HTML, so without JS the links stay visible. CSS hides the links with `[aria-expanded="false"] ~` siblings. Named grid areas for both layouts.
-- [ ] **1.12** Lab dropdown: opens on hover and `:focus-within` on desktop, and folds into the mobile menu.
+- [x] **1.12** *(rolled 🎲, owner handed it back)* Lab dropdown. Desktop: a floating panel (`position: absolute` under the `li`) that opens on `:hover` and `:focus-within`, with no gap to cross. Phones: a ▸ toggle that reuses the Menu pattern. `script.js` now has one `setupToggle()` for both buttons.
 
 **PR D2 · `feat/restyle-tokens`**: the dazprojects look (D19). Runs before PR E, so the night colors are made from the new day colors only once.
 - [ ] **1.12a** White palette in `:root`: white background, near-black ink, light-gray hairlines, and **cool highlights**: lapis blue (`--color-highlight` already is one) plus one more cool accent to pick. Check text contrast for every color, as PR B did.
@@ -193,4 +193,4 @@ Design doc first (art style, room ↔ section map, controls), then build in smal
 - Pixel art source: which asset packs? Check licenses (CC0 is safest) at Phase 4.1.
 - Which pixel font, accent color, and Renaissance palette?
 - D19: which second cool accent (teal? ice blue?), and does Cinzel survive the restyle?
-- "Old school" for the restyle: a classic, plain catalog grid like daz, or something more retro (e.g. visible borders, early-web details)? Decide at 1.12a.
+- "Old school" = **both** (owner, 2026-11-03): the plain daz catalog as the base, plus a few retro early-web details (e.g. visible borders, monospace labels, underlined links). Which details exactly: decide at 1.12c.

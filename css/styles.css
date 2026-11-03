@@ -390,3 +390,79 @@ hr {
  padding: 15px;
  white-space: nowrap;
 }
+
+/* ---------- Lab dropdown (1.12) ----------
+   Phones: a small ▸ button folds the sub-links open and shut inside the Menu.
+   Desktop: the sub-links float in a panel that opens on hover or keyboard focus */
+
+/* Phones: the sub-links sit indented under "The Laboratory" */
+.mega-sub-menu {
+  list-style: none;
+  margin: 0;
+  padding-inline-start: var(--space-4);
+}
+
+.mega-sub-menu li {
+  padding-block: var(--space-2);
+}
+
+/* Same rule as .menu-toggle: never set display here, or the hidden attribute stops working */
+.submenu-toggle {
+  min-width: var(--space-7);           /* 48px tap target */
+  min-height: var(--space-7);
+  border: none;
+  background: none;
+  color: var(--color-ink);
+  font-size: var(--step-2);            /* the ▸ character is drawn small, so size it up */
+  cursor: pointer;
+}
+
+/* transform needs a box, and an inline span isn't one, hence inline-block */
+.submenu-toggle span {
+  display: inline-block;
+  transition: transform 0.2s;
+}
+
+/* Points down when open */
+.submenu-toggle[aria-expanded="true"] span {
+  transform: rotate(90deg);
+}
+
+@media (width < 64rem) {
+  .submenu-toggle[aria-expanded="false"] ~ .mega-sub-menu {
+    display: none;
+  }
+}
+
+@media (min-width: 64rem) {
+  /* Hover and focus open the panel here, so the button isn't needed */
+  .submenu-toggle {
+    display: none;
+  }
+
+  /* The panel measures its position from this li (its nearest positioned ancestor) */
+  #item-lab {
+    position: relative;
+  }
+
+  /* top: 100% puts the panel flush under the li. The li's own 15px padding is
+     part of the li, so the mouse never crosses a gap where :hover would end */
+  .mega-sub-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 10;                       /* above the page content */
+    padding: var(--space-3) var(--space-4);
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius);
+  }
+
+  /* :focus-within = this li or anything inside it has focus, so tabbing
+     through the sub-links keeps the panel open, and tabbing out closes it */
+  #item-lab:hover .mega-sub-menu,
+  #item-lab:focus-within .mega-sub-menu {
+    display: block;
+  }
+}

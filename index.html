@@ -57,6 +57,9 @@
                                         <a class="menu-link" href="#">Contact and Resume</a></li>
                                     <li class="header-right-item mega-menu-item" id="item-lab">
                                         <a class="menu-link" href="thelab.html">The Laboratory</a>
+                                        <!-- Phone-only toggle for the Lab links: hidden until js/script.js runs, like the Menu button.
+                                             It must come before the list, because the CSS "~" only reaches later siblings -->
+                                        <button class="submenu-toggle" type="button" aria-expanded="true" aria-label="Laboratory links" hidden><span aria-hidden="true">&#9656;</span></button>
                                         <ul class="mega-sub-menu">
                                             <li class="mega-menu-item"><a class="menu-link" href="#">Electronics and Circuitry</a></li>
                                             <li class="mega-menu-item"><a class="menu-link" href="#">Computer Design and Code</a></li>
