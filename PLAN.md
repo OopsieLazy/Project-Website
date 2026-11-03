@@ -44,11 +44,12 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 ### ▶ Where we left off (update at the end of every session)
 
 *Last session: 2026-11-03*
-- **Branch:** `feat/header-nav` (PR D). All 3 tasks are done. Next: push it and open the PR.
-- **Next task:** PR D2 `feat/restyle-tokens` (1.12a), cut from `main` after PR D merges.
+- **Branch:** `feat/restyle-tokens` (PR D2). All 3 tasks are done. Next: the owner reviews the colors in a browser, commits, pushes, and opens the PR.
+- **Next task:** PR E `feat/theme-toggle` (1.13). Night colors are built from the new day palette.
 - **Owner to-dos on GitHub:** re-create the ruleset (1.0b), turn on secret scanning and push protection, set Actions to read-only, turn off the wiki, turn on "Automatically delete head branches". Delete the old backup bundle once happy.
 - **Merged so far:** #1 public-repo hygiene, #2 design tokens (PR B), #3 page skeleton (PR C), #4 layout and footer (PR C2). Old remote branches deleted.
 - **Design reference:** https://dazprojects.com/collections/all. White, Inter only (400 body, 500 nav, 700 headings), black text at 81% opacity, `#dfdfdf` hairlines, no shadows. It feeds PR D2 and 3.3b.
+- **Known issue (old, not from D2):** on phones, `projects.html` is about 500px wide because the carousel doesn't shrink yet, so it scrolls sideways. PR F (1.15, 1.17) fixes it.
 - **Open ideas:** page titles still say "Personal Portfolio" (home) / placeholder names; footer links are `#` placeholders (email waits for 2.2). PR F (6 tasks) should be split before starting it.
 
 **PR 0 · `docs/phase-1-roadmap`**
@@ -81,9 +82,9 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 - [x] **1.12** Lab dropdown: on desktop it opens on hover or keyboard focus, and on phones a ▸ button folds it.
 
 **PR D2 · `feat/restyle-tokens`**: the dazprojects look (D19). Runs before PR E, so the night colors are made from the new day colors only once.
-- [ ] **1.12a** White palette in `:root`: white background, near-black ink, light-gray hairlines, and **cool highlights**: lapis blue (`--color-highlight` already is one) plus one more cool accent to pick. Check text contrast for every color, as PR B did.
-- [ ] **1.12b** Fonts: self-host **Inter** (OFL) for body and nav. Decide whether Cinzel stays for headings or Inter does everything like daz. Remove font files that end up unused.
-- [ ] **1.12c** Small-label style: uppercase plus wider `letter-spacing` for nav and captions (the daz "ALL PROJECTS" look). Generous white space, no shadows.
+- [x] **1.12a** White palette with the owner's vintage Japanese greens: pine `#385850` (links, headings), jade `#59877D` (hover underline), sage and sand for decoration, `#303030` ink.
+- [x] **1.12b** Fonts: decided to **keep** Cinzel (headings) and Instrument Sans (body). No change needed.
+- [x] **1.12c** Color blocks (D20): a full-width sand header band, a pine footer band with white text, sage hairlines. On hover and Tab, menu links (header, dropdown, phone menu) turn a muted deep jade and bold. Footer links turn pale kamenozoki blue, and other links turn gunjō blue. Five straight 70s stripes run down the right edge, from the header to the footer, on every screen size (D21). The dropdown is a cleaner panel without underlines.
 
 **PR E · `feat/theme-toggle`**: day and night
 - [ ] **1.13** Dark-mode token values. The default follows the OS setting (`prefers-color-scheme`).
@@ -106,6 +107,8 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 - [ ] **2.3 Code Portfolio.** Project cards with a status badge and tech chips (ashanand pattern).
 - [ ] **2.4 Browse Art.** Responsive CSS-grid gallery for the art journals and photography.
 - [ ] **2.5 CAD page sections.** Renders with captions plus a write-up link per project.
+- [ ] **2.6 Bold bands** (D20): full-width page sections that alternate white, sand and pine, like a woodblock print. Same pattern as the header and footer: the band is the outer element, and `.wrapper` sits inside. Build them section by section as pages get content.
+- [ ] **2.7 Retro labels.** Small uppercase labels with wider `letter-spacing` (the daz "ALL PROJECTS" look), plus a few early-web details (visible borders, monospace captions). Pick which ones then.
 
 ## Phase 3: Project display system (pluggable)
 
@@ -161,6 +164,13 @@ Design doc first (art style, room ↔ section map, controls), then build in smal
 - **Ideas.** Tabs for HTML / CSS / JS. Syntax colors. Style it as a Renaissance brass loupe so it matches the museum. Possibly a museum exhibit in its own right.
 - **When.** After Phase 1, once the header has a spot for the toggle. Could live in The Laboratory first.
 
+**🎨 Theme Studio**: a page where you pick fonts and colors from dropdowns (or drop in a theme file) and watch the site restyle live.
+- **Step 1, easy (1–2 sessions).** `<select>` and `<input type="color">` controls call `document.documentElement.style.setProperty("--color-accent", value)`. Every page already reads the tokens, so it all updates at once. Fonts are limited to the self-hosted ones.
+- **Step 2, easy.** Remember the theme in `localStorage`, and have `script.js` re-apply it on every page (same no-flash issue as 1.14). Changes are **per visitor**, not global.
+- **Step 3, medium.** "Download my theme" (a `.css` file built with a `Blob`), and **drag and drop** a theme file back in (`dragover`/`drop` + `FileReader`). Security: never inject the dropped file as raw CSS. CSS can load outside URLs (`url()`, `@import`) and leak data. Read only `--color-*`/`--font-*` lines and check each value (`CSS.supports("color", value)`).
+- **Global for everyone, hard, not planned.** That needs a server, a database and a login, or any visitor could restyle (deface) the site for everyone. GitHub Pages is static (D1). The simple global route: export the theme, paste it into `:root`, commit.
+- **When.** After Phase 1, in The Laboratory. Pairs with the Code Lens experiment.
+
 ---
 
 ## Architecture decisions
@@ -185,6 +195,8 @@ Design doc first (art style, room ↔ section map, controls), then build in smal
 | D16 | On phones, a picked project docks the carousel as a spinning mini-player | Small screens can't fit the carousel and the info side by side; a familiar pattern keeps the gallery in view while you read |
 | D18 | Header links split three and three around a centered logo; the logo is the Home link; "Project Finder" leaves the header until Filmography exists | Seven links on one side wrapped onto three rows even at 1440px; balanced sides make centering honest (same model as dazprojects.com) |
 | D19 | Restyle toward dazprojects: white with cool highlights, replacing parchment as the site's day look | The owner prefers a sleek, white, catalog-style look; tokens make it a `:root` swap, not a rewrite. The museum (Phase 4) can keep a Renaissance palette inside its rooms |
+| D20 | Color as full-width bands (header sand, footer pine, later page sections); the band is the outer element, `.wrapper` sits inside. Active words only change color plus fake bold, with no background: muted deep jade `#496962` in the light menu (the step from resting pine is about the same size as the footer's step from white to pale blue), kamenozoki `#A5DEE4` on the pine footer, gunjō `#3B5BA5` elsewhere. One color can't be readable on both light and pine. The owner wanted it subtle but noticeable, like the footer | "Vintage Japanese" needs more color than highlights. Bands reach the screen edge while text stays in the column. The owner disliked the box. A color change plus weight change is still visible to keyboard users (WCAG 2.4.7), and fake bold avoids shoving the neighboring links |
+| D21 | 70s stripes as a striped `linear-gradient` background on `.site`, scaled with `clamp()`, inset from the window edge, on every screen. `.site-main` gets just enough right padding to keep text clear | The header and footer bands cover the background, so the stripes join both bands with no positioning code. No image or extra HTML. The `max()` padding only grows on screens with no empty margin |
 | D17 | Skeleton and layout are separate PRs; keep the `#page` wrapper; the width cap is a reusable `.wrapper` class; two `rem` breakpoints | Smaller reviews; respects the owner's structure; a class can be reused, and the carousel can skip it when it needs more width; breakpoints give more control than fluid sizing alone |
 
 ## Open questions
