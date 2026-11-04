@@ -35,13 +35,19 @@ The museum is an *extra layer*: every page can also be reached through normal na
 
 ## Order of work
 
-1. **Finish the skeleton:** merge PR E, then PR F (CAD page works on phones), then the Phase 1 close.
+1. **Finish the skeleton:** PR F1, F2, F3 (CAD page works on phones, popup, motion and keyboard), then the Phase 1 close.
 2. **Content-ready templates** (Phase 2): every page has its layout and clear slots, so adding content is filling in, not building.
 3. **Early launch** (5.1–5.3): put the skeleton online so it can be handed out.
 4. **Orrery lamp** (PR E2): the owner draws the art in parallel with steps 1–3; the build comes after.
 5. **Project displays** (Phase 3), then **the museum** (Phase 4), then the rest of Phase 5.
 
 **Guardrail:** no new roadmap items until step 3 is done. New ideas go into Experiments, undated.
+
+**Where does a refinement go?** Ask "which task is this about?"
+- About the feature in the **current or next PR** → add it to that task now (e.g. the popup's slide and fade → 1.16).
+- About a **finished** feature → note it under the phase's *Polish* line; it's done in one pass at the phase close, not mid-feature.
+- A **new idea** → Experiments, undated.
+Each feature goes in three steps: **works → right** (layout, keyboard, phones) **→ nice** (motion, polish).
 
 ## Phase 0: Foundation cleanup ✅
 
@@ -56,12 +62,12 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 ### ▶ Where we left off (update at the end of every session)
 
 *Last session: 2026-11-03*
-- **Branch:** `feat/theme-toggle` (PR E). Both tasks done: three themes (1.13) and the lantern picker (1.14). Next: the owner tries the lantern in a browser, commits, pushes, and opens the PR.
-- **Next task:** PR F `feat/responsive-projects`: split it into small PRs first. Owner, in parallel: orrery art direction (1.14b). See *Order of work*.
+- **Branch:** `fix/projects-mobile` (PR F1). Both tasks done (1.15, 1.17). Next: the owner checks the CAD page on a phone width, commits, pushes, and opens the PR.
+- **Next task:** PR F2 `fix/projects-popup` (1.16). F1 is done on `fix/projects-mobile`. Owner, in parallel: orrery art direction (1.14b). See *Order of work*.
 - **Owner to-dos on GitHub:** re-create the ruleset (1.0b), turn on secret scanning and push protection, set Actions to read-only, turn off the wiki, turn on "Automatically delete head branches". Delete the old backup bundle once happy.
-- **Merged so far:** #1 public-repo hygiene, #2 design tokens (PR B), #3 page skeleton (PR C), #4 layout and footer (PR C2), #5 header nav (PR D), #6 restyle (PR D2). Old remote branches deleted.
+- **Merged so far:** #1 public-repo hygiene, #2 design tokens (PR B), #3 page skeleton (PR C), #4 layout and footer (PR C2), #5 header nav (PR D), #6 restyle (PR D2), #7 themes and picker (PR E).
 - **Design reference:** https://dazprojects.com/collections/all (white, hairlines, centered logo, catalog grid). We kept our own fonts (Cinzel, Instrument Sans). It feeds 3.3b.
-- **Known issue (old, not from D2):** on phones, `projects.html` is about 500px wide because the carousel doesn't shrink yet, so it scrolls sideways. PR F (1.15, 1.17) fixes it.
+- **Known issue:** the project popup overlaps the carousel on every screen size. PR F2 (1.16) fixes it.
 - **Open ideas:** page titles still say "Personal Portfolio" (home) / placeholder names; footer links are `#` placeholders (email waits for 2.2). PR F (6 tasks) should be split before starting it.
 
 **PR 0 · `docs/phase-1-roadmap`**
@@ -102,19 +108,25 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 - [x] **1.13** Three themes (D22). **Day** (unchanged). **Lantern**, the default night (rainy Japanese street): wet-asphalt blue-black, rain-blue links, chōchin red-orange active words with a soft neon glow, an akabeni red footer. **Moss**, an opt-in calm night: sage-scale greens, Cinnamon Buff highlights, pine footer, no glow. The OS setting picks Day or Lantern via `light-dark()`; `data-theme` on `<html>` forces any of the three. `projyles.css` popup grays now use tokens.
 - [x] **1.14** Theme picker (D23): a paper lantern hanging from the header in front of the stripes. Each click loops Auto → Day → Lantern → Moss → Auto, and the lantern's light shows the theme. A name tag shows on hover or focus. `js/themcript.js` loads in `<head>` without `defer` (no flash), saves the choice in `localStorage`, and only trusts the three known names.
 
-**PR F · `feat/responsive-projects`**: the CAD page on any screen
-- [ ] **1.15** Carousel radius and figure size scale with the screen (one JS value goes from fixed to calculated).
-- [ ] **1.15b** Hovering pauses the spin, and leaving resumes it (JS `mouseenter`/`mouseleave`).
-- [ ] **1.15c** Motion controls: a pause/play toggle plus a speed slider (`<input type="range">`). If the system asks for reduced motion (`prefers-reduced-motion`), the carousel starts paused.
-- [ ] **1.16** On phones the popup becomes a bottom sheet instead of sitting to the right.
-- [ ] **1.16b** Phone mini-player (D16): tapping a figure shrinks the carousel and docks it to the left, like YouTube's mini-player, while the project info slides up. On phones the carousel **keeps spinning** (desktop still stops and faces the pick). Tapping the mini carousel or Close restores it. CSS `transform: scale()` + `transition`, and JS picks the behavior with `matchMedia`. Reduced motion (1.15c) keeps it paused. *Open question: can you pick another project from the mini carousel, or only restore it?*
-- [ ] **1.17** Remove the fixed `#slideshow` height, and make the other sections wrap on small screens.
+**PR F1 · `fix/projects-mobile`**: no more sideways scroll on phones
+- [x] **1.15** `projcript.js` calculates the figure size and ring radius from the slideshow width (`ResizeObserver`), capped at the original 190px / 300px, and sets `--figure-size` for the CSS.
+- [x] **1.17** The fixed 600px `#slideshow` height follows `--figure-size` instead (still 600px on desktop).
+
+**PR F2 · `fix/projects-popup`**: the popup stops covering the carousel
+- [ ] **1.16** Desktop: the popup sits beside the carousel. Phones (owner's spec): on tap, the carousel stops facing the pick and **slides smoothly down**, and the popup **fades in** above it. The stopped carousel stays visible, so the selector never disappears. Close reverses it. The popup image scales with the screen. Reduced motion: no slide or fade, it just appears.
+
+**PR F3 · `feat/carousel-controls`**: motion and keyboard access (WCAG 2.2.2)
+- [ ] **1.15b** Hovering pauses the spin, and leaving resumes it.
+- [ ] **1.15c** A pause/play button. `prefers-reduced-motion` starts it paused.
+- [ ] **1.15d** Each figure can be reached with Tab and opened with Enter.
 
 **PR E2 · `feat/orrery-lamp`**: the theme picker becomes a pixel-art orrery (owner's pick, replaces the lantern; D23 keeps the logic). Sits in the gap between the page content and the stripes. **Art (1.14b, 1.14c) runs in parallel with PR F and Phase 2; the build (1.14d, 1.14e) comes after the early launch.**
 - [ ] **1.14b** Art direction: concept sketch of the lamp, which body shows each theme (sun = Day, moon = night…), size (e.g. 48×48 px, shown at 2×), palette from the theme tokens. Owner approves before any sprite work.
 - [ ] **1.14c** Pixel sprites: Claude drafts a base sprite; the owner refines it in Pixelorama or Aseprite (owner-made art for the public repo). Export PNG or SVG, metadata stripped.
 - [ ] **1.14d** Build: swap the lantern `<svg>` and CSS section for the orrery in all 3 pages. Planets orbit in wrappers turned by `rotate` at different speeds; `image-rendering: pixelated`, integer scaling only, `steps()` for frame animation. On/off transition when the theme changes. `themcript.js` stays the same.
 - [ ] **1.14e** Check: reduced motion (planets stand still), keyboard and name tag, every theme, phone to desktop. Make sure it never covers page text (on phones it reaches into the column, so a page starting with a long line needs room, e.g. a float on the first heading).
+
+**Polish** (done at the phase close): *(add refinements to finished features here)*
 
 **Phase close:** real-phone test over Wi-Fi (`python -m http.server 8000 --bind 0.0.0.0`), Lighthouse accessibility run.
 
@@ -153,6 +165,7 @@ Pattern: each display is a self-contained JS file that sets itself up on any con
   - [ ] **3.7c Tick sound.** A short click from the Web Audio API (no audio file) each time a card passes the pointer. It starts only after the visitor touches the reel (browsers block autoplay), with a mute button that's remembered.
   - [ ] **3.7d Info card.** On settle, show the image above the title and description, read from the same `data-*` attributes as the carousel. Announce it with `aria-live`. Reduced motion: no spin, just step and show.
   *Inspired by the owner's memory of the Chaotic game's match-select wheel. Our own design and art, not a copy of the game's look. Sketch the camera angle before 3.7a.*
+- [ ] **3.9 Phone mini-player** (was 1.16b, D16): tapping a figure shrinks the carousel and docks it to the left, like YouTube's mini-player, while the project info slides up. On phones the carousel **keeps spinning** (desktop still stops and faces the pick). Tapping the mini carousel or Close restores it. CSS `transform: scale()` + `transition`, and JS picks the behavior with `matchMedia`. Reduced motion (1.15c) keeps it paused. *Open question: can you pick another project from the mini carousel, or only restore it?*
 - [ ] **3.8 Display switcher.** A small toolbar (Carousel · Film · Reel · Grid) above the projects. Each button swaps the `data-display` value and re-runs the loader from 3.1. The choice is remembered in `localStorage`, and the grid is the default.
 
 ## Phase 4: The museum
