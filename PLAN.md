@@ -62,12 +62,12 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 ### ▶ Where we left off (update at the end of every session)
 
 *Last session: 2026-11-03*
-- **Branch:** `fix/projects-mobile` (PR F1). Both tasks done (1.15, 1.17). Next: the owner checks the CAD page on a phone width, commits, pushes, and opens the PR.
-- **Next task:** PR F2 `fix/projects-popup` (1.16). F1 is done on `fix/projects-mobile`. Owner, in parallel: orrery art direction (1.14b). See *Order of work*.
+- **Branch:** `fix/projects-popup` (PR F2). 1.16 done. Next: the owner tries the popup at phone and desktop widths, commits, pushes, and opens the PR.
+- **Next task:** PR F3 `feat/carousel-controls` (1.15b, 1.15c, 1.15d). Owner, in parallel: orrery art direction (1.14b). See *Order of work*.
 - **Owner to-dos on GitHub:** re-create the ruleset (1.0b), turn on secret scanning and push protection, set Actions to read-only, turn off the wiki, turn on "Automatically delete head branches". Delete the old backup bundle once happy.
-- **Merged so far:** #1 public-repo hygiene, #2 design tokens (PR B), #3 page skeleton (PR C), #4 layout and footer (PR C2), #5 header nav (PR D), #6 restyle (PR D2), #7 themes and picker (PR E).
+- **Merged so far:** #1 public-repo hygiene, #2 design tokens (PR B), #3 page skeleton (PR C), #4 layout and footer (PR C2), #5 header nav (PR D), #6 restyle (PR D2), #7 themes and picker (PR E), #8 carousel fits phones (PR F1).
 - **Design reference:** https://dazprojects.com/collections/all (white, hairlines, centered logo, catalog grid). We kept our own fonts (Cinzel, Instrument Sans). It feeds 3.3b.
-- **Known issue:** the project popup overlaps the carousel on every screen size. PR F2 (1.16) fixes it.
+- **Known issue:** projects can't be opened with the keyboard yet, and the spin has no pause button. PR F3 fixes both.
 - **Open ideas:** page titles still say "Personal Portfolio" (home) / placeholder names; footer links are `#` placeholders (email waits for 2.2). PR F (6 tasks) should be split before starting it.
 
 **PR 0 · `docs/phase-1-roadmap`**
@@ -113,7 +113,7 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 - [x] **1.17** The fixed 600px `#slideshow` height follows `--figure-size` instead (still 600px on desktop).
 
 **PR F2 · `fix/projects-popup`**: the popup stops covering the carousel
-- [ ] **1.16** Desktop: the popup sits beside the carousel. Phones (owner's spec): on tap, the carousel stops facing the pick and **slides smoothly down**, and the popup **fades in** above it. The stopped carousel stays visible, so the selector never disappears. Close reverses it. The popup image scales with the screen. Reduced motion: no slide or fade, it just appears.
+- [x] **1.16** A container query on `#slideshow` picks the layout. Wide (≥ 62rem): the popup fades in beside the carousel, which glides left and scales to 0.8. Narrow (owner's spec): on tap, the carousel stops facing the pick and **slides smoothly down**, and the popup **fades in** above it. The stopped carousel stays visible, so the selector never disappears. Close reverses it. The popup image scales with the screen. Reduced motion: no slide or fade, it just appears. Height animates with `grid-template-rows: 0fr → 1fr`; closed = `visibility: hidden` (skipped by Tab); scroll anchoring off on this page.
 
 **PR F3 · `feat/carousel-controls`**: motion and keyboard access (WCAG 2.2.2)
 - [ ] **1.15b** Hovering pauses the spin, and leaving resumes it.

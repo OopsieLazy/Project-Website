@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     const carousel = document.getElementById("carousel-c");
     const figures = carousel.querySelectorAll("figure");
-    const sidebar = document.getElementById("selected-sidebar");
     const slideshow = document.getElementById("slideshow");
     const total = figures.length;
     let radius = 300;   // recalculated by layoutCarousel() to fit the screen
@@ -32,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Hide the details sidebar, forget the selection, and let the carousel spin again
     function closeSidebar() {
-        sidebar.style.display = "none";
+        slideshow.classList.remove("is-open");   // the CSS animates the popup closed (projyles.css, POPUP)
         selectedFigure = null;
         spinning = true;
     }
@@ -56,7 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("popup-desc").textContent = fig.dataset.description;
             document.getElementById("popup-image").src = img.src;
 
-            document.getElementById("selected-sidebar").style.display = "block";
+            slideshow.classList.add("is-open");
 
             const targetAngle = -angle;
 

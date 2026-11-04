@@ -1,14 +1,29 @@
 /* Shared header, reset and typography live in styles.css, which loads first */
 
+/* Scroll anchoring OFF for this page. Normally, when content grows above what
+   you're looking at, the browser scrolls to keep your view still. Here that
+   would hide the popup above the screen instead of sliding the ring down */
+html {
+  overflow-anchor: none;
+}
+
 #slideshow {
   position: relative;
   margin: 0 auto;
   padding-top: 50px;
   /* --figure-size is set by projcript.js to fit the screen (190px on desktop).
-     The height follows it: 190 × 3.16 ≈ the original 600px, smaller on phones */
-  height: calc(var(--figure-size, 190px) * 3.16);
+     The height follows it: 190 × 3.16 ≈ the original 600px, smaller on phones.
+     min-height, not height: on phones the popup opens inside and needs room to grow */
+  min-height: calc(var(--figure-size, 190px) * 3.16);
   width: 100%;
   box-sizing: border-box;
+  /* A column: the ring centered, and on phones the popup above it (see POPUP) */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Makes #slideshow a container: the @container rules below ask how wide
+     the SLIDESHOW is, not the whole window */
+  container-type: inline-size;
 }
 
 .entire-content {
@@ -18,6 +33,11 @@
   perspective: 1000px;
   position: relative;
   padding-top: calc(var(--figure-size, 190px) * 0.42);   /* 80px on desktop */
+  /* The figures are absolutely positioned, so this box would otherwise be ~0 tall
+     and the popup on phones would push the next section into the ring.
+     50px slideshow padding + 190 × 2.9 ≈ the original 600px on desktop */
+  height: calc(var(--figure-size, 190px) * 2.9);
+  box-sizing: border-box;
 }
 
 .content-carrousel {
@@ -96,24 +116,91 @@ will-change: transform;
   text-align: center;
 }
 
+/* =========================================================
+   POPUP (task 1.16). projcript.js adds .is-open to #slideshow when a
+   figure is picked and removes it on Close. Two layouts, chosen by the
+   slideshow's own width (container query):
+   - narrow (phones, tablets): the popup grows open ABOVE the ring and
+     fades in, which slides the stopped ring smoothly down
+   - wide: the popup fades in beside the ring, and the ring glides left
+   Closed = invisible AND unreachable (visibility: hidden), so Tab and
+   screen readers skip it
+   ========================================================= */
 .sidebar-dwg-details {
+  --popup-speed: 400ms;
   grid-column: 2;
   justify-self: end;
-  display: none;
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  padding: 20px 10px 20px 30px;
-  border-left: 1px solid var(--color-line);
+  order: -1;                           /* phones: above the ring, though it comes after it in the HTML */
+  width: 100%;
+  max-width: 30rem;
+  /* Height can't animate to "auto", but a grid row can go from 0fr (nothing)
+     to 1fr (its content's height). The child below hides what doesn't fit yet */
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  visibility: hidden;
+  /* Closing: fade and shrink first, THEN hide (visibility waits for the animation) */
+  transition: grid-template-rows var(--popup-speed) ease, opacity var(--popup-speed) ease,
+              visibility 0s linear var(--popup-speed);
   font-family: Georgia, 'Times New Roman', serif;
 }
 
+.information-popup {
+  min-height: 0;                       /* lets the 0fr row really shrink to nothing */
+  overflow: hidden;
+  padding: 0 10px;
+}
+
+#slideshow.is-open .sidebar-dwg-details {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  visibility: visible;
+  /* Opening: become visible right away (no delay), then grow and fade in */
+  transition: grid-template-rows var(--popup-speed) ease, opacity var(--popup-speed) ease,
+              visibility 0s;
+}
+
+/* The ring glides when the layout around it changes */
+.entire-content {
+  transition: transform var(--popup-speed, 400ms) ease;
+}
+
 #popup-image {
-  width: 300px;
-  height: 300px;
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  aspect-ratio: 1;                     /* stays square at any width */
   display: block;
   margin: 0 auto;
+}
+
+/* Wide slideshow: popup beside the ring, as the owner designed it.
+   62rem = the 190px ring scaled to 0.8 (~632px) + the 20rem popup + a gap */
+@container (min-width: 62rem) {
+  .sidebar-dwg-details {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20rem;
+    padding: 20px 10px 20px 30px;
+    border-left: 1px solid var(--color-line);
+  }
+
+  /* Move the ring to the middle of the space left of the popup:
+     half the popup width plus half the gap, and shrink it a little so it fits */
+  #slideshow.is-open .entire-content {
+    transform: translateX(calc(-1 * (20rem + var(--space-4)) / 2)) scale(0.8);
+  }
+}
+
+/* Reduced motion: everything still opens and closes, just without the animation */
+@media (prefers-reduced-motion: reduce) {
+  .sidebar-dwg-details,
+  #slideshow.is-open .sidebar-dwg-details,
+  .entire-content {
+    transition: none;
+  }
 }
 
 #popup-title {
