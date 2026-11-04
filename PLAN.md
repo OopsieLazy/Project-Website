@@ -44,10 +44,10 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 ### ▶ Where we left off (update at the end of every session)
 
 *Last session: 2026-11-03*
-- **Branch:** `feat/restyle-tokens` (PR D2). All 3 tasks are done. Next: the owner reviews the colors in a browser, commits, pushes, and opens the PR.
-- **Next task:** PR E `feat/theme-toggle` (1.13). Night colors are built from the new day palette.
+- **Branch:** `feat/theme-toggle` (PR E). 1.13 done: three themes, Day, Lantern (default night) and Moss. To preview: DevTools → Ctrl+Shift+P → "Emulate CSS prefers-color-scheme: dark" for Lantern; for Moss, add `data-theme="moss"` to `<html>` in the Elements panel.
+- **Next task:** 1.14 the theme picker (3 choices) and `js/themcript.js` (external, so no CSP hash needed later).
 - **Owner to-dos on GitHub:** re-create the ruleset (1.0b), turn on secret scanning and push protection, set Actions to read-only, turn off the wiki, turn on "Automatically delete head branches". Delete the old backup bundle once happy.
-- **Merged so far:** #1 public-repo hygiene, #2 design tokens (PR B), #3 page skeleton (PR C), #4 layout and footer (PR C2). Old remote branches deleted.
+- **Merged so far:** #1 public-repo hygiene, #2 design tokens (PR B), #3 page skeleton (PR C), #4 layout and footer (PR C2), #5 header nav (PR D), #6 restyle (PR D2). Old remote branches deleted.
 - **Design reference:** https://dazprojects.com/collections/all. White, Inter only (400 body, 500 nav, 700 headings), black text at 81% opacity, `#dfdfdf` hairlines, no shadows. It feeds PR D2 and 3.3b.
 - **Known issue (old, not from D2):** on phones, `projects.html` is about 500px wide because the carousel doesn't shrink yet, so it scrolls sideways. PR F (1.15, 1.17) fixes it.
 - **Open ideas:** page titles still say "Personal Portfolio" (home) / placeholder names; footer links are `#` placeholders (email waits for 2.2). PR F (6 tasks) should be split before starting it.
@@ -87,8 +87,8 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 - [x] **1.12c** Color blocks (D20): a full-width sand header band, a pine footer band with white text, sage hairlines. On hover and Tab, menu links (header, dropdown, phone menu) turn a muted deep jade and bold. Footer links turn pale kamenozoki blue, and other links turn gunjō blue. Five straight 70s stripes run down the right edge, from the header to the footer, on every screen size (D21). The dropdown is a cleaner panel without underlines.
 
 **PR E · `feat/theme-toggle`**: day and night
-- [ ] **1.13** Dark-mode token values. The default follows the OS setting (`prefers-color-scheme`).
-- [ ] **1.14** Toggle button that remembers the choice in `localStorage`, plus a no-flash script in `<head>` (note: CSP needs a hash for inline scripts in Phase 5).
+- [x] **1.13** Three themes (D22). **Day** (unchanged). **Lantern**, the default night (rainy Japanese street): wet-asphalt blue-black, rain-blue links, chōchin red-orange active words with a soft neon glow, an akabeni red footer. **Moss**, an opt-in calm night: sage-scale greens, Cinnamon Buff highlights, pine footer, no glow. The OS setting picks Day or Lantern via `light-dark()`; `data-theme` on `<html>` forces any of the three. `projyles.css` popup grays now use tokens.
+- [ ] **1.14** Theme picker with 3 choices (Day · Lantern · Moss) that sets `data-theme` and remembers it in `localStorage`, plus a no-flash script in `<head>` as an external file `js/themcript.js` (no CSP hash needed later).
 
 **PR F · `feat/responsive-projects`**: the CAD page on any screen
 - [ ] **1.15** Carousel radius and figure size scale with the screen (one JS value goes from fixed to calculated).
@@ -205,6 +205,7 @@ Design doc first (art style, room ↔ section map, controls), then build in smal
 | D19 | Restyle toward dazprojects: white with cool highlights, replacing parchment as the site's day look | The owner prefers a sleek, white, catalog-style look; tokens make it a `:root` swap, not a rewrite. The museum (Phase 4) can keep a Renaissance palette inside its rooms |
 | D20 | Color as full-width bands (header sand, footer pine, later page sections); the band is the outer element, `.wrapper` sits inside. Active words only change color plus fake bold, with no background: muted deep jade `#496962` in the light menu (the step from resting pine is about the same size as the footer's step from white to pale blue), kamenozoki `#A5DEE4` on the pine footer, gunjō `#3B5BA5` elsewhere. One color can't be readable on both light and pine. The owner wanted it subtle but noticeable, like the footer | "Vintage Japanese" needs more color than highlights. Bands reach the screen edge while text stays in the column. The owner disliked the box. A color change plus weight change is still visible to keyboard users (WCAG 2.4.7), and fake bold avoids shoving the neighboring links |
 | D21 | 70s stripes as a striped `linear-gradient` background on `.site`, scaled with `clamp()`, inset from the window edge, on every screen. `.site-main` gets just enough right padding to keep text clear | The header and footer bands cover the background, so the stripes join both bands with no positioning code. No image or extra HTML. The `max()` padding only grows on screens with no empty margin |
+| D22 | Three themes. `color-scheme: light dark` plus `light-dark(Day, Lantern)` on each role token; `:root[data-theme]` forces `color-scheme`, and Moss is one override block. Tokens split into a fixed **palette** (named colors, same in every theme) and **roles** (bg, accent, active…). Night palettes come from a rainy Japanese city at night and Sanzo Wada's *A Dictionary of Color Combinations* (owner's picks after comparing previews) | Each Day/Lantern color is written once, next to its twin, and only Moss repeats values. Role names stay true in every theme (a token called "gunjo" holding orange would mislead). Stripes use palette colors, so they never change. The neon glow is a night-only third shadow in `--faux-bold`. Very old browsers (pre-2024) ignore `light-dark()` and fall back to browser defaults |
 | D17 | Skeleton and layout are separate PRs; keep the `#page` wrapper; the width cap is a reusable `.wrapper` class; two `rem` breakpoints | Smaller reviews; respects the owner's structure; a class can be reused, and the carousel can skip it when it needs more width; breakpoints give more control than fluid sizing alone |
 
 ## Open questions

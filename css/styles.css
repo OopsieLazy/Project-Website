@@ -43,31 +43,57 @@
 /* =========================================================
    DESIGN TOKENS: the one place to restyle the whole site
    Palette: white with Japanese-inspired greens (D19, after dazprojects.com)
-   Contrast vs white is noted on each color. WCAG AA: text needs 4.5:1,
-   borders, focus rings and icons need 3:1
-   Night values come in task 1.13
+   WCAG AA: text needs 4.5:1, borders, focus rings and icons need 3:1.
+   Contrast is noted as day / night against the page background
    ========================================================= */
 :root {
-  /* Colors */
-  --color-bg: #FFFFFF;         /* white, the page background */
-  --color-surface: #F7F5F0;    /* warm off-white (washi paper) for panels and cards */
-  --color-ink: #303030;        /* soft black, main text: 13.2:1 */
-  --color-muted: #666666;      /* gray, captions and secondary text: 5.7:1 */
-  --color-line: #DFDFDF;       /* hairline borders and dividers (decoration) */
-  --color-accent: #385850;     /* deep pine, links and buttons: 7.8:1 */
-  --color-highlight: #59877D;  /* jade, focus rings, underlines, active markers: 4.05:1 (not for small text) */
-  --color-sage: #909E87;       /* sage, decoration only (2.8:1, never use for text) */
-  --color-sand: #D0C0A0;       /* sand, decoration and tints only (1.8:1, never use for text) */
-  --color-sand-tint: #E8E0D0;  /* half sand, half white: the header band (pine text on it: 6.0:1) */
-  --color-on-accent: #FFFFFF;  /* text on pine, as in the footer band: 7.8:1 */
-  --color-gunjo: #3B5BA5;      /* gunjō ultramarine: the active (focused or hovered) word on light backgrounds: 6.5:1, 5.0:1 on the sand band */
-  --color-kamenozoki: #A5DEE4; /* kamenozoki, pale jar blue: the active word on the pine footer: 5.3:1 */
-  --color-jade-deep: #496962;  /* muted deep jade: the active word in the light menu: 4.6:1 on the sand band, 6.0:1 on white */
-  --color-beni: #B0204C;       /* beni (safflower) pink, decoration: the retro stripes */
+  /* Three themes (D22): Day, Lantern (the default night) and Moss (opt-in night, below).
+     color-scheme tells the browser which themes we support; light-dark(day, night)
+     then picks a value from the visitor's OS setting, so night = Lantern.
+     Bonus: scrollbars and form controls turn dark at night for free */
+  color-scheme: light dark;
+
+  /* Palette: named colors, the SAME in every theme.
+     Pages don't use these directly; the role colors below and the stripes do */
+  --color-pine: #385850;       /* deep pine */
+  --color-jade: #59877D;       /* jade */
+  --color-jade-deep: #496962;  /* muted deep jade */
+  --color-sage: #909E87;       /* sage, decoration only (2.8:1 on white, never text) */
+  --color-sand: #D0C0A0;       /* sand, decoration only (1.8:1 on white, never text) */
+  --color-sand-tint: #E8E0D0;  /* half sand, half white */
+  --color-gunjo: #3B5BA5;      /* gunjō ultramarine */
+  --color-kamenozoki: #A5DEE4; /* kamenozoki, pale jar blue */
+  --color-beni: #B0204C;       /* beni (safflower) pink, decoration only */
+  --color-chochin: #FF7A59;    /* chōchin, paper-lantern red-orange: Lantern's highlight */
+  --color-akabeni: #7A2430;    /* akabeni, deep lantern red: Lantern's footer band */
+  --color-cinnamon: #F5C07B;   /* Cinnamon Buff (Sanzo Wada's color dictionary): Moss's highlight */
+
+  /* Roles: what each color is FOR. light-dark(Day, Lantern).
+     Lantern = a rainy Japanese street at night: wet-asphalt blue-black, rain-light links, red lanterns */
+  --color-bg: light-dark(#FFFFFF, #0F161A);         /* page background: white / wet asphalt */
+  --color-surface: light-dark(#F7F5F0, #1A242A);    /* panels and cards: washi off-white / lifted asphalt */
+  --color-ink: light-dark(#303030, #E9EEF0);        /* main text: 13.2 / 15.6 */
+  --color-muted: light-dark(#666666, #9AABB3);      /* captions, secondary text: 5.7 / 7.7 */
+  --color-line: light-dark(#DFDFDF, #33434B);       /* hairlines (decoration) */
+  --color-accent: light-dark(var(--color-pine), #8FD3E8);              /* links, headings: 7.8 / 11.0 */
+  --color-highlight: light-dark(var(--color-jade), var(--color-chochin)); /* underlines and markers: 4.05 (not small text) / 7.1 */
+  --color-header-bg: light-dark(var(--color-sand-tint), #1A242A);      /* header band; accent text on it: 6.0 / 9.5 */
+  --color-footer-bg: light-dark(var(--color-pine), var(--color-akabeni));
+  --color-on-footer: #FFFFFF;            /* footer text: 7.8 / 9.9 */
+
+  /* The active (hovered or focused) word: only color + fake bold change (D20) */
+  --color-active: light-dark(var(--color-gunjo), var(--color-chochin));            /* most links: 6.5 / 7.1 */
+  --color-active-menu: light-dark(var(--color-jade-deep), var(--color-chochin));   /* header menu: 4.6 / 6.2 on the band */
+  --color-active-footer: light-dark(var(--color-kamenozoki), #FFC9A8);             /* on the footer band: 5.3 / 6.7 */
+
+  /* Neon glow around the active word, night only. currentColor = the word's own color,
+     mixed 70% with transparent so the glow is soft. Day gets no glow */
+  --color-glow: light-dark(transparent, color-mix(in srgb, currentColor 70%, transparent));
 
   /* Fake bold: a hairline shadow on each side of the letters. Real font-weight
-     makes the word wider and shoves its neighbors sideways; this doesn't */
-  --faux-bold: 0.04em 0 0 currentColor, -0.04em 0 0 currentColor;
+     makes the word wider and shoves its neighbors sideways; this doesn't.
+     The third, blurred shadow is the night glow (invisible by day) */
+  --faux-bold: 0.04em 0 0 currentColor, -0.04em 0 0 currentColor, 0 0 0.6em var(--color-glow);
 
   /* Fonts: every stack ends in fallbacks in case a file fails to load */
   --font-display: "Cinzel", "Trajan Pro", Georgia, serif;
@@ -100,6 +126,31 @@
   --gutter: clamp(var(--space-4), 5vw, var(--space-7));  /* side padding of .wrapper: 16px on phones, up to 48px */
   --radius: 4px;           /* small, crisp corners to keep it minimal */
   --logo-size: var(--space-7);  /* header logo, 48px: square, so one value sets width and height */
+}
+
+/* Theme picked with the toggle (task 1.14). js/themcript.js sets data-theme on <html>.
+   No attribute = follow the OS (Day or Lantern). Forcing color-scheme makes
+   every light-dark() above pick the matching side */
+:root[data-theme="day"] { color-scheme: light; }
+:root[data-theme="lantern"] { color-scheme: dark; }
+
+/* Moss: the calm night, a forest after dark (sage scale + Cinnamon Buff, no glow).
+   It starts from the night side, then swaps only the colors that differ from Lantern */
+:root[data-theme="moss"] {
+  color-scheme: dark;
+  --color-bg: #1C211C;
+  --color-surface: #232A23;
+  --color-ink: #E6E8DF;                       /* 13.2 */
+  --color-muted: #9DBA9D;                     /* 7.7 */
+  --color-line: #404C40;
+  --color-accent: #B2D4B2;                    /* 10.1, 8.2 on the band */
+  --color-highlight: var(--color-cinnamon);
+  --color-header-bg: #2A322A;
+  --color-footer-bg: var(--color-pine);       /* white text 7.8 */
+  --color-active: var(--color-cinnamon);      /* 9.9 */
+  --color-active-menu: var(--color-cinnamon); /* 8.0 on the band */
+  --color-active-footer: var(--color-cinnamon);  /* 4.7 on pine */
+  --color-glow: transparent;
 }
 
 /* =========================================================
@@ -173,7 +224,7 @@ a {
   text-underline-offset: 0.2em;    /* underline sits below descenders (g, y, p) */
 }
 
-/* Only the underline turns jade: jade text would fail contrast, a line doesn't */
+/* Only the underline changes (jade by day, orange at night): jade text would fail contrast, a line doesn't */
 a:hover {
   text-decoration-color: var(--color-highlight);
 }
@@ -185,11 +236,11 @@ a:hover {
   outline-offset: 2px;
 }
 
-/* Links: no box, the word itself turns gunjō blue and bold.
+/* Links: no box, the word itself changes color (gunjō blue by day, orange at night) and turns bold.
    The footer swaps in the pale kamenozoki blue, because gunjō would vanish on pine */
 a:focus-visible {
   outline: none;
-  color: var(--color-gunjo);
+  color: var(--color-active);
   text-shadow: var(--faux-bold);
 }
 
@@ -275,8 +326,8 @@ hr {
    color reaches the screen edges while the text lines up with the page
    ========================================================= */
 .site-footer {
-  background-color: var(--color-accent);
-  color: var(--color-on-accent);
+  background-color: var(--color-footer-bg);
+  color: var(--color-on-footer);
   font-size: var(--step--1);
 }
 
@@ -313,7 +364,7 @@ hr {
 }
 
 .footer-link:focus-visible {
-  color: var(--color-kamenozoki);
+  color: var(--color-active-footer);
 }
 
 /* =========================================================
@@ -327,11 +378,11 @@ hr {
 
 /* ---------- Frame ---------- */
 
-/* A full-width sand band with a sage hairline below. The band is the <header>;
+/* A full-width band (sand by day, navy at night) with a sage hairline below. The band is the <header>;
    the nav inside carries .wrapper, so the color reaches the screen edges */
 .site-header {
   padding-block: var(--space-4);
-  background-color: var(--color-sand-tint);
+  background-color: var(--color-header-bg);
   border-bottom: 1px solid var(--color-sage);
 }
 
@@ -371,7 +422,7 @@ hr {
    menu (they all use .menu-link) */
 .menu-link:hover,
 .menu-link:focus-visible {
-  color: var(--color-jade-deep);
+  color: var(--color-active-menu);
   text-shadow: var(--faux-bold);
 }
 
@@ -521,7 +572,8 @@ hr {
    between and touch both bands. No image, no extra HTML, no positioning.
    The stripes scale with the screen (thin on phones), and the main content
    gets extra right padding so text never runs under them.
-   To restyle: change --stripe (thickness) or the five colors below
+   To restyle: change --stripe (thickness) or the five colors below.
+   They use palette colors, not roles, so the stripes look the same day and night
    ========================================================= */
 :root {
   --stripe: clamp(0.25rem, 0.9vw, 0.75rem);   /* one stripe: 4px on phones, up to 12px */
@@ -533,7 +585,7 @@ hr {
 .site {
   background-image: linear-gradient(to right,
     var(--color-gunjo)     0%  20%,
-    var(--color-highlight) 20% 40%,
+    var(--color-jade)      20% 40%,
     var(--color-sage)      40% 60%,
     var(--color-sand)      60% 80%,
     var(--color-beni)      80% 100%);
