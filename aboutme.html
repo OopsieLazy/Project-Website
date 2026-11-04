@@ -14,11 +14,11 @@
         <div id="page" class="site">
             <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
             <!-- Same header in index.html, projects.html and aboutme.html: change all three together -->
-            <header id="topbranch" class="site-header wrapper">
+            <header id="topbranch" class="site-header">
                 <div class="site-branding">
                 </div>
 
-                <nav id="site-nav" class="main-nav" aria-label="Main">
+                <nav id="site-nav" class="main-nav wrapper" aria-label="Main">
                     <!-- Mobile menu button: hidden until js/script.js runs, so without JS the links just stay visible -->
                     <button id="menu-toggle" class="menu-toggle" type="button" aria-expanded="true" hidden>
                         <span aria-hidden="true">&#9776;</span> Menu
@@ -83,27 +83,30 @@
                 <h1> Place Holder </h1>
             </main>
 
-            <footer class="site-footer wrapper">
-                <!-- Every footer link uses the same pattern: to fill one in, change only its href (and text) -->
-                <nav class="footer-nav" aria-label="Footer">
+            <!-- The footer is the full-width pine band; .footer-inner keeps the content lined up with the page -->
+            <footer class="site-footer">
+                <div class="footer-inner wrapper">
+                    <!-- Every footer link uses the same pattern: to fill one in, change only its href (and text) -->
+                    <nav class="footer-nav" aria-label="Footer">
+                        <ul class="footer-list">
+                            <li class="footer-item"><a class="footer-link" href="index.html">Home</a></li>
+                            <li class="footer-item"><a class="footer-link" href="projects.html">CAD Portfolio</a></li>
+                            <li class="footer-item"><a class="footer-link" href="#">Code Portfolio</a></li>
+                            <li class="footer-item"><a class="footer-link" href="aboutme.html">About Me</a></li>
+                            <li class="footer-item"><a class="footer-link" href="#">Contact and Resume</a></li>
+                        </ul>
+                    </nav>
+
+                    <!-- Placeholders. Email stays "#" until task 2.2 (a plain mailto: gets scraped by spam bots) -->
                     <ul class="footer-list">
-                        <li class="footer-item"><a class="footer-link" href="index.html">Home</a></li>
-                        <li class="footer-item"><a class="footer-link" href="projects.html">CAD Portfolio</a></li>
-                        <li class="footer-item"><a class="footer-link" href="#">Code Portfolio</a></li>
-                        <li class="footer-item"><a class="footer-link" href="aboutme.html">About Me</a></li>
-                        <li class="footer-item"><a class="footer-link" href="#">Contact and Resume</a></li>
+                        <li class="footer-item"><a class="footer-link" href="#">GitHub</a></li>
+                        <li class="footer-item"><a class="footer-link" href="#">LinkedIn</a></li>
+                        <li class="footer-item"><a class="footer-link" href="#">Email</a></li>
+                        <li class="footer-item"><a class="footer-link" href="#">Résumé</a></li>
                     </ul>
-                </nav>
 
-                <!-- Placeholders. Email stays "#" until task 2.2 (a plain mailto: gets scraped by spam bots) -->
-                <ul class="footer-list">
-                    <li class="footer-item"><a class="footer-link" href="#">GitHub</a></li>
-                    <li class="footer-item"><a class="footer-link" href="#">LinkedIn</a></li>
-                    <li class="footer-item"><a class="footer-link" href="#">Email</a></li>
-                    <li class="footer-item"><a class="footer-link" href="#">Résumé</a></li>
-                </ul>
-
-                <p class="footer-copy">&copy; 2026 Your Name</p>
+                    <p class="footer-copy">&copy; 2026 Your Name</p>
+                </div>
             </footer>
         </div>
     </body>

@@ -42,20 +42,32 @@
 
 /* =========================================================
    DESIGN TOKENS: the one place to restyle the whole site
-   Palette: Codex (Leonardo's notebooks) + Fresco highlights (Sistine pigments)
-   Contrast vs --color-bg (WCAG AA text needs 4.5:1) is noted on each color
+   Palette: white with Japanese-inspired greens (D19, after dazprojects.com)
+   Contrast vs white is noted on each color. WCAG AA: text needs 4.5:1,
+   borders, focus rings and icons need 3:1
    Night values come in task 1.13
    ========================================================= */
 :root {
   /* Colors */
-  --color-bg: #EFE3C8;         /* parchment, the page background */
-  --color-surface: #F7EEDA;    /* lighter paper for cards and panels */
-  --color-ink: #2A2420;        /* iron-gall ink, main text: 12.0:1 */
-  --color-muted: #6B5D4F;      /* faded ink, captions and secondary text: 5.0:1 */
-  --color-line: #D6C6A3;       /* borders and dividers (decoration) */
-  --color-accent: #9B3B28;     /* sanguine red chalk, links and buttons: 5.4:1 */
-  --color-highlight: #23408E;  /* lapis lazuli, highlights and active states: 7.5:1 */
-  --color-gold: #B7832F;       /* ochre, decoration only (2.6:1, never use for text) */
+  --color-bg: #FFFFFF;         /* white, the page background */
+  --color-surface: #F7F5F0;    /* warm off-white (washi paper) for panels and cards */
+  --color-ink: #303030;        /* soft black, main text: 13.2:1 */
+  --color-muted: #666666;      /* gray, captions and secondary text: 5.7:1 */
+  --color-line: #DFDFDF;       /* hairline borders and dividers (decoration) */
+  --color-accent: #385850;     /* deep pine, links and buttons: 7.8:1 */
+  --color-highlight: #59877D;  /* jade, focus rings, underlines, active markers: 4.05:1 (not for small text) */
+  --color-sage: #909E87;       /* sage, decoration only (2.8:1, never use for text) */
+  --color-sand: #D0C0A0;       /* sand, decoration and tints only (1.8:1, never use for text) */
+  --color-sand-tint: #E8E0D0;  /* half sand, half white: the header band (pine text on it: 6.0:1) */
+  --color-on-accent: #FFFFFF;  /* text on pine, as in the footer band: 7.8:1 */
+  --color-gunjo: #3B5BA5;      /* gunjō ultramarine: the active (focused or hovered) word on light backgrounds: 6.5:1, 5.0:1 on the sand band */
+  --color-kamenozoki: #A5DEE4; /* kamenozoki, pale jar blue: the active word on the pine footer: 5.3:1 */
+  --color-jade-deep: #496962;  /* muted deep jade: the active word in the light menu: 4.6:1 on the sand band, 6.0:1 on white */
+  --color-beni: #B0204C;       /* beni (safflower) pink, decoration: the retro stripes */
+
+  /* Fake bold: a hairline shadow on each side of the letters. Real font-weight
+     makes the word wider and shoves its neighbors sideways; this doesn't */
+  --faux-bold: 0.04em 0 0 currentColor, -0.04em 0 0 currentColor;
 
   /* Fonts: every stack ends in fallbacks in case a file fails to load */
   --font-display: "Cinzel", "Trajan Pro", Georgia, serif;
@@ -85,6 +97,7 @@
   /* Layout */
   --measure: 65ch;         /* comfortable reading width for paragraphs */
   --content-max: 72rem;    /* widest the page content gets (~1152px) */
+  --gutter: clamp(var(--space-4), 5vw, var(--space-7));  /* side padding of .wrapper: 16px on phones, up to 48px */
   --radius: 4px;           /* small, crisp corners to keep it minimal */
   --logo-size: var(--space-7);  /* header logo, 48px: square, so one value sets width and height */
 }
@@ -141,7 +154,8 @@ h1,
 h2,
 h3 {
   font-family: var(--font-display);
-  line-height: 1.2;                /* big text needs less line gap than body text */
+  color: var(--color-accent);      /* pine headings: color in the page, not only in links */
+  line-height: 1.2;               /* big text needs less line gap than body text */
   text-wrap: balance;              /* evens out line lengths in multi-line headings */
 }
 
@@ -159,14 +173,24 @@ a {
   text-underline-offset: 0.2em;    /* underline sits below descenders (g, y, p) */
 }
 
+/* Only the underline turns jade: jade text would fail contrast, a line doesn't */
 a:hover {
-  color: var(--color-highlight);
+  text-decoration-color: var(--color-highlight);
 }
 
-/* Visible ring for keyboard users only; mouse clicks don't show it */
+/* Keyboard focus only (mouse clicks don't trigger :focus-visible).
+   Buttons and other controls get a pine ring */
 :focus-visible {
-  outline: 2px solid var(--color-highlight);
+  outline: 2px solid var(--color-accent);
   outline-offset: 2px;
+}
+
+/* Links: no box, the word itself turns gunjō blue and bold.
+   The footer swaps in the pale kamenozoki blue, because gunjō would vanish on pine */
+a:focus-visible {
+  outline: none;
+  color: var(--color-gunjo);
+  text-shadow: var(--faux-bold);
 }
 
 code,
@@ -174,10 +198,10 @@ pre {
   font-family: var(--font-mono);
 }
 
-/* The only section divider: a hairline, like the joeydanna reference (no shadows or boxes) */
+/* The only section divider: a sage hairline (no shadows or boxes) */
 hr {
   border: 0;
-  border-top: 1px solid var(--color-line);
+  border-top: 1px solid var(--color-sage);
   margin-block: var(--space-7);
 }
 
@@ -222,7 +246,7 @@ hr {
   width: 100%;                     /* needed because auto margins in a flex column would shrink it */
   max-width: var(--content-max);   /* stops lines getting too wide on big screens */
   margin-inline: auto;             /* centers it (inline = left and right) */
-  padding-inline: clamp(var(--space-4), 5vw, var(--space-7));  /* 16px gutter on phones, up to 48px */
+  padding-inline: var(--gutter);
 }
 
 /* Flex column on the page wrapper: main grows to fill the space, so the footer stays at the bottom */
@@ -246,21 +270,25 @@ hr {
 }
 
 /* =========================================================
-   FOOTER: quiet and small, with a hairline on top like the hr
+   FOOTER: a full-width pine band with white text.
+   The band is the <footer>; the content sits in .footer-inner.wrapper, so the
+   color reaches the screen edges while the text lines up with the page
    ========================================================= */
+.site-footer {
+  background-color: var(--color-accent);
+  color: var(--color-on-accent);
+  font-size: var(--step--1);
+}
 
 /* flex-wrap lets the three parts sit side by side, then wrap onto new lines
    when there's no room, so no media query is needed */
-.site-footer {
+.footer-inner {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   gap: var(--space-4) var(--space-6);   /* row gap, column gap */
   padding-block: var(--space-6);
-  border-top: 1px solid var(--color-line);
-  font-size: var(--step--1);
-  color: var(--color-muted);
 }
 
 /* Same reset as .header-left-list: no bullets or indent */
@@ -272,15 +300,20 @@ hr {
   padding: 0;
 }
 
-/* inherit = use the footer's muted color; underline only on hover keeps it quiet */
+/* inherit = use the footer's white; underline only on hover keeps it quiet */
 .footer-link {
   color: inherit;
   text-decoration: none;
 }
 
+/* Text stays white (pine text would vanish on the pine band); a sand underline appears */
 .footer-link:hover {
-  color: var(--color-accent);
   text-decoration: underline;
+  text-decoration-color: var(--color-sand);
+}
+
+.footer-link:focus-visible {
+  color: var(--color-kamenozoki);
 }
 
 /* =========================================================
@@ -294,10 +327,12 @@ hr {
 
 /* ---------- Frame ---------- */
 
-/* Hairline below, mirroring the footer's hairline on top */
+/* A full-width sand band with a sage hairline below. The band is the <header>;
+   the nav inside carries .wrapper, so the color reaches the screen edges */
 .site-header {
   padding-block: var(--space-4);
-  border-bottom: 1px solid var(--color-line);
+  background-color: var(--color-sand-tint);
+  border-bottom: 1px solid var(--color-sage);
 }
 
 /* Phone layout. Named grid areas: each part says where it goes by name,
@@ -331,6 +366,15 @@ hr {
   font-size: var(--step--1);
 }
 
+/* Hover and Tab: subtle like the footer, so only the color and fake bold change,
+   with no background or extra line. Covers the top links, the dropdown and the phone
+   menu (they all use .menu-link) */
+.menu-link:hover,
+.menu-link:focus-visible {
+  color: var(--color-jade-deep);
+  text-shadow: var(--faux-bold);
+}
+
 /* No bullets or indent; the left and right lists share these rules */
 .header-left-list,
 .menu-horizontal {
@@ -353,7 +397,7 @@ hr {
 .menu-toggle {
   min-height: var(--space-7);          /* 48px: a comfortable finger-sized target */
   padding-inline: var(--space-4);
-  border: 1px solid var(--color-line);
+  border: 1px solid var(--color-sage);
   border-radius: var(--radius);
   background: none;
   color: var(--color-ink);
@@ -372,6 +416,11 @@ hr {
 
 .mega-sub-menu li {
   padding-block: var(--space-2);
+}
+
+/* No underlines: a stack of them looked clunky */
+.mega-sub-menu .menu-link {
+  text-decoration: none;
 }
 
 .submenu-toggle {
@@ -445,10 +494,15 @@ hr {
     top: 100%;
     left: 0;
     z-index: 10;                       /* above the page content */
-    padding: var(--space-3) var(--space-4);
-    background: var(--color-surface);
-    border: 1px solid var(--color-line);
-    border-radius: var(--radius);
+    padding: var(--space-3) var(--space-5);
+    background: var(--color-bg);
+    border: 1px solid var(--color-sage);
+    border-top: 3px solid var(--color-accent);   /* a pine strip, like a vintage label */
+  }
+
+  /* Tighter rows than on phones: a mouse doesn't need a finger-sized target */
+  .mega-sub-menu li {
+    padding-block: var(--space-1);
   }
 
   /* :focus-within = this li or anything inside it has focus, so tabbing
@@ -457,4 +511,44 @@ hr {
   #item-lab:focus-within .mega-sub-menu {
     display: block;
   }
+}
+
+/* =========================================================
+   RETRO STRIPES: five straight 70s stripes down the right edge of every page,
+   from the header band to the footer band.
+   How: a striped background on the page wrapper (.site). The header and
+   footer paint their own band colors on top, so the stripes only show in
+   between and touch both bands. No image, no extra HTML, no positioning.
+   The stripes scale with the screen (thin on phones), and the main content
+   gets extra right padding so text never runs under them.
+   To restyle: change --stripe (thickness) or the five colors below
+   ========================================================= */
+:root {
+  --stripe: clamp(0.25rem, 0.9vw, 0.75rem);   /* one stripe: 4px on phones, up to 12px */
+  --loop-width: calc(5 * var(--stripe));
+  --loop-inset: clamp(var(--space-2), 2vw, var(--space-6));   /* gap from the window edge: 8px on phones, up to 32px */
+}
+
+/* Hard color stops (each color starts where the last one ends) make solid stripes, not a blend */
+.site {
+  background-image: linear-gradient(to right,
+    var(--color-gunjo)     0%  20%,
+    var(--color-highlight) 20% 40%,
+    var(--color-sage)      40% 60%,
+    var(--color-sand)      60% 80%,
+    var(--color-beni)      80% 100%);
+  background-size: var(--loop-width) 100%;
+  background-position: right var(--loop-inset) top;   /* "right 8px" = 8px in from the right edge */
+  background-repeat: no-repeat;
+}
+
+/* Keep text clear of the stripes. On wide screens the empty margin beside the
+   column already does that, so the extra padding shrinks to the normal gutter:
+   max() picks whichever is bigger, the normal gutter or
+   "edge gap + stripes + a gap, minus the empty margin outside the column" */
+.site-main {
+  padding-right: max(
+    var(--gutter),
+    calc(var(--loop-inset) + var(--loop-width) + var(--space-4) - max(0px, (100vw - var(--content-max)) / 2))
+  );
 }
