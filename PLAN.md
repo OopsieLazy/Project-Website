@@ -61,14 +61,14 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 
 ### ▶ Where we left off (update at the end of every session)
 
-*Last session: 2026-11-03*
-- **Branch:** `fix/projects-popup` (PR F2). 1.16 done. Next: the owner tries the popup at phone and desktop widths, commits, pushes, and opens the PR.
-- **Next task:** PR F3 `feat/carousel-controls` (1.15b, 1.15c, 1.15d). Owner, in parallel: orrery art direction (1.14b). See *Order of work*.
+*Last session: 2026-11-04*
+- **Branch:** `feat/carousel-controls` (PR F3), cut from `main` after #9; nothing built yet, only these notes.
+- **Next task:** PR F3 (1.15b, 1.15c, 1.15d): roll the die, then show the owner the two keyboard options for the figures (`tabindex="0"` on each `<figure>`, or wrapping each image in a `<button>`) before writing code. Owner, in parallel: orrery art direction (1.14b). See *Order of work*.
 - **Owner to-dos on GitHub:** re-create the ruleset (1.0b), turn on secret scanning and push protection, set Actions to read-only, turn off the wiki, turn on "Automatically delete head branches". Delete the old backup bundle once happy.
-- **Merged so far:** #1 public-repo hygiene, #2 design tokens (PR B), #3 page skeleton (PR C), #4 layout and footer (PR C2), #5 header nav (PR D), #6 restyle (PR D2), #7 themes and picker (PR E), #8 carousel fits phones (PR F1).
+- **Merged so far:** #1 public-repo hygiene, #2 design tokens (PR B), #3 page skeleton (PR C), #4 layout and footer (PR C2), #5 header nav (PR D), #6 restyle (PR D2), #7 themes and picker (PR E), #8 carousel fits phones (PR F1), #9 popup slide and fade (PR F2).
 - **Design reference:** https://dazprojects.com/collections/all (white, hairlines, centered logo, catalog grid). We kept our own fonts (Cinzel, Instrument Sans). It feeds 3.3b.
 - **Known issue:** projects can't be opened with the keyboard yet, and the spin has no pause button. PR F3 fixes both.
-- **Open ideas:** page titles still say "Personal Portfolio" (home) / placeholder names; footer links are `#` placeholders (email waits for 2.2). PR F (6 tasks) should be split before starting it.
+- **Open ideas:** page titles still say "Personal Portfolio" (home) / placeholder names; footer links are `#` placeholders (email waits for 2.2).
 
 **PR 0 · `docs/phase-1-roadmap`**
 - [x] Adopt GitHub flow (D11) and write this breakdown.
@@ -116,9 +116,10 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 - [x] **1.16** A container query on `#slideshow` picks the layout. Wide (≥ 62rem): the popup fades in beside the carousel, which glides left and scales to 0.8. Narrow (owner's spec): on tap, the carousel stops facing the pick and **slides smoothly down**, and the popup **fades in** above it. The stopped carousel stays visible, so the selector never disappears. Close reverses it. The popup image scales with the screen. Reduced motion: no slide or fade, it just appears. Height animates with `grid-template-rows: 0fr → 1fr`; closed = `visibility: hidden` (skipped by Tab); scroll anchoring off on this page.
 
 **PR F3 · `feat/carousel-controls`**: motion and keyboard access (WCAG 2.2.2)
-- [ ] **1.15b** Hovering pauses the spin, and leaving resumes it.
-- [ ] **1.15c** A pause/play button. `prefers-reduced-motion` starts it paused.
-- [ ] **1.15d** Each figure can be reached with Tab and opened with Enter.
+- [x] **1.15b** Hovering pauses the spin, and leaving resumes it (`pointerenter`/`pointerleave`, so a phone tap doesn't leave it stuck).
+- [x] **1.15c** A "Pause spin / Play spin" button above the ring, centered and first in Tab order. `prefers-reduced-motion` starts it paused and skips the 1s turn.
+- [x] **1.15d** Each figure holds a `<button>` (D24): Tab reaches it, Enter or Space opens it. Escape or Close closes the popup and puts focus back on the figure.
+- [ ] **1.15e** *(later, own small PR)* Make the spin speed frame-rate independent (degrees per second × time since the last frame), and stop requesting frames while paused. Right now a 120 Hz screen spins twice as fast.
 
 **PR E2 · `feat/orrery-lamp`**: the theme picker becomes a pixel-art orrery (owner's pick, replaces the lantern; D23 keeps the logic). Sits in the gap between the page content and the stripes. **Art (1.14b, 1.14c) runs in parallel with PR F and Phase 2; the build (1.14d, 1.14e) comes after the early launch.**
 - [ ] **1.14b** Art direction: concept sketch of the lamp, which body shows each theme (sun = Day, moon = night…), size (e.g. 48×48 px, shown at 2×), palette from the theme tokens. Owner approves before any sprite work.
@@ -241,6 +242,7 @@ Design doc first (art style, room ↔ section map, controls), then build in smal
 | D21 | 70s stripes as a striped `linear-gradient` background on `.site`, scaled with `clamp()`, inset from the window edge, on every screen. `.site-main` gets just enough right padding to keep text clear | The header and footer bands cover the background, so the stripes join both bands with no positioning code. No image or extra HTML. The `max()` padding only grows on screens with no empty margin |
 | D22 | Three themes. `color-scheme: light dark` plus `light-dark(Day, Lantern)` on each role token; `:root[data-theme]` forces `color-scheme`, and Moss is one override block. Tokens split into a fixed **palette** (named colors, same in every theme) and **roles** (bg, accent, active…). Night palettes come from a rainy Japanese city at night and Sanzo Wada's *A Dictionary of Color Combinations* (owner's picks after comparing previews) | Each Day/Lantern color is written once, next to its twin, and only Moss repeats values. Role names stay true in every theme (a token called "gunjo" holding orange would mislead). Stripes use palette colors, so they never change. The neon glow is a night-only third shadow in `--faux-bold`. Very old browsers (pre-2024) ignore `light-dark()` and fall back to browser defaults |
 | D23 | Theme picker = one `<button>` that cycles 4 states (Auto, Day, Lantern, Moss). Auto removes `data-theme` and the saved value. `js/themcript.js` is external and blocking in `<head>`. The lantern art is only the `<svg>` plus one CSS section | A cycling control is one honest button, so keyboard and screen readers work for free. "Auto" as the absence of a choice lets the OS take over live. External, not inline, so a strict CSP needs no hash. The art is swappable, so the orrery lamp can replace it without touching the logic |
+| D24 | Carousel keyboard access: a `<button>` inside each `<figure>` (owner's pick over `tabindex` + `role`). The spin has three separate stop flags (picked figure, Pause button, hover) that `animate()` checks together. The pause button's label changes ("Pause spin" / "Play spin") with no `aria-pressed` | A native button gives Tab, Enter, Space and the "button" role for free (first rule of ARIA). Separate flags stop one reason from cancelling another (leaving with the mouse can't undo the Pause button). A label plus `aria-pressed` would read "Play spin, pressed", which contradicts itself |
 | D17 | Skeleton and layout are separate PRs; keep the `#page` wrapper; the width cap is a reusable `.wrapper` class; two `rem` breakpoints | Smaller reviews; respects the owner's structure; a class can be reused, and the carousel can skip it when it needs more width; breakpoints give more control than fluid sizing alone |
 
 ## Open questions
