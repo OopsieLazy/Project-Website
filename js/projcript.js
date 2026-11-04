@@ -27,7 +27,39 @@ document.addEventListener("DOMContentLoaded", () => {
     let currentRotation = 0;
     let autoSpinSpeed = 0.1;
     let spinning = true;
-    let selectedFigure = null; 
+    let selectedFigure = null;
+
+    // Three separate reasons can stop the spin, so each has its own flag and animate()
+    // checks them together. With one shared flag, moving the mouse off the ring would
+    // restart a spin the visitor had paused with the button.
+    //   spinning   = false while a figure is picked (the original flag)
+    //   userPaused = the Pause button (task 1.15c)
+    //   hovering   = the pointer is over the ring (task 1.15b)
+    // WCAG 2.2.2: anything that moves for more than 5 seconds needs a way to pause it.
+    // Visitors who asked their OS for less motion start paused, and can still press Play
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let userPaused = reduceMotion;
+    let hovering = false;
+
+    const spinToggle = document.getElementById("spin-toggle");
+
+    // The label says what pressing it WILL do. Use a changing label OR aria-pressed, never
+    // both: a screen reader would read "Play spin, pressed", which contradicts itself
+    function showSpinLabel() {
+        spinToggle.textContent = userPaused ? "Play spin" : "Pause spin";
+    }
+
+    spinToggle.addEventListener("click", () => {
+        userPaused = !userPaused;
+        showSpinLabel();
+    });
+    showSpinLabel();
+    spinToggle.hidden = false;   // only shown once JS runs, like the header toggles in script.js
+
+    // pointerenter/leave, not mouseenter/leave: they cover mouse, pen and touch, and a tap
+    // on a phone ends with pointerleave, so the spin doesn't get stuck in "hovering"
+    carousel.addEventListener("pointerenter", () => { hovering = true; });
+    carousel.addEventListener("pointerleave", () => { hovering = false; });
 
     // Hide the details sidebar, forget the selection, and let the carousel spin again
     function closeSidebar() {
@@ -67,7 +99,8 @@ document.addEventListener("DOMContentLoaded", () => {
             if (diff > 180) diff -= 360;
             if (diff < -180) diff += 360;
 
-            carousel.style.transition = "transform 1s ease";
+            // Reduced motion: jump straight to the figure instead of a 1s turn
+            carousel.style.transition = reduceMotion ? "" : "transform 1s ease";
             currentRotation += diff;
             carousel.style.transform = `rotateY(${currentRotation}deg)`;
 
@@ -78,7 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     function animate() {
-        if (spinning) {
+        if (spinning && !userPaused && !hovering) {
             currentRotation += autoSpinSpeed;
             carousel.style.transform = `rotateY(${currentRotation}deg)`;
         }
@@ -91,5 +124,20 @@ document.addEventListener("DOMContentLoaded", () => {
     // size changes (window resize, phone rotation), so the ring always fits
     new ResizeObserver(layoutCarousel).observe(slideshow);
 
-    document.getElementById("close-sidebar").addEventListener("click", closeSidebar); 
+    // Closing with Close or Escape puts focus back on the figure that was open (task 1.15d).
+    // Otherwise focus is left on the now-hidden Close button, and the next Tab starts
+    // again from the top of the page
+    function closeAndRefocus() {
+        if (!selectedFigure) return;   // nothing open
+        const button = selectedFigure.querySelector(".figure-button");
+        closeSidebar();
+        button.focus();
+    }
+
+    document.getElementById("close-sidebar").addEventListener("click", closeAndRefocus);
+
+    // Escape closes the popup, as it does for most popups and dialogs
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") closeAndRefocus();
+    });
 });

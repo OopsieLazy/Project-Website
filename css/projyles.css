@@ -26,6 +26,25 @@ html {
   container-type: inline-size;
 }
 
+/* Pause/play (task 1.15c). It comes first in the slideshow, so keyboard users reach it
+   before the 9 figures. order: -2 keeps it above the phone popup (order: -1).
+   No display rule here on purpose: it would override the hidden attribute */
+.spin-toggle {
+  order: -2;
+  margin-bottom: var(--space-4);
+  padding: var(--space-1) var(--space-4);
+  border: 1px solid var(--color-line);
+  border-radius: 999px;                /* pill */
+  background: none;
+  color: var(--color-accent);
+  font-size: var(--step--1);
+  cursor: pointer;
+}
+
+.spin-toggle:hover {
+  border-color: var(--color-highlight);
+}
+
 .entire-content {
   grid-column: 1;
   justify-self: center;
@@ -61,6 +80,24 @@ html {
   align-items: center;
   overflow: hidden;
   position: absolute;
+}
+
+/* Each figure holds a real <button> (task 1.15d), so Tab, Enter and Space work for free.
+   Strip the button's default look so only the image shows */
+.figure-button {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+/* The figure's overflow: hidden would cut off the shared focus ring, which sits just
+   OUTSIDE the edge (outline-offset: 2px in styles.css). A negative offset draws it inside */
+.figure-button:focus-visible {
+  outline-offset: -2px;
 }
 
 .content-carrousel figure:nth-child(1) {
