@@ -14,6 +14,8 @@ Status key: `[ ]` todo · `[~]` in progress · `[x]` done
 A minimalist, sleek portfolio that works on phones, desktops, and resized windows.
 Its signature feature is a pixel-art **Renaissance museum** (Leonardo / Michelangelo style) that you walk through to reach each section.
 The museum is an *extra layer*: every page can also be reached through normal nav links. This keeps the site usable by recruiters, screen readers, and search engines.
+**Now:** a clean, working skeleton that's decent to hand out and easy to drop content into. The owner gathers the content separately; the look will change a lot once the museum arrives.
+**Design identity** (the test for new ideas): a retro curiosity cabinet. Vintage Japanese colors, 70s stripes, pixel-art scientific objects (the orrery, the Da Vinci clock), and a museum to walk through.
 
 ## Site map
 
@@ -31,6 +33,16 @@ The museum is an *extra layer*: every page can also be reached through normal na
 
 ---
 
+## Order of work
+
+1. **Finish the skeleton:** merge PR E, then PR F (CAD page works on phones), then the Phase 1 close.
+2. **Content-ready templates** (Phase 2): every page has its layout and clear slots, so adding content is filling in, not building.
+3. **Early launch** (5.1–5.3): put the skeleton online so it can be handed out.
+4. **Orrery lamp** (PR E2): the owner draws the art in parallel with steps 1–3; the build comes after.
+5. **Project displays** (Phase 3), then **the museum** (Phase 4), then the rest of Phase 5.
+
+**Guardrail:** no new roadmap items until step 3 is done. New ideas go into Experiments, undated.
+
 ## Phase 0: Foundation cleanup ✅
 
 Done. Organized folders, URL-safe image names, `index.html`, relative links, a valid header, `.gitignore`, and 0 W3C errors.
@@ -45,10 +57,10 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 
 *Last session: 2026-11-03*
 - **Branch:** `feat/theme-toggle` (PR E). Both tasks done: three themes (1.13) and the lantern picker (1.14). Next: the owner tries the lantern in a browser, commits, pushes, and opens the PR.
-- **Next task:** PR E2 `feat/orrery-lamp`, starting with 1.14b art direction (owner approves the concept first). Then PR F `feat/responsive-projects` (split it first).
+- **Next task:** PR F `feat/responsive-projects`: split it into small PRs first. Owner, in parallel: orrery art direction (1.14b). See *Order of work*.
 - **Owner to-dos on GitHub:** re-create the ruleset (1.0b), turn on secret scanning and push protection, set Actions to read-only, turn off the wiki, turn on "Automatically delete head branches". Delete the old backup bundle once happy.
 - **Merged so far:** #1 public-repo hygiene, #2 design tokens (PR B), #3 page skeleton (PR C), #4 layout and footer (PR C2), #5 header nav (PR D), #6 restyle (PR D2). Old remote branches deleted.
-- **Design reference:** https://dazprojects.com/collections/all. White, Inter only (400 body, 500 nav, 700 headings), black text at 81% opacity, `#dfdfdf` hairlines, no shadows. It feeds PR D2 and 3.3b.
+- **Design reference:** https://dazprojects.com/collections/all (white, hairlines, centered logo, catalog grid). We kept our own fonts (Cinzel, Instrument Sans). It feeds 3.3b.
 - **Known issue (old, not from D2):** on phones, `projects.html` is about 500px wide because the carousel doesn't shrink yet, so it scrolls sideways. PR F (1.15, 1.17) fixes it.
 - **Open ideas:** page titles still say "Personal Portfolio" (home) / placeholder names; footer links are `#` placeholders (email waits for 2.2). PR F (6 tasks) should be split before starting it.
 
@@ -90,12 +102,6 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 - [x] **1.13** Three themes (D22). **Day** (unchanged). **Lantern**, the default night (rainy Japanese street): wet-asphalt blue-black, rain-blue links, chōchin red-orange active words with a soft neon glow, an akabeni red footer. **Moss**, an opt-in calm night: sage-scale greens, Cinnamon Buff highlights, pine footer, no glow. The OS setting picks Day or Lantern via `light-dark()`; `data-theme` on `<html>` forces any of the three. `projyles.css` popup grays now use tokens.
 - [x] **1.14** Theme picker (D23): a paper lantern hanging from the header in front of the stripes. Each click loops Auto → Day → Lantern → Moss → Auto, and the lantern's light shows the theme. A name tag shows on hover or focus. `js/themcript.js` loads in `<head>` without `defer` (no flash), saves the choice in `localStorage`, and only trusts the three known names.
 
-**PR E2 · `feat/orrery-lamp`**: the theme picker becomes a pixel-art orrery (owner's pick, replaces the lantern; D23 keeps the logic). Sits in the gap between the page content and the stripes.
-- [ ] **1.14b** Art direction: concept sketch of the lamp, which body shows each theme (sun = Day, moon = night…), size (e.g. 48×48 px, shown at 2×), palette from the theme tokens. Owner approves before any sprite work.
-- [ ] **1.14c** Pixel sprites: Claude drafts a base sprite; the owner refines it in Pixelorama or Aseprite (owner-made art for the public repo). Export PNG or SVG, metadata stripped.
-- [ ] **1.14d** Build: swap the lantern `<svg>` and CSS section for the orrery in all 3 pages. Planets orbit in wrappers turned by `rotate` at different speeds; `image-rendering: pixelated`, integer scaling only, `steps()` for frame animation. On/off transition when the theme changes. `themcript.js` stays the same.
-- [ ] **1.14e** Check: reduced motion (planets stand still), keyboard and name tag, every theme, phone to desktop. Make sure it never covers page text (on phones it reaches into the column, so a page starting with a long line needs room, e.g. a float on the first heading).
-
 **PR F · `feat/responsive-projects`**: the CAD page on any screen
 - [ ] **1.15** Carousel radius and figure size scale with the screen (one JS value goes from fixed to calculated).
 - [ ] **1.15b** Hovering pauses the spin, and leaving resumes it (JS `mouseenter`/`mouseleave`).
@@ -104,9 +110,17 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 - [ ] **1.16b** Phone mini-player (D16): tapping a figure shrinks the carousel and docks it to the left, like YouTube's mini-player, while the project info slides up. On phones the carousel **keeps spinning** (desktop still stops and faces the pick). Tapping the mini carousel or Close restores it. CSS `transform: scale()` + `transition`, and JS picks the behavior with `matchMedia`. Reduced motion (1.15c) keeps it paused. *Open question: can you pick another project from the mini carousel, or only restore it?*
 - [ ] **1.17** Remove the fixed `#slideshow` height, and make the other sections wrap on small screens.
 
+**PR E2 · `feat/orrery-lamp`**: the theme picker becomes a pixel-art orrery (owner's pick, replaces the lantern; D23 keeps the logic). Sits in the gap between the page content and the stripes. **Art (1.14b, 1.14c) runs in parallel with PR F and Phase 2; the build (1.14d, 1.14e) comes after the early launch.**
+- [ ] **1.14b** Art direction: concept sketch of the lamp, which body shows each theme (sun = Day, moon = night…), size (e.g. 48×48 px, shown at 2×), palette from the theme tokens. Owner approves before any sprite work.
+- [ ] **1.14c** Pixel sprites: Claude drafts a base sprite; the owner refines it in Pixelorama or Aseprite (owner-made art for the public repo). Export PNG or SVG, metadata stripped.
+- [ ] **1.14d** Build: swap the lantern `<svg>` and CSS section for the orrery in all 3 pages. Planets orbit in wrappers turned by `rotate` at different speeds; `image-rendering: pixelated`, integer scaling only, `steps()` for frame animation. On/off transition when the theme changes. `themcript.js` stays the same.
+- [ ] **1.14e** Check: reduced motion (planets stand still), keyboard and name tag, every theme, phone to desktop. Make sure it never covers page text (on phones it reaches into the column, so a page starting with a long line needs room, e.g. a float on the first heading).
+
 **Phase close:** real-phone test over Wi-Fi (`python -m http.server 8000 --bind 0.0.0.0`), Lighthouse accessibility run.
 
-## Phase 2: Content pages
+## Phase 2: Content-ready templates
+
+Goal: each page gets its final structure with clearly marked placeholder slots (`<!-- CONTENT: … -->`), so the owner can add real content later without touching layout code. Real content comes when the owner has gathered it.
 
 - [ ] **2.1 About Me.** Bio, photo, the tools and years you've used them (joeydanna pattern).
 - [ ] **2.2 Contact & Résumé.** Info page with a résumé PDF download. Email is shown in a spam-resistant way.
@@ -114,6 +128,7 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 - [ ] **2.4 Browse Art.** Responsive CSS-grid gallery for the art journals and photography.
 - [ ] **2.5 CAD page sections.** Renders with captions plus a write-up link per project.
 - [ ] **2.6 Bold bands** (D20): full-width page sections that alternate white, sand and pine, like a woodblock print. Same pattern as the header and footer: the band is the outer element, and `.wrapper` sits inside. Build them section by section as pages get content.
+- [ ] **2.8 How to add content** (README): add a project, a photo, an art piece; image size, naming and metadata rules.
 - [ ] **2.7 Retro labels.** Small uppercase labels with wider `letter-spacing` (the daz "ALL PROJECTS" look), plus a few early-web details (visible borders, monospace captions). Pick which ones then.
 
 ## Phase 3: Project display system (pluggable)
@@ -149,7 +164,7 @@ Design doc first (art style, room ↔ section map, controls), then build in smal
 - [ ] **4.3 Movement.** A character that moves with keyboard, tap, or click, walks to a door, and enters it.
 - [ ] **4.4 Room-to-room transitions.**
 - [ ] **4.5 Grand clock.** A Da Vinci–style clock that uses `Intl.DateTimeFormat`. The city/time zone is a single setting the owner can change. Hands are rotated by CSS transforms.
-- [ ] **4.6 Day/night lighting.** The museum lighting follows the theme toggle from 1.5.
+- [ ] **4.6 Day/night lighting.** The museum lighting follows the theme picker (1.13, 1.14).
 - [ ] **4.7 Accessibility.** "Skip the museum" link, `prefers-reduced-motion`, focusable doors.
 
 ## Phase 5: Launch
