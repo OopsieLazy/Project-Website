@@ -2,8 +2,28 @@ document.addEventListener("DOMContentLoaded", () => {
     const carousel = document.getElementById("carousel-c");
     const figures = carousel.querySelectorAll("figure");
     const sidebar = document.getElementById("selected-sidebar");
+    const slideshow = document.getElementById("slideshow");
     const total = figures.length;
-    const radius = 300;
+    let radius = 300;   // recalculated by layoutCarousel() to fit the screen
+
+    // Fit the ring to the screen (task 1.15). The ring is about 2 × radius + one figure wide.
+    // A figure of width f fits on a circle of radius f / (2 · tan(180° / total));
+    // RING_GAP leaves a little space between neighbours (1.15 gives the original 300px on desktop)
+    const MAX_FIGURE = 190;
+    const RING_GAP = 1.15;
+
+    function layoutCarousel() {
+        const radiusPerFigure = RING_GAP / (2 * Math.tan(Math.PI / total));
+        const figureSize = Math.min(MAX_FIGURE, slideshow.clientWidth / (2 * radiusPerFigure + 1));
+        radius = Math.round(figureSize * radiusPerFigure);
+
+        // CSS reads --figure-size for the figure width and height (projyles.css)
+        slideshow.style.setProperty("--figure-size", `${Math.round(figureSize)}px`);
+        figures.forEach((fig, i) => {
+            const angle = (360 / total) * i;
+            fig.style.transform = `rotateY(${angle}deg) translateZ(${radius}px)`;
+        });
+    }
 
     let currentRotation = 0;
     let autoSpinSpeed = 0.1;
@@ -19,7 +39,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     figures.forEach((fig, i) => {
         const angle = (360 / total) * i;
-        fig.style.transform = `rotateY(${angle}deg) translateZ(${radius}px)`;
 
         fig.addEventListener("click", () => {
             if (selectedFigure === fig) {
@@ -68,6 +87,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     animate();
-    
+
+    // ResizeObserver runs layoutCarousel once now, then again whenever the slideshow's
+    // size changes (window resize, phone rotation), so the ring always fits
+    new ResizeObserver(layoutCarousel).observe(slideshow);
+
     document.getElementById("close-sidebar").addEventListener("click", closeSidebar); 
 });
