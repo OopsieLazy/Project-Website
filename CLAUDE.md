@@ -48,17 +48,17 @@ Each page pairs with its own stylesheet and script. The names are abbreviated:
 
 | Page | CSS | JS |
 |---|---|---|
-| `index.html` (Home) | `css/styles.css` | `js/script.js` |
-| `projects.html` (CAD Portfolio) | `css/styles.css` + `css/projyles.css` | `js/script.js` + `js/projcript.js` |
+| `index.html` (Home) | `css/styles.css` | `js/script.js` + `js/themcript.js` |
+| `projects.html` (CAD Portfolio) | `css/styles.css` + `css/projyles.css` | `js/script.js` + `js/themcript.js` + `js/projcript.js` |
 | `thelab.html` | inline `<style>` | inline |
-| `aboutme.html` | `css/styles.css` | `js/script.js` |
+| `aboutme.html` | `css/styles.css` | `js/script.js` + `js/themcript.js` |
 
-`styles.css` and `js/script.js` (header toggles, loaded with `defer`) are shared by every page except `thelab.html`.
+`styles.css`, `js/script.js` (header toggles, loaded with `defer`) and `js/themcript.js` (theme lantern, loaded **without** `defer` so the saved theme applies before the first paint) are shared by every page except `thelab.html`.
 
 - **The header and nav are copied by hand into every page**: the left link list, the center logo, and the right "The Laboratory" mega menu. There are no includes, so a nav change has to be made in each page.
 - Many nav links still point at placeholder `visithumboldt.com` URLs. Real pages will replace them.
 - HTML pages stay at the repo root. CSS goes in `css/`, JS in `js/`, and images in `assets/images/` (`placeholder.svg` is the self-made generic placeholder). Image filenames are lowercase-kebab-case with no spaces (`bridge-guitar-v8.png`). The repo is public, so only add images the owner made or that have a reuse license, and strip metadata (EXIF/GPS) from photos first. Code is MIT (`LICENSE`); `assets/` and written content are all rights reserved, except `assets/fonts/` (OFL, licenses kept beside the files).
-- **Styling uses the design tokens** at the top of `css/styles.css` (`--color-*`, `--font-*`, `--step-*` type scale, `--space-*`). Never hard-code a color, font or size that a token covers. `--color-sage` and `--color-sand` are decoration only, and `--color-highlight` (jade) is for rings, underlines and borders, not small text, because they fail text contrast. Fonts are self-hosted WOFF2 files with `@font-face` in `styles.css`. Pages reference them with relative paths such as `css/styles.css`.
+- **Styling uses the design tokens** at the top of `css/styles.css` (`--color-*`, `--font-*`, `--step-*` type scale, `--space-*`). Never hard-code a color, font or size that a token covers. Colors come in two groups: a fixed **palette** (`--color-pine`, `--color-gunjo`, `--color-chochin`…, the same in every theme) and **roles** (`--color-bg`, `--color-accent`, `--color-active`…) that switch with `light-dark(Day, Lantern)`, with a third theme, Moss, as an override block under `:root[data-theme="moss"]`. Style pages with roles; use palette colors only for things that must never change (the stripes). Check contrast in all three themes. `--color-sage` and `--color-sand` are decoration only, and `--color-highlight` is for rings, underlines and borders, not small text, because jade fails text contrast by day. Fonts are self-hosted WOFF2 files with `@font-face` in `styles.css`. Pages reference them with relative paths such as `css/styles.css`.
 - New per-page files follow the owner's blended naming: page prefix + "yles"/"cript" (`projyles.css`, `artyles.css`, `homcript.js`).
 ## projects.html carousel
 
