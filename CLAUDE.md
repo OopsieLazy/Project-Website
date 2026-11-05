@@ -30,7 +30,7 @@ A personal portfolio site written from scratch in plain HTML, CSS, and JavaScrip
     2. **Push:** `git push -u origin <branch>` (first push) or `git push`.
     3. **PR:** the PR description to paste into GitHub.
     4. **After merging:** `git switch main`, `git pull`, `git branch -d <branch>`, `git push origin --delete <branch>` (skip if GitHub already deleted it), `git fetch --prune`.
-- **Roadmap lives in `PLAN.md`.** Start each session by reading its "Where we left off" section and running `git status`. Update that section when the owner wraps up. Read it at the start of each session, work on the next unchecked task, and update its checkbox and the decision log when done.
+- **Roadmap lives in `PLAN.md`.** Start each session by reading its "Where we left off" section and running `git status`. Update that section when the owner wraps up. Session notes never get their own branch or PR: cut the next feature branch and commit the notes there as its first commit (`docs: session notes …`). Read it at the start of each session, work on the next unchecked task, and update its checkbox and the decision log when done.
 - **Design target.** Minimalist and sleek, and responsive across phone, desktop, and resized windows. References: https://ashanand.dev/, https://joeydanna.com/cad-portfolio/, and https://dazprojects.com/collections/all (key layout reference: white, Inter, hairlines, centered logo).
 
 ## Running locally

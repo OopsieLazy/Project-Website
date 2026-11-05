@@ -61,15 +61,19 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 
 ### ▶ Where we left off (update at the end of every session)
 
-*Last session: 2026-11-04*
-- **Branch:** `feat/carousel-controls` (PR F3), cut from `main` after #9; nothing built yet, only these notes.
-- **Next task:** PR F3 (1.15b, 1.15c, 1.15d): roll the die, then show the owner the two keyboard options for the figures (`tabindex="0"` on each `<figure>`, or wrapping each image in a `<button>`) before writing code. Owner, in parallel: orrery art direction (1.14b). See *Order of work*.
+*Last session: 2026-11-04 (second half)*
+- **Branch:** `feat/home-card-stack` (PR 2.0b), cut from `main` at #11. These notes are its first commit.
+- **Done this session:** PR F3 carousel controls (#10), Phase 1 close (phone test + Lighthouse, owner), task 2.0 added and **2.0a built** (#11): home hero, one featured Blueprint card (pine by day, blue at night, D25), catalog with retro tiles.
+- **Next, in this order:**
+  1. **Ideation pass (due now):** the owner asked for a brainstorm over the unfinished roadmap points within 5–8 prompts of 2026-11-04. Start the next session with it, before building.
+  2. **PR 2.0b** `feat/home-card-stack`: the 3-card stack + swap script (`js/homcript.js`). Roll the die first. The prototype is in the Experiments 🃏 entry; previews were scratch-only, so rebuild from that description.
+- **Owner to fill in:** the `<!-- CONTENT: … -->` slots in `index.html` (name line, card stats, project text). Reference photos for the cards live in the git-ignored `references/` folder.
+- **Owner habit:** end every PR with the full git command list (CLAUDE.md, Company workflow).
 - **Owner to-dos on GitHub:** re-create the ruleset (1.0b), turn on secret scanning and push protection, set Actions to read-only, turn off the wiki, turn on "Automatically delete head branches". Delete the old backup bundle once happy.
-- **Merged so far:** #1 public-repo hygiene, #2 design tokens (PR B), #3 page skeleton (PR C), #4 layout and footer (PR C2), #5 header nav (PR D), #6 restyle (PR D2), #7 themes and picker (PR E), #8 carousel fits phones (PR F1), #9 popup slide and fade (PR F2).
+- **Merged so far:** #1 public-repo hygiene, #2 design tokens (PR B), #3 page skeleton (PR C), #4 layout and footer (PR C2), #5 header nav (PR D), #6 restyle (PR D2), #7 themes and picker (PR E), #8 carousel fits phones (PR F1), #9 popup slide and fade (PR F2), #10 carousel controls (PR F3), #11 home hero (2.0a).
 - **Design reference:** https://dazprojects.com/collections/all (white, hairlines, centered logo, catalog grid). We kept our own fonts (Cinzel, Instrument Sans). It feeds 3.3b.
-- **Known issue:** projects can't be opened with the keyboard yet, and the spin has no pause button. PR F3 fixes both.
-- **Ideation due:** the owner asked (2026-11-04) for a brainstorm pass over the unfinished roadmap points within the next 5–8 prompts. Do it right after 2.0's layout is picked, before more building.
-- **Open ideas:** page titles still say "Personal Portfolio" (home) / placeholder names; footer links are `#` placeholders (email waits for 2.2).
+- **Known issues:** the carousel spin speed depends on screen refresh rate (1.15e). Card text is about 9 px on 320 px phones (the catalog repeats it).
+- **Open ideas:** other page titles are still placeholders ("About Me | Place Holder", "Projects"); footer and Résumé links are `#` (they wait for 2.2).
 
 **PR 0 · `docs/phase-1-roadmap`**
 - [x] Adopt GitHub flow (D11) and write this breakdown.
