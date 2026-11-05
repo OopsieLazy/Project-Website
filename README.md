@@ -19,12 +19,24 @@ Use a local server rather than double-clicking the file, because JS modules (Pha
 | File | Purpose |
 |---|---|
 | `css/styles.css` | Shared header, footer, design tokens and base styles |
-| `index.html` + `css/homyles.css` | Home page: hero, featured Blueprint card, project catalog |
+| `index.html` + `css/homyles.css` + `js/homcript.js` | Home page: hero, featured Blueprint card, project catalog |
+| `data/projects.json` | Every project, written once. The home catalog is built from it |
 | `projects.html` + `css/projyles.css` + `js/projcript.js` | CAD portfolio with the 3D carousel and side popup |
 | `assets/images/` | All images |
 | `thelab.html` | Laboratory experiment (notebook-on-desk design) |
 | `PLAN.md` | Roadmap, task breakdown, architecture decisions |
 | `CLAUDE.md` | Instructions for the AI assistant |
+
+## Add a project
+
+Add one object to `data/projects.json` and the home catalog builds its tile:
+
+- `id`: lowercase-kebab-case, unique (becomes the link anchor later)
+- `name`, `image` (path in `assets/images/`), `alt`, `type` (e.g. `"Part · 3D print"`), `year`
+- `featured`: `true` puts it in the home card stack
+- Optional: `tool`, `description`, `flavor`, `stats` (`iterations`, `parts`, `printHours`, `difficulty` 1–5)
+
+JSON is strict: double quotes only, a comma between items but **not after the last one**, and no comments. If the catalog goes blank, the browser console (F12) says why.
 
 ## How this project is built
 
