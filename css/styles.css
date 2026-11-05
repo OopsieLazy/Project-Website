@@ -69,6 +69,8 @@
   --color-cinnamon: #F5C07B;   /* Cinnamon Buff (Sanzo Wada's color dictionary): Moss's highlight */
   --color-washi: #F4F1E8;      /* washi paper: the unlit theme lantern */
   --color-sumi: #1F1F1F;       /* sumi ink black: the lantern's lacquer caps */
+  --color-blueprint: #1D3F7A;  /* blueprint paper: the trading cards (homyles.css) */
+  --color-blueprint-ink: #EAF2FF; /* blueprint linework and text: 9.1:1 on blueprint */
 
   /* Roles: what each color is FOR. light-dark(Day, Lantern).
      Lantern = a rainy Japanese street at night: wet-asphalt blue-black, rain-light links, red lanterns */
