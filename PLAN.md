@@ -64,10 +64,12 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 *Last session: 2026-11-05*
 - **Branch:** `feat/project-data` (PR 2.0b), cut from `main` at #11 (renamed from `feat/home-card-stack`). The 2026-11-04 notes are its first commit.
 - **Done this session:** audit (img sizes, 404 page, stale CLAUDE.md line) and the **ideation pass**. Adopted: projects as JSON (D26), stack as `setupStack()`, 1.15e folded into 3.2, CAD write-ups as anchored sections, email + Copy button, About stat column, Phase 3 trimmed (3.3, 3.4 cut), first museum room = `404.html`, launch right after the home page.
+- **Also done:** 2.0b merged (#12). **2.0c built** on `feat/home-card-stack`: back cards peek top-right, clicking one or **Next card** swaps; empty difficulty stars are now faint (they looked filled).
 - **Next, in this order:**
-  1. **PR 2.0b** `feat/project-data`: built (`data/projects.json` + catalog builder); owner reviews, commits, opens the PR.
-  2. **PR 2.0c** `feat/home-card-stack`: the 3-card stack built from `featured` projects. Roll the die first. The prototype is in the Experiments 🃏 entry.
-- **Owner to fill in:** the `<!-- CONTENT: … -->` slots in `index.html` (name line, card stats, project text). Reference photos for the cards live in the git-ignored `references/` folder.
+  1. Owner reviews 2.0c, commits, opens the PR. That finishes 2.0 Home.
+  2. **Early launch** (5.1–5.3): GitHub Pages, CSP, favicon, plain `404.html`. First, the GitHub to-dos below.
+  3. **2.2 Contact & Résumé.**
+- **Owner to fill in:** End Stop Cap and Latch Hinge have **made-up stats, flavor text and Latch Hinge's description** in `data/projects.json` (temporary, 2026-11-05). Also the `<!-- CONTENT: … -->` slots in `index.html` (name line). Reference photos live in the git-ignored `references/` folder.
 - **Owner habit:** end every PR with the full git command list (CLAUDE.md, Company workflow).
 - **Owner to-dos on GitHub (before launch, `main` is unprotected):** re-create the ruleset (1.0b), turn on secret scanning and push protection, set Actions to read-only, turn off the wiki, turn on "Automatically delete head branches". Delete the old backup bundle once happy.
 - **Merged so far:** #1 public-repo hygiene, #2 design tokens (PR B), #3 page skeleton (PR C), #4 layout and footer (PR C2), #5 header nav (PR D), #6 restyle (PR D2), #7 themes and picker (PR E), #8 carousel fits phones (PR F1), #9 popup slide and fade (PR F2), #10 carousel controls (PR F3), #11 home hero (2.0a).
@@ -143,7 +145,7 @@ Goal: each page gets its final structure with clearly marked placeholder slots (
 - [ ] **2.0 Home.** A first screen that answers "who, what, how to reach" in 5 seconds: name, role, one line, and **View projects** / **Résumé** buttons, plus a strip of selected work linking to `projects.html`. Real page title and meta description. Comes first because an empty home page is the biggest recruiter blocker. **Picked (owner, from previews):** B split hero + C's catalog below, **Blueprint** trading cards, clean page with two retro touches (monospace "Featured:" caption, hard-bordered catalog tiles). Split into two PRs:
   - [x] **2.0a** `feat/home-hero`: hero (label, name, one line, **View projects** / **Résumé** buttons), ONE static Blueprint card in the featured slot, the catalog grid (tiles are links), real `<title>` and meta description. New `css/homyles.css`. All text is `<!-- CONTENT: … -->` slots.
   - [x] **2.0b** `feat/project-data` (D26): every project written once in `data/projects.json`; `js/homcript.js` fetches it and builds the catalog tiles with `createElement` + `textContent`. A `<noscript>` link to `projects.html` for visitors without JS, and a clear console error if the JSON has a typo.
-  - [ ] **2.0c** `feat/home-card-stack`: the 3-card stack from projects with `"featured": true`, written as `setupStack(container)` so Phase 3 can register it as a display. Card number, `v` badge and stars are derived from the data. `aria-live` caption, reduced motion.
+  - [x] **2.0c** `feat/home-card-stack`: the 3-card stack from projects with `"featured": true`, written as `setupStack(container)` so Phase 3 can register it as a display. Card number, `v` badge and stars are derived from the data. `aria-live` caption, reduced motion.
 - [ ] **2.1 About Me.** Bio, photo, the tools and years you've used them (joeydanna pattern), drawn as a trading-card stat column that reuses the card CSS.
 - [ ] **2.2 Contact & Résumé.** Info page with a résumé PDF download. Email as plain text with a **Copy** button (Clipboard API).
 - [ ] **2.3 Code Portfolio.** Project cards with a status badge and tech chips (ashanand pattern).
@@ -207,7 +209,7 @@ Design doc first (art style, room ↔ section map, controls), then build in smal
 
 ## Experiments
 
-**🃏 Card stack** (owner, 2026-11-04): the home page's featured project as a stack of cards, with the other projects fanned out behind it and peeking at the top-right corner. Clicking a corner brings that card to the front; clicking the front card opens the project. Prototyped in a scratch preview during 2.0.
+**🃏 Card stack** (owner, 2026-11-04; **built in 2.0c**, left here as the design note): the home page's featured project as a stack of cards, with the other projects fanned out behind it and peeking at the top-right corner. Clicking a corner brings that card to the front; clicking the front card opens the project. Prototyped in a scratch preview during 2.0.
 - **How.** Each card is a `<button>` with `data-pos` (0 = front); CSS places each position with `translate` + `rotate` and `z-index`, so JS only renumbers positions. Reduced motion: no transition. The caption is `aria-live` so screen readers hear the new title.
 - **When.** Built in 2.0c as `setupStack(container)`; Phase 3 registers it as a display (`data-display="stack"`).
 - **Look.** Trading-card style (owner's references kept in the git-ignored `references/` folder; copyrighted, never committed): name banner, art window, CAD stat column (iterations, parts, print hours, difficulty), type line, text box, version badge, year. Our own frame design, no copied symbols or art.

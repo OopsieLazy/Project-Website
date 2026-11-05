@@ -73,7 +73,7 @@
 }
 
 /* =========================================================
-   FEATURED SLOT: holds the card (2.0b: a stack of cards)
+   FEATURED SLOT: holds the card stack and its caption
    ========================================================= */
 .featured-slot {
   /* An element can't query its OWN size: cqi used on .bp-card (its frame and grid)
@@ -83,9 +83,69 @@
   justify-self: center;
 }
 
+/* =========================================================
+   CARD STACK (2.0c): every card sits in the SAME grid cell (grid-area 1 / 1),
+   so they pile up without position: absolute and the stack keeps its height.
+   data-pos (0 = front) picks each card's place; JS only renumbers it.
+   translate and rotate are separate properties from transform, so the
+   hover lift (transform) and the stack place never overwrite each other
+   ========================================================= */
+.featured-slot {
+  --stack-width: 80%;                  /* the front card's width; the rest is room for the back cards to peek */
+}
+
+.card-stack {
+  container-type: inline-size;         /* the cards' cqi now measure the card, not the whole slot */
+  display: grid;
+  width: var(--stack-width);
+  margin-top: 12%;                     /* room above for the peeking corners */
+}
+
+.card-stack > .bp-card {
+  grid-area: 1 / 1;
+  transition: transform 300ms ease, translate 450ms ease, rotate 450ms ease, filter 450ms ease;
+}
+
+/* % in translate = % of the card's own size. 80% + 14% of 80% + the tilt stays inside the slot */
+.card-stack > [data-pos="0"] { z-index: 3; }
+.card-stack > [data-pos="1"] { z-index: 2; translate: 7% -6%; rotate: 4deg; filter: brightness(0.85); }
+.card-stack > [data-pos="2"] { z-index: 1; translate: 14% -12%; rotate: 8deg; filter: brightness(0.7); }
+
+/* Reduced motion: cards jump to their new places with no slide */
+@media (prefers-reduced-motion: reduce) {
+  .card-stack > .bp-card {
+    transition: none;
+  }
+}
+
+.stack-controls {
+  width: var(--stack-width);           /* same width as the front card, so the caption centres under it */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+}
+
+/* Same outline-pill look as the secondary hero button, smaller and in monospace */
+.stack-next {
+  padding: var(--space-1) var(--space-4);
+  border: 1px solid var(--color-accent);
+  border-radius: 999px;
+  background: none;
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  cursor: pointer;
+}
+
+.stack-next:hover {
+  border-color: var(--color-highlight);
+}
+
 /* Retro touch (owner's pick): the caption in monospace */
 .featured-caption {
-  margin: var(--space-5) 0 0;
+  margin: 0;
   font-family: var(--font-mono);
   font-size: var(--step--1);
   color: var(--color-muted);
@@ -304,7 +364,10 @@
 .card-rev::before { content: "REV"; }
 .card-difficulty::before { content: "DIFFICULTY"; }
 .card-date::before { content: "DATE"; }
-.card-difficulty { font-size: 3.6cqi; letter-spacing: 0.1em; }
+/* The foot cells are grids, so the filled stars and the .star-empty span are two grid items:
+   grid-auto-flow: column keeps them on one line, justify-content centres the pair */
+.card-difficulty { grid-auto-flow: column; justify-content: center; font-size: 3.6cqi; letter-spacing: 0.1em; }
+.star-empty { opacity: 0.35; }         /* faint, so 3 stars out of 5 reads as 3, not 5 */
 
 /* =========================================================
    CATALOG: every project as a tile. auto-fill + minmax makes as many

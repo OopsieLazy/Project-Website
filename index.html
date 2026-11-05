@@ -119,42 +119,18 @@
                         </div>
                     </div>
 
-                    <!-- FEATURED: one Blueprint trading card. It's a link because it GOES somewhere
-                         (a <button> is for things that DO something on the page).
-                         aria-label gives it a short name; otherwise a screen reader would read every stat.
-                         Task 2.0b turns this slot into a stack of 3 cards -->
-                    <div class="featured-slot">
-                        <a class="bp-card" href="projects.html" aria-label="Bridge Guitar, featured project">
-                            <!-- CONTENT: tool, project name, card number -->
-                            <span class="card-top">
-                                <span class="card-tool">F360</span>
-                                <span class="card-name">Bridge Guitar</span>
-                                <span class="card-number">01/03</span>
-                            </span>
-                            <span class="card-art">
-                                <img src="assets/images/bridge-guitar-v8.png" alt="">
-                                <!-- CONTENT: iterations, parts, print hours, difficulty (1–5) -->
-                                <span class="card-stats">
-                                    <span class="card-stat"><span class="card-icon">↻</span><b>8</b><small>Iter</small></span>
-                                    <span class="card-stat"><span class="card-icon">⚙</span><b>5</b><small>Parts</small></span>
-                                    <span class="card-stat"><span class="card-icon">⏱</span><b>6h</b><small>Print</small></span>
-                                    <span class="card-stat"><span class="card-icon">◆</span><b>4</b><small>Diff</small></span>
-                                </span>
-                            </span>
-                            <!-- CONTENT: type line, description, and a short italic "flavor" line -->
-                            <span class="card-type">Instrument · Hardware</span>
-                            <span class="card-text">
-                                <span class="card-desc">Bridge for an electric guitar, refit until the string spacing was right.</span>
-                                <span class="card-flavor">Eight versions until the strings sat true.</span>
-                            </span>
-                            <!-- CONTENT: version, difficulty stars (filled ★ + empty ☆ = 5), year -->
-                            <span class="card-foot">
-                                <span class="card-rev">v8</span>
-                                <span class="card-difficulty">★★★★☆</span>
-                                <span class="card-date">2025</span>
-                            </span>
-                        </a>
-                        <p class="featured-caption">Featured: <b>Bridge Guitar</b></p>
+                    <!-- FEATURED: the card stack (task 2.0c). js/homcript.js builds one Blueprint card for
+                         each project with "featured": true in data/projects.json (D26), up to 3.
+                         `hidden` until the script fills it: without JS the hero is just the text column -->
+                    <div class="featured-slot" hidden>
+                        <div class="card-stack"></div>
+                        <div class="stack-controls">
+                            <!-- aria-atomic: when the name changes, screen readers read the whole line.
+                                 aria-live is added by the script AFTER the first fill, so page load stays quiet -->
+                            <p class="featured-caption" aria-atomic="true">Featured: <b class="featured-name"></b></p>
+                            <!-- Keyboard and screen-reader way to swap cards (back cards are mouse-only shortcuts) -->
+                            <button class="stack-next" type="button" hidden>Next card</button>
+                        </div>
                     </div>
                 </section>
 
