@@ -14,3 +14,6 @@ desktop.ini
 # Logs and dependencies (if a tool ever creates them)
 *.log
 node_modules/
+
+# Private design references (other people's copyrighted images): kept on this computer only, never pushed
+references/
