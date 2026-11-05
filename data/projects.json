@@ -19,8 +19,11 @@
     "alt": "End stop cap for a Geetech 3D printer, CAD render",
     "type": "Part · 3D print",
     "year": 2024,
-    "featured": false,
-    "description": "Geetech end stop cap for 3D printer."
+    "tool": "F360",
+    "featured": true,
+    "description": "Geetech end stop cap for 3D printer.",
+    "flavor": "Four tries until it clicked on without a screw.",
+    "stats": { "iterations": 4, "parts": 1, "printHours": 1, "difficulty": 2 }
   },
   {
     "id": "latch-hinge",
@@ -29,6 +32,10 @@
     "alt": "Latch hinge, CAD render",
     "type": "Mechanism · Print-in-place",
     "year": 2024,
-    "featured": false
+    "tool": "F360",
+    "featured": true,
+    "description": "A hinge with a latch that prints as one piece, already assembled.",
+    "flavor": "Printed shut, opened working.",
+    "stats": { "iterations": 1, "parts": 2, "printHours": 3, "difficulty": 3 }
   }
 ]
