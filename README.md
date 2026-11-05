@@ -18,7 +18,8 @@ Use a local server rather than double-clicking the file, because JS modules (Pha
 
 | File | Purpose |
 |---|---|
-| `index.html` + `css/styles.css` | Home page and shared header styles |
+| `css/styles.css` | Shared header, footer, design tokens and base styles |
+| `index.html` + `css/homyles.css` | Home page: hero, featured Blueprint card, project catalog |
 | `projects.html` + `css/projyles.css` + `js/projcript.js` | CAD portfolio with the 3D carousel and side popup |
 | `assets/images/` | All images |
 | `thelab.html` | Laboratory experiment (notebook-on-desk design) |

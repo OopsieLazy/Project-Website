@@ -68,6 +68,7 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 - **Merged so far:** #1 public-repo hygiene, #2 design tokens (PR B), #3 page skeleton (PR C), #4 layout and footer (PR C2), #5 header nav (PR D), #6 restyle (PR D2), #7 themes and picker (PR E), #8 carousel fits phones (PR F1), #9 popup slide and fade (PR F2).
 - **Design reference:** https://dazprojects.com/collections/all (white, hairlines, centered logo, catalog grid). We kept our own fonts (Cinzel, Instrument Sans). It feeds 3.3b.
 - **Known issue:** projects can't be opened with the keyboard yet, and the spin has no pause button. PR F3 fixes both.
+- **Ideation due:** the owner asked (2026-11-04) for a brainstorm pass over the unfinished roadmap points within the next 5–8 prompts. Do it right after 2.0's layout is picked, before more building.
 - **Open ideas:** page titles still say "Personal Portfolio" (home) / placeholder names; footer links are `#` placeholders (email waits for 2.2).
 
 **PR 0 · `docs/phase-1-roadmap`**
@@ -129,12 +130,15 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 
 **Polish** (done at the phase close): *(add refinements to finished features here)*
 
-**Phase close:** real-phone test over Wi-Fi (`python -m http.server 8000 --bind 0.0.0.0`), Lighthouse accessibility run.
+**Phase close:** ✅ 2026-11-04. Real-phone test over Wi-Fi (`python -m http.server 8000 --bind 0.0.0.0`) and a Lighthouse accessibility run, both clear (owner).
 
 ## Phase 2: Content-ready templates
 
 Goal: each page gets its final structure with clearly marked placeholder slots (`<!-- CONTENT: … -->`), so the owner can add real content later without touching layout code. Real content comes when the owner has gathered it.
 
+- [ ] **2.0 Home.** A first screen that answers "who, what, how to reach" in 5 seconds: name, role, one line, and **View projects** / **Résumé** buttons, plus a strip of selected work linking to `projects.html`. Real page title and meta description. Comes first because an empty home page is the biggest recruiter blocker. **Picked (owner, from previews):** B split hero + C's catalog below, **Blueprint** trading cards, clean page with two retro touches (monospace "Featured:" caption, hard-bordered catalog tiles). Split into two PRs:
+  - [x] **2.0a** `feat/home-hero`: hero (label, name, one line, **View projects** / **Résumé** buttons), ONE static Blueprint card in the featured slot, the catalog grid (tiles are links), real `<title>` and meta description. New `css/homyles.css`. All text is `<!-- CONTENT: … -->` slots.
+  - [ ] **2.0b** `feat/home-card-stack`: the 3-card stack and swap script (`js/homcript.js`), the `aria-live` caption, reduced motion. Hardcoded featured cards (the `data-featured` flag waits for Phase 3).
 - [ ] **2.1 About Me.** Bio, photo, the tools and years you've used them (joeydanna pattern).
 - [ ] **2.2 Contact & Résumé.** Info page with a résumé PDF download. Email is shown in a spam-resistant way.
 - [ ] **2.3 Code Portfolio.** Project cards with a status badge and tech chips (ashanand pattern).
@@ -199,6 +203,12 @@ Design doc first (art style, room ↔ section map, controls), then build in smal
 
 ## Experiments
 
+**🃏 Card stack** (owner, 2026-11-04): the home page's featured project as a stack of cards, with the other projects fanned out behind it and peeking at the top-right corner. Clicking a corner brings that card to the front; clicking the front card opens the project. Prototyped in a scratch preview during 2.0.
+- **How.** Each card is a `<button>` with `data-pos` (0 = front); CSS places each position with `translate` + `rotate` and `z-index`, so JS only renumbers positions. Reduced motion: no transition. The caption is `aria-live` so screen readers hear the new title.
+- **When.** After the early launch, as a Phase 3 display (`data-display="stack"`), so it can be reused beyond the home page. Its first use is 2.0's featured slot.
+- **Look.** Trading-card style (owner's references kept in the git-ignored `references/` folder; copyrighted, never committed): name banner, art window, CAD stat column (iterations, parts, print hours, difficulty), type line, text box, version badge, year. Our own frame design, no copied symbols or art.
+- **Featured: hardcoded first, then a flag.** 2.0 writes the featured cards into `index.html` by hand. Later (Phase 3, with 3.1's loader), a catalog item marked `data-featured` gets its card built by JS, so each project is written once. Only featured projects become cards; the rest stay in the catalog, so the stack never overflows.
+
 **🔍 Code Lens**: a magnifying-glass toggle. A circular lens follows the cursor (or a finger on touch screens) and shows the page's *own source code* "underneath" the rendered page, as if seeing through it.
 - **Live, not screenshots.** The page fetches its own source (`fetch(location.href)`, plus its CSS/JS files), so the lens is always up to date. Screenshots would go stale after every change.
 - **How it's drawn.** A full-page `<pre>` code layer sits on top, and a CSS `clip-path: circle()` that follows the pointer shows only the lens area. Translucency comes from `opacity` / `backdrop-filter`.
@@ -243,6 +253,7 @@ Design doc first (art style, room ↔ section map, controls), then build in smal
 | D22 | Three themes. `color-scheme: light dark` plus `light-dark(Day, Lantern)` on each role token; `:root[data-theme]` forces `color-scheme`, and Moss is one override block. Tokens split into a fixed **palette** (named colors, same in every theme) and **roles** (bg, accent, active…). Night palettes come from a rainy Japanese city at night and Sanzo Wada's *A Dictionary of Color Combinations* (owner's picks after comparing previews) | Each Day/Lantern color is written once, next to its twin, and only Moss repeats values. Role names stay true in every theme (a token called "gunjo" holding orange would mislead). Stripes use palette colors, so they never change. The neon glow is a night-only third shadow in `--faux-bold`. Very old browsers (pre-2024) ignore `light-dark()` and fall back to browser defaults |
 | D23 | Theme picker = one `<button>` that cycles 4 states (Auto, Day, Lantern, Moss). Auto removes `data-theme` and the saved value. `js/themcript.js` is external and blocking in `<head>`. The lantern art is only the `<svg>` plus one CSS section | A cycling control is one honest button, so keyboard and screen readers work for free. "Auto" as the absence of a choice lets the OS take over live. External, not inline, so a strict CSP needs no hash. The art is swappable, so the orrery lamp can replace it without touching the logic |
 | D24 | Carousel keyboard access: a `<button>` inside each `<figure>` (owner's pick over `tabindex` + `role`). The spin has three separate stop flags (picked figure, Pause button, hover) that `animate()` checks together. The pause button's label changes ("Pause spin" / "Play spin") with no `aria-pressed` | A native button gives Tab, Enter, Space and the "button" role for free (first rule of ARIA). Separate flags stop one reason from cancelling another (leaving with the mouse can't undo the Pause button). A label plus `aria-pressed` would read "Play spin, pressed", which contradicts itself |
+| D25 | Home: B split hero + catalog, Blueprint trading cards. The card's paper is a local `--card-paper: light-dark(pine, blueprint blue)`, so it matches the footer by day and is blue in both night themes. Catalog tiles get a retro hard border | Owner's picks after comparing previews. Pine by day ties the card to the footer and the primary button; blue reads as a real blueprint at night. One local variable keeps the choice in one place. Linework passes on both (6.9 / 9.1) |
 | D17 | Skeleton and layout are separate PRs; keep the `#page` wrapper; the width cap is a reusable `.wrapper` class; two `rem` breakpoints | Smaller reviews; respects the owner's structure; a class can be reused, and the carousel can skip it when it needs more width; breakpoints give more control than fluid sizing alone |
 
 ## Open questions

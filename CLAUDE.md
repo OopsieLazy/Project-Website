@@ -25,6 +25,11 @@ A personal portfolio site written from scratch in plain HTML, CSS, and JavaScrip
   - **Commits:** use Conventional Commits, e.g. `feat: add footer`, `fix: skip link target`, `docs: update plan`.
   - **Pull requests:** when the feature is done, the owner pushes the branch and opens a PR into `main`. Its description covers what changed, why, and how it was tested (phone, desktop, resized window). The owner reviews and merges on GitHub, deletes the branch, then runs `git switch main && git pull`.
   - Keep PRs small: if one grows past what can be reviewed in one sitting, split it.
+  - **Always end a finished PR with the full command list**, ready to copy, in order. Don't hand over just a commit message:
+    1. **Commit:** `git add <files>` and `git commit -m "…"` for each commit (docs separate from features).
+    2. **Push:** `git push -u origin <branch>` (first push) or `git push`.
+    3. **PR:** the PR description to paste into GitHub.
+    4. **After merging:** `git switch main`, `git pull`, `git branch -d <branch>`, `git push origin --delete <branch>` (skip if GitHub already deleted it), `git fetch --prune`.
 - **Roadmap lives in `PLAN.md`.** Start each session by reading its "Where we left off" section and running `git status`. Update that section when the owner wraps up. Read it at the start of each session, work on the next unchecked task, and update its checkbox and the decision log when done.
 - **Design target.** Minimalist and sleek, and responsive across phone, desktop, and resized windows. References: https://ashanand.dev/, https://joeydanna.com/cad-portfolio/, and https://dazprojects.com/collections/all (key layout reference: white, Inter, hairlines, centered logo).
 
@@ -48,7 +53,7 @@ Each page pairs with its own stylesheet and script. The names are abbreviated:
 
 | Page | CSS | JS |
 |---|---|---|
-| `index.html` (Home) | `css/styles.css` | `js/script.js` + `js/themcript.js` |
+| `index.html` (Home) | `css/styles.css` + `css/homyles.css` | `js/script.js` + `js/themcript.js` |
 | `projects.html` (CAD Portfolio) | `css/styles.css` + `css/projyles.css` | `js/script.js` + `js/themcript.js` + `js/projcript.js` |
 | `thelab.html` | inline `<style>` | inline |
 | `aboutme.html` | `css/styles.css` | `js/script.js` + `js/themcript.js` |

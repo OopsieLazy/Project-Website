@@ -4,8 +4,11 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Personal Portfolio</title>
+        <!-- CONTENT: the tab title and the text search engines and link previews show -->
+        <title>Zach Nott · Mechanical Design &amp; CAD</title>
+        <meta name="description" content="Portfolio of Zach Nott: CAD models, 3D-printed parts and mechanisms, from first sketch to printed part.">
         <link rel="stylesheet" href="css/styles.css">
+        <link rel="stylesheet" href="css/homyles.css">
         <script src="js/script.js" defer></script>
         <!-- No defer on purpose: it sets the saved theme before the page is drawn (no white flash) -->
         <script src="js/themcript.js"></script>
@@ -99,6 +102,94 @@
 
             <!-- Landmarks: screen readers can jump straight to main or footer. The skip link targets #content -->
             <main id="content" class="site-main wrapper">
+
+                <!-- HERO (task 2.0a): who, what, and where to go next, in the first screen.
+                     Two columns on wide screens (text | featured card), one column on phones -->
+                <section class="home-hero">
+                    <div class="hero-text">
+                        <!-- CONTENT: your field, your name, and one line about what you make -->
+                        <p class="hero-label">Mechanical design &amp; CAD</p>
+                        <h1 class="hero-name">Zach Nott</h1>
+                        <p class="hero-line">I design parts you can hold: printer fixes, guitar hardware and mechanisms, modelled from scratch and printed to test.</p>
+                        <div class="hero-buttons">
+                            <a class="hero-button is-primary" href="projects.html">View projects</a>
+                            <!-- Résumé stays "#" until task 2.2 adds the PDF -->
+                            <a class="hero-button" href="#">Résumé (PDF)</a>
+                        </div>
+                    </div>
+
+                    <!-- FEATURED: one Blueprint trading card. It's a link because it GOES somewhere
+                         (a <button> is for things that DO something on the page).
+                         aria-label gives it a short name; otherwise a screen reader would read every stat.
+                         Task 2.0b turns this slot into a stack of 3 cards -->
+                    <div class="featured-slot">
+                        <a class="bp-card" href="projects.html" aria-label="Bridge Guitar, featured project">
+                            <!-- CONTENT: tool, project name, card number -->
+                            <span class="card-top">
+                                <span class="card-tool">F360</span>
+                                <span class="card-name">Bridge Guitar</span>
+                                <span class="card-number">01/03</span>
+                            </span>
+                            <span class="card-art">
+                                <img src="assets/images/bridge-guitar-v8.png" alt="">
+                                <!-- CONTENT: iterations, parts, print hours, difficulty (1–5) -->
+                                <span class="card-stats">
+                                    <span class="card-stat"><span class="card-icon">↻</span><b>8</b><small>Iter</small></span>
+                                    <span class="card-stat"><span class="card-icon">⚙</span><b>5</b><small>Parts</small></span>
+                                    <span class="card-stat"><span class="card-icon">⏱</span><b>6h</b><small>Print</small></span>
+                                    <span class="card-stat"><span class="card-icon">◆</span><b>4</b><small>Diff</small></span>
+                                </span>
+                            </span>
+                            <!-- CONTENT: type line, description, and a short italic "flavor" line -->
+                            <span class="card-type">Instrument · Hardware</span>
+                            <span class="card-text">
+                                <span class="card-desc">Bridge for an electric guitar, refit until the string spacing was right.</span>
+                                <span class="card-flavor">Eight versions until the strings sat true.</span>
+                            </span>
+                            <!-- CONTENT: version, difficulty stars (filled ★ + empty ☆ = 5), year -->
+                            <span class="card-foot">
+                                <span class="card-rev">v8</span>
+                                <span class="card-difficulty">★★★★☆</span>
+                                <span class="card-date">2025</span>
+                            </span>
+                        </a>
+                        <p class="featured-caption">Featured: <b>Bridge Guitar</b></p>
+                    </div>
+                </section>
+
+                <!-- CATALOG: every project, as a plain list of links. A <ul> lets screen readers
+                     announce "list, 3 items". The images have alt="" because each link already
+                     contains the project's name; alt text would make it read twice -->
+                <section class="home-catalog" aria-labelledby="catalog-heading">
+                    <div class="catalog-head">
+                        <h2 id="catalog-heading" class="catalog-heading">All projects</h2>
+                        <a href="projects.html">Open the carousel →</a>
+                    </div>
+                    <!-- CONTENT: one <li> per project: image, name, and type · year -->
+                    <ul class="catalog-grid" role="list">
+                        <li>
+                            <a class="catalog-tile" href="projects.html">
+                                <img src="assets/images/bridge-guitar-v8.png" alt="">
+                                <span class="tile-name">Bridge Guitar</span>
+                                <span class="tile-meta">Instrument · Hardware · 2025</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="catalog-tile" href="projects.html">
+                                <img src="assets/images/geetech-end-stop-cap-v4.png" alt="">
+                                <span class="tile-name">End Stop Cap</span>
+                                <span class="tile-meta">Part · 3D print · 2024</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="catalog-tile" href="projects.html">
+                                <img src="assets/images/latch-hinge-v1.png" alt="">
+                                <span class="tile-name">Latch Hinge</span>
+                                <span class="tile-meta">Mechanism · Print-in-place · 2024</span>
+                            </a>
+                        </li>
+                    </ul>
+                </section>
             </main>
 
             <!-- The footer is the full-width pine band; .footer-inner keeps the content lined up with the page -->
