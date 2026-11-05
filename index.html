@@ -10,10 +10,11 @@
         <link rel="stylesheet" href="css/styles.css">
         <link rel="stylesheet" href="css/homyles.css">
         <script src="js/script.js" defer></script>
+        <script src="js/homcript.js" defer></script>
         <!-- No defer on purpose: it sets the saved theme before the page is drawn (no white flash) -->
         <script src="js/themcript.js"></script>
     </head>
-    
+
     <body class="thehomepage">
 
         <div id="page" class="site">
@@ -165,30 +166,12 @@
                         <h2 id="catalog-heading" class="catalog-heading">All projects</h2>
                         <a href="projects.html">Open the carousel →</a>
                     </div>
-                    <!-- CONTENT: one <li> per project: image, name, and type · year -->
-                    <ul class="catalog-grid" role="list">
-                        <li>
-                            <a class="catalog-tile" href="projects.html">
-                                <img src="assets/images/bridge-guitar-v8.png" alt="">
-                                <span class="tile-name">Bridge Guitar</span>
-                                <span class="tile-meta">Instrument · Hardware · 2025</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="catalog-tile" href="projects.html">
-                                <img src="assets/images/geetech-end-stop-cap-v4.png" alt="">
-                                <span class="tile-name">End Stop Cap</span>
-                                <span class="tile-meta">Part · 3D print · 2024</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="catalog-tile" href="projects.html">
-                                <img src="assets/images/latch-hinge-v1.png" alt="">
-                                <span class="tile-name">Latch Hinge</span>
-                                <span class="tile-meta">Mechanism · Print-in-place · 2024</span>
-                            </a>
-                        </li>
-                    </ul>
+                    <!-- CONTENT: projects live in data/projects.json (D26). js/homcript.js fills this list,
+                         one <li> per project, so there is nothing to type here -->
+                    <ul id="catalog-grid" class="catalog-grid" role="list"></ul>
+                    <noscript>
+                        <p class="catalog-note">The catalog needs JavaScript. <a href="projects.html">Open the CAD portfolio</a>.</p>
+                    </noscript>
                 </section>
             </main>
 

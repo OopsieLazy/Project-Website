@@ -391,3 +391,9 @@
   color: var(--color-muted);
   font-size: var(--step--1);
 }
+
+/* Shown instead of the tiles when there's no JS (<noscript>) or the JSON fails to load */
+.catalog-note {
+  margin-top: var(--space-4);
+  color: var(--color-muted);
+}

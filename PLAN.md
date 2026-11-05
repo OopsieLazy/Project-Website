@@ -35,9 +35,9 @@ The museum is an *extra layer*: every page can also be reached through normal na
 
 ## Order of work
 
-1. **Finish the skeleton:** PR F1, F2, F3 (CAD page works on phones, popup, motion and keyboard), then the Phase 1 close.
-2. **Content-ready templates** (Phase 2): every page has its layout and clear slots, so adding content is filling in, not building.
-3. **Early launch** (5.1–5.3): put the skeleton online so it can be handed out.
+1. **Finish the skeleton:** PR F1, F2, F3 (CAD page works on phones, popup, motion and keyboard), then the Phase 1 close. ✅
+2. **Home** (2.0b project data, 2.0c card stack), then **early launch** (5.1–5.3) so it can be handed out, then **2.2 Contact** (the last recruiter blocker).
+3. **The other content-ready templates** (rest of Phase 2): every page has its layout and clear slots, so adding content is filling in, not building.
 4. **Orrery lamp** (PR E2): the owner draws the art in parallel with steps 1–3; the build comes after.
 5. **Project displays** (Phase 3), then **the museum** (Phase 4), then the rest of Phase 5.
 
@@ -61,15 +61,19 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 
 ### ▶ Where we left off (update at the end of every session)
 
-*Last session: 2026-11-04*
-- **Branch:** `feat/carousel-controls` (PR F3), cut from `main` after #9; nothing built yet, only these notes.
-- **Next task:** PR F3 (1.15b, 1.15c, 1.15d): roll the die, then show the owner the two keyboard options for the figures (`tabindex="0"` on each `<figure>`, or wrapping each image in a `<button>`) before writing code. Owner, in parallel: orrery art direction (1.14b). See *Order of work*.
-- **Owner to-dos on GitHub:** re-create the ruleset (1.0b), turn on secret scanning and push protection, set Actions to read-only, turn off the wiki, turn on "Automatically delete head branches". Delete the old backup bundle once happy.
-- **Merged so far:** #1 public-repo hygiene, #2 design tokens (PR B), #3 page skeleton (PR C), #4 layout and footer (PR C2), #5 header nav (PR D), #6 restyle (PR D2), #7 themes and picker (PR E), #8 carousel fits phones (PR F1), #9 popup slide and fade (PR F2).
+*Last session: 2026-11-05*
+- **Branch:** `feat/project-data` (PR 2.0b), cut from `main` at #11 (renamed from `feat/home-card-stack`). The 2026-11-04 notes are its first commit.
+- **Done this session:** audit (img sizes, 404 page, stale CLAUDE.md line) and the **ideation pass**. Adopted: projects as JSON (D26), stack as `setupStack()`, 1.15e folded into 3.2, CAD write-ups as anchored sections, email + Copy button, About stat column, Phase 3 trimmed (3.3, 3.4 cut), first museum room = `404.html`, launch right after the home page.
+- **Next, in this order:**
+  1. **PR 2.0b** `feat/project-data`: built (`data/projects.json` + catalog builder); owner reviews, commits, opens the PR.
+  2. **PR 2.0c** `feat/home-card-stack`: the 3-card stack built from `featured` projects. Roll the die first. The prototype is in the Experiments 🃏 entry.
+- **Owner to fill in:** the `<!-- CONTENT: … -->` slots in `index.html` (name line, card stats, project text). Reference photos for the cards live in the git-ignored `references/` folder.
+- **Owner habit:** end every PR with the full git command list (CLAUDE.md, Company workflow).
+- **Owner to-dos on GitHub (before launch, `main` is unprotected):** re-create the ruleset (1.0b), turn on secret scanning and push protection, set Actions to read-only, turn off the wiki, turn on "Automatically delete head branches". Delete the old backup bundle once happy.
+- **Merged so far:** #1 public-repo hygiene, #2 design tokens (PR B), #3 page skeleton (PR C), #4 layout and footer (PR C2), #5 header nav (PR D), #6 restyle (PR D2), #7 themes and picker (PR E), #8 carousel fits phones (PR F1), #9 popup slide and fade (PR F2), #10 carousel controls (PR F3), #11 home hero (2.0a).
 - **Design reference:** https://dazprojects.com/collections/all (white, hairlines, centered logo, catalog grid). We kept our own fonts (Cinzel, Instrument Sans). It feeds 3.3b.
-- **Known issue:** projects can't be opened with the keyboard yet, and the spin has no pause button. PR F3 fixes both.
-- **Ideation due:** the owner asked (2026-11-04) for a brainstorm pass over the unfinished roadmap points within the next 5–8 prompts. Do it right after 2.0's layout is picked, before more building.
-- **Open ideas:** page titles still say "Personal Portfolio" (home) / placeholder names; footer links are `#` placeholders (email waits for 2.2).
+- **Known issues:** the carousel spin speed depends on screen refresh rate (1.15e). Card text is about 9 px on 320 px phones (the catalog repeats it).
+- **Open ideas:** other page titles are still placeholders ("About Me | Place Holder", "Projects"); footer and Résumé links are `#` (they wait for 2.2).
 
 **PR 0 · `docs/phase-1-roadmap`**
 - [x] Adopt GitHub flow (D11) and write this breakdown.
@@ -120,7 +124,7 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 - [x] **1.15b** Hovering pauses the spin, and leaving resumes it (`pointerenter`/`pointerleave`, so a phone tap doesn't leave it stuck).
 - [x] **1.15c** A "Pause spin / Play spin" button above the ring, centered and first in Tab order. `prefers-reduced-motion` starts it paused and skips the 1s turn.
 - [x] **1.15d** Each figure holds a `<button>` (D24): Tab reaches it, Enter or Space opens it. Escape or Close closes the popup and puts focus back on the figure.
-- [ ] **1.15e** *(later, own small PR)* Make the spin speed frame-rate independent (degrees per second × time since the last frame), and stop requesting frames while paused. Right now a 120 Hz screen spins twice as fast.
+- [ ] **1.15e** *(moved into 3.2: same file, one review)* Make the spin speed frame-rate independent (degrees per second × time since the last frame), and stop requesting frames while paused. Right now a 120 Hz screen spins twice as fast.
 
 **PR E2 · `feat/orrery-lamp`**: the theme picker becomes a pixel-art orrery (owner's pick, replaces the lantern; D23 keeps the logic). Sits in the gap between the page content and the stripes. **Art (1.14b, 1.14c) runs in parallel with PR F and Phase 2; the build (1.14d, 1.14e) comes after the early launch.**
 - [ ] **1.14b** Art direction: concept sketch of the lamp, which body shows each theme (sun = Day, moon = night…), size (e.g. 48×48 px, shown at 2×), palette from the theme tokens. Owner approves before any sprite work.
@@ -138,12 +142,13 @@ Goal: each page gets its final structure with clearly marked placeholder slots (
 
 - [ ] **2.0 Home.** A first screen that answers "who, what, how to reach" in 5 seconds: name, role, one line, and **View projects** / **Résumé** buttons, plus a strip of selected work linking to `projects.html`. Real page title and meta description. Comes first because an empty home page is the biggest recruiter blocker. **Picked (owner, from previews):** B split hero + C's catalog below, **Blueprint** trading cards, clean page with two retro touches (monospace "Featured:" caption, hard-bordered catalog tiles). Split into two PRs:
   - [x] **2.0a** `feat/home-hero`: hero (label, name, one line, **View projects** / **Résumé** buttons), ONE static Blueprint card in the featured slot, the catalog grid (tiles are links), real `<title>` and meta description. New `css/homyles.css`. All text is `<!-- CONTENT: … -->` slots.
-  - [ ] **2.0b** `feat/home-card-stack`: the 3-card stack and swap script (`js/homcript.js`), the `aria-live` caption, reduced motion. Hardcoded featured cards (the `data-featured` flag waits for Phase 3).
-- [ ] **2.1 About Me.** Bio, photo, the tools and years you've used them (joeydanna pattern).
-- [ ] **2.2 Contact & Résumé.** Info page with a résumé PDF download. Email is shown in a spam-resistant way.
+  - [x] **2.0b** `feat/project-data` (D26): every project written once in `data/projects.json`; `js/homcript.js` fetches it and builds the catalog tiles with `createElement` + `textContent`. A `<noscript>` link to `projects.html` for visitors without JS, and a clear console error if the JSON has a typo.
+  - [ ] **2.0c** `feat/home-card-stack`: the 3-card stack from projects with `"featured": true`, written as `setupStack(container)` so Phase 3 can register it as a display. Card number, `v` badge and stars are derived from the data. `aria-live` caption, reduced motion.
+- [ ] **2.1 About Me.** Bio, photo, the tools and years you've used them (joeydanna pattern), drawn as a trading-card stat column that reuses the card CSS.
+- [ ] **2.2 Contact & Résumé.** Info page with a résumé PDF download. Email as plain text with a **Copy** button (Clipboard API).
 - [ ] **2.3 Code Portfolio.** Project cards with a status badge and tech chips (ashanand pattern).
 - [ ] **2.4 Browse Art.** Responsive CSS-grid gallery for the art journals and photography.
-- [ ] **2.5 CAD page sections.** Renders with captions plus a write-up link per project.
+- [ ] **2.5 CAD page sections.** One section per project on `projects.html` with an `id` (`projects.html#bridge-guitar`, the JSON `id`), built from the JSON. Catalog tiles link to the anchor. No page per project while the header is copied by hand (D3).
 - [ ] **2.6 Bold bands** (D20): full-width page sections that alternate white, sand and pine, like a woodblock print. Same pattern as the header and footer: the band is the outer element, and `.wrapper` sits inside. Build them section by section as pages get content.
 - [ ] **2.8 How to add content** (README): add a project, a photo, an art piece; image size, naming and metadata rules.
 - [ ] **2.7 Retro labels.** Small uppercase labels with wider `letter-spacing` (the daz "ALL PROJECTS" look), plus a few early-web details (visible borders, monospace captions). Pick which ones then.
@@ -158,10 +163,9 @@ Pattern: each display is a self-contained JS file that sets itself up on any con
 <div data-display="slideshow"> <figure ...>...</figure> </div>
 ```
 - [ ] **3.1 Display loader.** A small script that finds `[data-display]` elements and calls the matching module.
-- [ ] **3.2 Register the carousel.** Wrap the existing `projcript.js` logic as the first display, with minimal edits.
-- [ ] **3.3 Slideshow display.**
+- [ ] **3.2 Register the carousel.** Wrap the existing `projcript.js` logic as the first display, with minimal edits. Its figures come from `projects.json` (D26). Includes 1.15e (frame-rate independent spin).
+- ~~**3.3 Slideshow** and **3.4 Lightbox**~~: cut (2026-11-05). The popup and the grid already cover them.
 - [ ] **3.3b Grid display: the streamlined version** (dazprojects pattern). The fast, plain, accessible way in, and the default for `prefers-reduced-motion`. Classic catalog grid: each project is an image on a pale tile, then its title and one short line of info (tools, year). CSS grid `repeat(auto-fill, minmax(…, 1fr))`: about 5 columns on desktop, 2 on phones, no media queries. Optional: a density toggle (big/small tiles) like daz's two icons. Each card is a real link (to the write-up from 2.5).
-- [ ] **3.4 Lightbox/popup display** (reuses the sidebar popup idea).
 - [ ] **3.5 Doc: "How to add a display"** in README.
 - [ ] **3.6 Film strip display.** Projects are frames on a vertical strip of film (sprocket holes down both sides), drifting slowly up or down. Hover or focus pauses it, and clicking a frame opens it. Medium difficulty: CSS sprocket holes (`repeating-linear-gradient`), a seamless loop (the frames are duplicated once and `@keyframes` moves the strip by exactly one copy), and the duplicates are `aria-hidden` so screen readers don't hear each project twice. Fits the Filmography theme.
 - [ ] **3.7 Spin reel display** ("pick a project"). Project cards stand in a ring around a vertical axis, each card's left vertical edge on the center, like a book opened all the way round (360°, a "star book" or "carousel book"). The selected card is the one pointing closest to the camera. Cards' images read best about 90° around the ring, so the chosen one's info pops up beside the reel. You spin it by hand, it ticks like a prize wheel as cards pass, and when it settles the chosen card's info pops up (image above, text below, like a bibliography entry). Medium-hard, so it is split up:
@@ -178,7 +182,7 @@ Pattern: each display is a self-contained JS file that sets itself up on any con
 Design doc first (art style, room ↔ section map, controls), then build in small steps.
 
 - [ ] **4.1 Design doc.** Rooms, layout sketch, palette, who draws the pixel art (you?).
-- [ ] **4.2 One static room.** Small pixel-art images (found or drawn) scaled up with `image-rendering: pixelated` and placed with CSS. Doors are real `<a>` links, so the room works without JS. (ashanand.dev draws its room on a 480×270 `<canvas>` scaled up the same way, with SVG animations for the flames. We use images and HTML because they're simpler and more accessible.)
+- [ ] **4.2 One static room**, first used as `404.html` ("lost in the archives"): a low-stakes place to try the art. Small pixel-art images (found or drawn) scaled up with `image-rendering: pixelated` and placed with CSS. Doors are real `<a>` links, so the room works without JS. (ashanand.dev draws its room on a 480×270 `<canvas>` scaled up the same way, with SVG animations for the flames. We use images and HTML because they're simpler and more accessible.)
 - [ ] **4.3 Movement.** A character that moves with keyboard, tap, or click, walks to a door, and enters it.
 - [ ] **4.4 Room-to-room transitions.**
 - [ ] **4.5 Grand clock.** A Da Vinci–style clock that uses `Intl.DateTimeFormat`. The city/time zone is a single setting the owner can change. Hands are rotated by CSS transforms.
@@ -189,8 +193,8 @@ Design doc first (art style, room ↔ section map, controls), then build in smal
 
 - [ ] **5.1 Hosting.** GitHub Pages.
 - [ ] **5.2 Security.** CSP via `<meta>` (GitHub Pages can't set headers), `rel="noopener noreferrer"` on external links, audit any `innerHTML`.
-- [ ] **5.3 Basics.** Favicon, page descriptions, Open Graph preview tags.
-- [ ] **5.4 Images.** Compress to WebP, add `loading="lazy"`, `alt` text. **Strip metadata from every photo** (phone photos carry GPS location).
+- [ ] **5.3 Basics.** Favicon, page descriptions, Open Graph preview tags, a plain `404.html` with the site header (GitHub Pages serves it for broken links; 4.2 dresses it up later).
+- [ ] **5.4 Images.** Compress to WebP, add `loading="lazy"`, `alt` text, and `width`/`height` on every `<img>` (the browser reserves the space, so the page doesn't jump while loading). **Strip metadata from every photo** (phone photos carry GPS location).
 - [ ] **5.5 Audit.** Lighthouse plus a real-phone test.
 - [ ] **5.6 Custom domain** (`.dev` requires HTTPS, which GitHub Pages provides).
 
@@ -205,9 +209,9 @@ Design doc first (art style, room ↔ section map, controls), then build in smal
 
 **🃏 Card stack** (owner, 2026-11-04): the home page's featured project as a stack of cards, with the other projects fanned out behind it and peeking at the top-right corner. Clicking a corner brings that card to the front; clicking the front card opens the project. Prototyped in a scratch preview during 2.0.
 - **How.** Each card is a `<button>` with `data-pos` (0 = front); CSS places each position with `translate` + `rotate` and `z-index`, so JS only renumbers positions. Reduced motion: no transition. The caption is `aria-live` so screen readers hear the new title.
-- **When.** After the early launch, as a Phase 3 display (`data-display="stack"`), so it can be reused beyond the home page. Its first use is 2.0's featured slot.
+- **When.** Built in 2.0c as `setupStack(container)`; Phase 3 registers it as a display (`data-display="stack"`).
 - **Look.** Trading-card style (owner's references kept in the git-ignored `references/` folder; copyrighted, never committed): name banner, art window, CAD stat column (iterations, parts, print hours, difficulty), type line, text box, version badge, year. Our own frame design, no copied symbols or art.
-- **Featured: hardcoded first, then a flag.** 2.0 writes the featured cards into `index.html` by hand. Later (Phase 3, with 3.1's loader), a catalog item marked `data-featured` gets its card built by JS, so each project is written once. Only featured projects become cards; the rest stay in the catalog, so the stack never overflows.
+- **Featured = a JSON flag** (D26): projects with `"featured": true` become cards; the rest stay in the catalog, so the stack never overflows.
 
 **🔍 Code Lens**: a magnifying-glass toggle. A circular lens follows the cursor (or a finger on touch screens) and shows the page's *own source code* "underneath" the rendered page, as if seeing through it.
 - **Live, not screenshots.** The page fetches its own source (`fetch(location.href)`, plus its CSS/JS files), so the lens is always up to date. Screenshots would go stale after every change.
@@ -254,6 +258,7 @@ Design doc first (art style, room ↔ section map, controls), then build in smal
 | D23 | Theme picker = one `<button>` that cycles 4 states (Auto, Day, Lantern, Moss). Auto removes `data-theme` and the saved value. `js/themcript.js` is external and blocking in `<head>`. The lantern art is only the `<svg>` plus one CSS section | A cycling control is one honest button, so keyboard and screen readers work for free. "Auto" as the absence of a choice lets the OS take over live. External, not inline, so a strict CSP needs no hash. The art is swappable, so the orrery lamp can replace it without touching the logic |
 | D24 | Carousel keyboard access: a `<button>` inside each `<figure>` (owner's pick over `tabindex` + `role`). The spin has three separate stop flags (picked figure, Pause button, hover) that `animate()` checks together. The pause button's label changes ("Pause spin" / "Play spin") with no `aria-pressed` | A native button gives Tab, Enter, Space and the "button" role for free (first rule of ARIA). Separate flags stop one reason from cancelling another (leaving with the mouse can't undo the Pause button). A label plus `aria-pressed` would read "Play spin, pressed", which contradicts itself |
 | D25 | Home: B split hero + catalog, Blueprint trading cards. The card's paper is a local `--card-paper: light-dark(pine, blueprint blue)`, so it matches the footer by day and is blue in both night themes. Catalog tiles get a retro hard border | Owner's picks after comparing previews. Pine by day ties the card to the footer and the primary button; blue reads as a real blueprint at night. One local variable keeps the choice in one place. Linework passes on both (6.9 / 9.1) |
+| D26 | Projects live once in `data/projects.json`; page scripts `fetch()` it and build the HTML with `createElement` + `textContent`. Derived values (card number, `v` badge, stars) are computed, not typed. The carousel moves over in 3.2 | One source of truth: a project typed in three places drifts apart. Building with `textContent` keeps it XSS-safe (D7). Trade-off: content needs JS (a `<noscript>` link covers it) and a local server (`file://` blocks `fetch`) |
 | D17 | Skeleton and layout are separate PRs; keep the `#page` wrapper; the width cap is a reusable `.wrapper` class; two `rem` breakpoints | Smaller reviews; respects the owner's structure; a class can be reused, and the carousel can skip it when it needs more width; breakpoints give more control than fluid sizing alone |
 
 ## Open questions
