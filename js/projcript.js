@@ -106,7 +106,8 @@ document.addEventListener("DOMContentLoaded", () => {
             // Reduced motion: jump straight to the figure instead of a 1s turn
             carousel.style.transition = reduceMotion ? "" : "transform 1s ease";
             currentRotation += diff;
-            carousel.style.transform = `rotateY(${currentRotation}deg)`;
+            // --spin, not transform: projyles.css combines it with the ring's tilt (task 1.15f)
+            carousel.style.setProperty("--spin", `${currentRotation}deg`);
 
             setTimeout(() => {
                 carousel.style.transition = "";
@@ -142,7 +143,7 @@ document.addEventListener("DOMContentLoaded", () => {
         lastTime = now;
 
         currentRotation += SPIN_DEG_PER_SEC * seconds;
-        carousel.style.transform = `rotateY(${currentRotation}deg)`;
+        carousel.style.setProperty("--spin", `${currentRotation}deg`);
         frameId = requestAnimationFrame(animate);
     }
 

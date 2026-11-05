@@ -130,6 +130,16 @@
   --gutter: clamp(var(--space-4), 5vw, var(--space-7));  /* side padding of .wrapper: 16px on phones, up to 48px */
   --radius: 4px;           /* small, crisp corners to keep it minimal */
   --logo-size: var(--space-7);  /* header logo, 48px: square, so one value sets width and height */
+
+  /* 3D displays: the CAD carousel (projyles.css), later the spin reel (3.7).
+     Ring tilt = the spinning-coin view: how far the ring tips toward you.
+     0deg = flat, edge-on. Negative = seen from above (back figures show above the front);
+     positive = seen from below. Tried: -8 subtle, -12, -14 (picked), -20 strong */
+  --ring-tilt: -14deg;
+  /* Camera distance: the original carousel's 1000px. A fixed length (not scaled with the ring)
+     keeps the strong perspective lines that make the carousel work (owner, 2026-11-05).
+     Smaller = camera closer = stronger perspective */
+  --ring-perspective: 1000px;
 }
 
 /* Theme picked with the toggle (task 1.14). js/themcript.js sets data-theme on <html>.
