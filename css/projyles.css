@@ -50,6 +50,10 @@ html {
   justify-self: center;
   width: var(--figure-size, 190px);
   perspective: var(--ring-perspective);   /* design token in styles.css (the original 1000px) */
+  /* Where the camera stands (task 1.15g): level with the ring's centre, 0.42 padding + half a figure.
+     The default is the middle of this box, which is taller than the ring, so the camera sat below it.
+     A big desktop ring then looked up from below, and that cancelled most of --ring-tilt (flat) */
+  perspective-origin: 50% calc(var(--figure-size, 190px) * 0.92);
   position: relative;
   padding-top: calc(var(--figure-size, 190px) * 0.42);   /* 80px on desktop */
   /* The figures are absolutely positioned, so this box would otherwise be ~0 tall
@@ -70,6 +74,9 @@ html {
      so it shows as an ellipse and the back figures peek out above the front ones */
   /* --ring-tilt is a design token in styles.css (3D displays): change the tilt there */
   transform: rotateX(var(--ring-tilt)) rotateY(var(--spin, 0deg));
+  /* Tilt around the ring's own middle (task 1.15g). This box holds only absolutely positioned
+     figures, so it is 0px tall and "50%" would be its top edge: use half a figure instead */
+  transform-origin: 50% calc(var(--figure-size, 190px) * 0.5);
 }
 
 /* The spin is JS (requestAnimationFrame), so the hover pause lives in projcript.js (task 1.15b) */
