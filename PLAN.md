@@ -36,7 +36,7 @@ The museum is an *extra layer*: every page can also be reached through normal na
 ## Order of work
 
 1. **Finish the skeleton:** PR F1, F2, F3 (CAD page works on phones, popup, motion and keyboard), then the Phase 1 close. ✅
-2. **Home** (2.0b project data, 2.0c card stack), then **early launch** (5.1–5.3) so it can be handed out, then **2.2 Contact** (the last recruiter blocker).
+2. **Home** (2.0b project data, 2.0c card stack) ✅. **Launch postponed** (owner, 2026-11-05) until the look is right: design pass, orrery, bug fixes, more features. Set a *launch bar* (a short list of must-haves) so it has a finish line. The launch plan is ready: PR L1 `chore/launch-basics` (titles, footer name, stripe favicon A, Open Graph, `.nojekyll`), PR L2 `feat/csp-404`, then the owner enables Pages.
 3. **The other content-ready templates** (rest of Phase 2): every page has its layout and clear slots, so adding content is filling in, not building.
 4. **Orrery lamp** (PR E2): the owner draws the art in parallel with steps 1–3; the build comes after.
 5. **Project displays** (Phase 3), then **the museum** (Phase 4), then the rest of Phase 5.
@@ -64,17 +64,14 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 *Last session: 2026-11-05*
 - **Branch:** `feat/project-data` (PR 2.0b), cut from `main` at #11 (renamed from `feat/home-card-stack`). The 2026-11-04 notes are its first commit.
 - **Done this session:** audit (img sizes, 404 page, stale CLAUDE.md line) and the **ideation pass**. Adopted: projects as JSON (D26), stack as `setupStack()`, 1.15e folded into 3.2, CAD write-ups as anchored sections, email + Copy button, About stat column, Phase 3 trimmed (3.3, 3.4 cut), first museum room = `404.html`, launch right after the home page.
-- **Also done:** 2.0b merged (#12). **2.0c built** on `feat/home-card-stack`: back cards peek top-right, clicking one or **Next card** swaps; empty difficulty stars are now faint (they looked filled).
-- **Next, in this order:**
-  1. Owner reviews 2.0c, commits, opens the PR. That finishes 2.0 Home.
-  2. **Early launch** (5.1–5.3): GitHub Pages, CSP, favicon, plain `404.html`. First, the GitHub to-dos below.
-  3. **2.2 Contact & Résumé.**
+- **Also done:** 2.0b (#12) and 2.0c card stack (#13) merged. Launch postponed (see Order of work); favicon picked: **A, stripes**; the nav stays as is at launch. **1.15e built** on `fix/carousel-frame-rate`.
+- **Next** (owner picks): **design pass** (owner lists 3–5 things about the look, Claude renders lettered previews), **orrery art direction** (1.14b), **2.5 CAD sections** from the JSON, or the launch-independent half of L1 (footer name, favicon, titles).
 - **Owner to fill in:** End Stop Cap and Latch Hinge have **made-up stats, flavor text and Latch Hinge's description** in `data/projects.json` (temporary, 2026-11-05). Also the `<!-- CONTENT: … -->` slots in `index.html` (name line). Reference photos live in the git-ignored `references/` folder.
 - **Owner habit:** end every PR with the full git command list (CLAUDE.md, Company workflow).
-- **Owner to-dos on GitHub (before launch, `main` is unprotected):** re-create the ruleset (1.0b), turn on secret scanning and push protection, set Actions to read-only, turn off the wiki, turn on "Automatically delete head branches". Delete the old backup bundle once happy.
+- **Owner to-dos on GitHub (before launch):** ruleset ✅ (active). Still: turn on secret scanning and push protection, set Actions to read-only, turn off the wiki, turn on "Automatically delete head branches". Delete the old backup bundle once happy.
 - **Merged so far:** #1 public-repo hygiene, #2 design tokens (PR B), #3 page skeleton (PR C), #4 layout and footer (PR C2), #5 header nav (PR D), #6 restyle (PR D2), #7 themes and picker (PR E), #8 carousel fits phones (PR F1), #9 popup slide and fade (PR F2), #10 carousel controls (PR F3), #11 home hero (2.0a).
 - **Design reference:** https://dazprojects.com/collections/all (white, hairlines, centered logo, catalog grid). We kept our own fonts (Cinzel, Instrument Sans). It feeds 3.3b.
-- **Known issues:** the carousel spin speed depends on screen refresh rate (1.15e). Card text is about 9 px on 320 px phones (the catalog repeats it).
+- **Known issues:** card text is about 9 px on 320 px phones (the catalog repeats it).
 - **Open ideas:** other page titles are still placeholders ("About Me | Place Holder", "Projects"); footer and Résumé links are `#` (they wait for 2.2).
 
 **PR 0 · `docs/phase-1-roadmap`**
@@ -82,7 +79,7 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 
 **PR A · `chore/workflow`**: how we work
 - [x] **1.0a** PR template (`.github/pull_request_template.md`) with a what / why / tested checklist.
-- [ ] **1.0b** *(Owner, on GitHub)* Branch protection on `main`: changes arrive only through PRs. ⚠ Free private repos don't enforce rulesets. **Decision: make the repo public** (also needed for free GitHub Pages), then re-create the ruleset.
+- [x] **1.0b** *(Owner, on GitHub)* Branch protection on `main` (ruleset `protect-main`, active since 2026-11-01): changes arrive only through PRs. ⚠ Free private repos don't enforce rulesets. **Decision: make the repo public** (also needed for free GitHub Pages), then re-create the ruleset.
 - [x] **1.0c** GitHub Actions check that runs the HTML validator on every PR (automated QA, as companies do).
 
 **PR B · `feat/design-tokens`**: the look and one shared stylesheet
@@ -126,7 +123,7 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 - [x] **1.15b** Hovering pauses the spin, and leaving resumes it (`pointerenter`/`pointerleave`, so a phone tap doesn't leave it stuck).
 - [x] **1.15c** A "Pause spin / Play spin" button above the ring, centered and first in Tab order. `prefers-reduced-motion` starts it paused and skips the 1s turn.
 - [x] **1.15d** Each figure holds a `<button>` (D24): Tab reaches it, Enter or Space opens it. Escape or Close closes the popup and puts focus back on the figure.
-- [ ] **1.15e** *(moved into 3.2: same file, one review)* Make the spin speed frame-rate independent (degrees per second × time since the last frame), and stop requesting frames while paused. Right now a 120 Hz screen spins twice as fast.
+- [x] **1.15e** `fix/carousel-frame-rate` (own PR after all, owner's pick): the spin is 6°/s on every screen (degrees per second × time since the last frame, capped at 0.1 s so a background tab doesn't jump), and the loop stops requesting frames while paused (`startSpin()` restarts it). Measured in headless Edge at 75 Hz: old 7.5°/s and 76 frames per paused second, new 6°/s and 0.
 
 **PR E2 · `feat/orrery-lamp`**: the theme picker becomes a pixel-art orrery (owner's pick, replaces the lantern; D23 keeps the logic). Sits in the gap between the page content and the stripes. **Art (1.14b, 1.14c) runs in parallel with PR F and Phase 2; the build (1.14d, 1.14e) comes after the early launch.**
 - [ ] **1.14b** Art direction: concept sketch of the lamp, which body shows each theme (sun = Day, moon = night…), size (e.g. 48×48 px, shown at 2×), palette from the theme tokens. Owner approves before any sprite work.
@@ -165,7 +162,7 @@ Pattern: each display is a self-contained JS file that sets itself up on any con
 <div data-display="slideshow"> <figure ...>...</figure> </div>
 ```
 - [ ] **3.1 Display loader.** A small script that finds `[data-display]` elements and calls the matching module.
-- [ ] **3.2 Register the carousel.** Wrap the existing `projcript.js` logic as the first display, with minimal edits. Its figures come from `projects.json` (D26). Includes 1.15e (frame-rate independent spin).
+- [ ] **3.2 Register the carousel.** Wrap the existing `projcript.js` logic as the first display, with minimal edits. Its figures come from `projects.json` (D26).
 - ~~**3.3 Slideshow** and **3.4 Lightbox**~~: cut (2026-11-05). The popup and the grid already cover them.
 - [ ] **3.3b Grid display: the streamlined version** (dazprojects pattern). The fast, plain, accessible way in, and the default for `prefers-reduced-motion`. Classic catalog grid: each project is an image on a pale tile, then its title and one short line of info (tools, year). CSS grid `repeat(auto-fill, minmax(…, 1fr))`: about 5 columns on desktop, 2 on phones, no media queries. Optional: a density toggle (big/small tiles) like daz's two icons. Each card is a real link (to the write-up from 2.5).
 - [ ] **3.5 Doc: "How to add a display"** in README.
