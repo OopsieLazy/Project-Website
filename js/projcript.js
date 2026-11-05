@@ -25,7 +25,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     let currentRotation = 0;
-    let autoSpinSpeed = 0.1;
+    // Degrees per SECOND (task 1.15e). It used to be 0.1° per FRAME, so a 120 Hz screen
+    // spun twice as fast as a 60 Hz one. 6°/s is the old speed on a 60 Hz screen
+    const SPIN_DEG_PER_SEC = 6;
     let spinning = true;
     let selectedFigure = null;
 
@@ -52,6 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
     spinToggle.addEventListener("click", () => {
         userPaused = !userPaused;
         showSpinLabel();
+        startSpin();
     });
     showSpinLabel();
     spinToggle.hidden = false;   // only shown once JS runs, like the header toggles in script.js
@@ -59,13 +62,14 @@ document.addEventListener("DOMContentLoaded", () => {
     // pointerenter/leave, not mouseenter/leave: they cover mouse, pen and touch, and a tap
     // on a phone ends with pointerleave, so the spin doesn't get stuck in "hovering"
     carousel.addEventListener("pointerenter", () => { hovering = true; });
-    carousel.addEventListener("pointerleave", () => { hovering = false; });
+    carousel.addEventListener("pointerleave", () => { hovering = false; startSpin(); });
 
     // Hide the details sidebar, forget the selection, and let the carousel spin again
     function closeSidebar() {
         slideshow.classList.remove("is-open");   // the CSS animates the popup closed (projyles.css, POPUP)
         selectedFigure = null;
         spinning = true;
+        startSpin();
     }
 
     figures.forEach((fig, i) => {
@@ -110,15 +114,39 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    function animate() {
-        if (spinning && !userPaused && !hovering) {
-            currentRotation += autoSpinSpeed;
-            carousel.style.transform = `rotateY(${currentRotation}deg)`;
-        }
-        requestAnimationFrame(animate);
+    // The spin loop only runs while it's needed. Before, it asked for a new frame
+    // 60–120 times a second forever, even while paused (wasted battery on phones).
+    // Now animate() stops asking when any stop flag is set, and startSpin() restarts it
+    let frameId = null;   // the pending requestAnimationFrame, or null when the loop is stopped
+    let lastTime = null;  // timestamp of the previous frame
+
+    const shouldSpin = () => spinning && !userPaused && !hovering;
+
+    // Call this after changing any stop flag. Safe to call twice: it never starts a second loop
+    function startSpin() {
+        if (frameId !== null || !shouldSpin()) return;
+        lastTime = null;  // forget the old time, or the paused seconds would count as one huge step
+        frameId = requestAnimationFrame(animate);
     }
 
-    animate();
+    // requestAnimationFrame passes the current time in milliseconds
+    function animate(now) {
+        if (!shouldSpin()) {
+            frameId = null;   // stop: don't ask for another frame
+            return;
+        }
+        // Seconds since the last frame (~0.0167 at 60 Hz, ~0.0083 at 120 Hz), so every screen
+        // spins at the same speed. Capped at 0.1 s: browsers pause frames in a background tab,
+        // and coming back must not jump the ring forward
+        const seconds = lastTime === null ? 0 : Math.min((now - lastTime) / 1000, 0.1);
+        lastTime = now;
+
+        currentRotation += SPIN_DEG_PER_SEC * seconds;
+        carousel.style.transform = `rotateY(${currentRotation}deg)`;
+        frameId = requestAnimationFrame(animate);
+    }
+
+    startSpin();
 
     // ResizeObserver runs layoutCarousel once now, then again whenever the slideshow's
     // size changes (window resize, phone rotation), so the ring always fits
