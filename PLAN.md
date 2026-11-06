@@ -62,10 +62,11 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 ### ▶ Where we left off (update at the end of every session)
 
 *Last session: 2026-11-05 (second)*
-- **Branch:** `feat/cad-sections` (PR 2.5), cut from `main` at #15. These notes are its first commit.
-- **Verified `main`:** 0 W3C errors, JSON and image paths OK, home and CAD pages render at 320 / 390 / 1440 px in Day and Lantern. #14 (1.15e) and #15 (1.15g) merged.
-- **This session:** 2.5 CAD sections, layout **C, index + entries** (owner, from previews).
+- **Branch:** `feat/about-page` (PR 2.1), cut from `main` at #16. These notes are its first commit.
+- **Merged this session:** #16 2.5 CAD sections (layout C, index + entries; the owner's placeholder blocks stay above the entries for now).
+- **This PR:** 2.1 About, laid out **like an encyclopedia biography** (owner): lead paragraph, infobox with the card, contents box, sections. Tool year bars kept (owner).
 - **Next** (in order, owner's call 2026-11-05): the rest of Phase 2 (2.1 About, 2.2 Contact, 2.3 Code, 2.4 Art), then the **design pass** once the skeleton is full. Orrery art (1.14b) runs alongside whenever the owner has time.
+- **Owner to fill in (About):** the `<!-- CONTENT -->` slots in `aboutme.html`: your photo for the card, your real tools and years (Tool B–E are placeholders), education, city, the Background and Education paragraphs, GitHub and LinkedIn URLs.
 - **Owner to fill in:** End Stop Cap and Latch Hinge have **made-up stats, flavor text and Latch Hinge's description** in `data/projects.json` (temporary, 2026-11-05). Also the `<!-- CONTENT: … -->` slots in `index.html` (name line). Reference photos live in the git-ignored `references/` folder.
 - **Owner habit:** end every PR with the full git command list (CLAUDE.md, Company workflow).
 - **Owner to-dos on GitHub (before launch):** ruleset ✅ (active). Still: turn on secret scanning and push protection, set Actions to read-only, turn off the wiki, turn on "Automatically delete head branches". Delete the old backup bundle once happy.
@@ -146,7 +147,7 @@ Goal: each page gets its final structure with clearly marked placeholder slots (
   - [x] **2.0a** `feat/home-hero`: hero (label, name, one line, **View projects** / **Résumé** buttons), ONE static Blueprint card in the featured slot, the catalog grid (tiles are links), real `<title>` and meta description. New `css/homyles.css`. All text is `<!-- CONTENT: … -->` slots.
   - [x] **2.0b** `feat/project-data` (D26): every project written once in `data/projects.json`; `js/homcript.js` fetches it and builds the catalog tiles with `createElement` + `textContent`. A `<noscript>` link to `projects.html` for visitors without JS, and a clear console error if the JSON has a typo.
   - [x] **2.0c** `feat/home-card-stack`: the 3-card stack from projects with `"featured": true`, written as `setupStack(container)` so Phase 3 can register it as a display. Card number, `v` badge and stars are derived from the data. `aria-live` caption, reduced motion.
-- [ ] **2.1 About Me.** Bio, photo, the tools and years you've used them (joeydanna pattern), drawn as a trading-card stat column that reuses the card CSS.
+- [x] **2.1 About Me** (`feat/about-page`). Laid out like an encyclopedia biography (owner): title over a hairline, lead paragraph, an infobox (the Blueprint card + a facts table), a contents box, then Background, Education, Tools and years (year bars, owner), See also, External links. Plain HTML, no JS; every text slot is `<!-- CONTENT -->`. The card CSS moved to the shared `css/cardyles.css` (home pixel-identical before and after). Two additions there: `.card-holder`, because cqi in the card's own border rings measures the nearest *ancestor* container (without one, the viewport, so the rings turned ~30px thick), and footer labels from `data-label`. The card is `aria-hidden`, since all of it repeats page text. Bars come from `data-years` in CSS, not `style=""`, so a strict CSP (5.2) won't block them.
 - [ ] **2.2 Contact & Résumé.** Info page with a résumé PDF download. Email as plain text with a **Copy** button (Clipboard API).
 - [ ] **2.3 Code Portfolio.** Project cards with a status badge and tech chips (ashanand pattern).
 - [ ] **2.4 Browse Art.** Responsive CSS-grid gallery for the art journals and photography.
