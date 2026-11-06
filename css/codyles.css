@@ -1,0 +1,192 @@
+/* Code Portfolio page (task 2.3, owner's pick C): every project is a library catalog card.
+   Shared header, tokens and footer live in styles.css */
+
+.code-head {
+  margin-block: var(--space-7) var(--space-6);
+}
+
+.code-head h1 {
+  margin: 0 0 var(--space-2);
+}
+
+.code-head p {
+  margin: 0;
+}
+
+/* As many card columns as fit, no media queries. min(20rem, 100%) stops a
+   20rem minimum from overflowing a phone narrower than that */
+.index-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(20rem, 100%), 1fr));
+  gap: var(--space-6);
+  margin: 0 0 var(--space-8);
+  padding: 0;
+  list-style: none;
+}
+
+/* =========================================================
+   THE CATALOG CARD. Two kinds of colour here:
+   - the card itself (paper, border, text) uses ROLE tokens, so it follows the theme
+   - the printed ink (blue ruled lines, red header rule) is part of the card, like
+     the stripes, so it uses fixed PALETTE colours mixed thin with color-mix()
+   ========================================================= */
+.index-card {
+  /* THE GRID: everything on the card is placed from these two values.
+     Ruled lines sit at --ic-top + n × --ic-line (n = 0, 1, 2 …); the red rule is line n = 1 */
+  --ic-line: 1.55rem;                  /* one ruled line = one line of text */
+  --ic-top: var(--space-5);            /* top padding = where ruled line 0 sits */
+  --ic-ruled: color-mix(in srgb, var(--color-gunjo) 18%, transparent);
+  --ic-rule-red: color-mix(in srgb, var(--color-beni) 60%, transparent);
+
+  position: relative;
+  height: 100%;                        /* cards in one row share a height */
+  padding: var(--ic-top) var(--space-5) var(--space-7);
+  border: 1px solid var(--color-line);
+  background-color: var(--color-surface);
+  /* The ruled lines: a gradient whose pattern is EXACTLY one --ic-line tall, with the 1px
+     line at its start. (The pattern repeats every "last stop": ending at --ic-line + 1px
+     would make each repeat 1px too tall, and the lines would drift off the text.)
+     background-position puts line 0 at the top padding edge, where the text starts */
+  background-image: repeating-linear-gradient(
+    var(--ic-ruled) 0 1px,
+    transparent 1px var(--ic-line)
+  );
+  background-position: 0 var(--ic-top);
+  box-shadow: 4px 4px 0 var(--color-line); /* hard offset shadow: the retro "box" look */
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+}
+
+/* The red header rule, drawn exactly over ruled line 1. It's 2px thick and the blue
+   line 1px, so -0.5px centres the red over the blue */
+.index-card::before {
+  content: "";
+  position: absolute;
+  top: calc(var(--ic-top) + var(--ic-line) - 0.5px);
+  left: 0;
+  right: 0;
+  border-top: 2px solid var(--ic-rule-red);
+}
+
+/* The punched hole: a circle filled with the PAGE colour, so it looks cut through */
+.index-card::after {
+  content: "";
+  position: absolute;
+  bottom: var(--space-3);
+  left: 50%;
+  width: 1.1rem;
+  height: 1.1rem;
+  translate: -50% 0;                   /* centre it on its own width */
+  border: 1px solid var(--color-line);
+  border-radius: 50%;
+  background: var(--color-bg);
+}
+
+.index-card p {
+  margin: 0;
+}
+
+/* Number left, status dot right, filling the band between ruled line 0 and the red rule.
+   Exactly one line tall + align-items: center = the dot sits in the middle of the band,
+   clear of both lines */
+.ic-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-3);
+  height: var(--ic-line);
+}
+
+.ic-no {
+  color: var(--color-muted);
+}
+
+/* Status dot (owner's pick, replaces the word badge). Colour alone would fail WCAG 1.4.1
+   (colour-blind visitors couldn't tell them apart), so each status also has its own SHAPE:
+   filled = live, half = in progress, ring = archived. currentColor is the status colour,
+   used by both the ring and the fill. The word lives in hidden text for screen readers,
+   and the key at the top of the page explains the shapes */
+.ic-status {
+  display: inline-block;
+  flex: none;                          /* never squashed by a long card number */
+  width: 0.8rem;
+  height: 0.8rem;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  vertical-align: middle;
+}
+
+.ic-status.is-live {
+  color: var(--color-accent);
+  background: currentColor;
+}
+
+/* Half filled: a hard-edged gradient, left half colour, right half empty */
+.ic-status.is-wip {
+  color: var(--color-active);
+  background: linear-gradient(90deg, currentColor 50%, transparent 50%);
+}
+
+.ic-status.is-archived {
+  color: var(--color-muted);
+  background: transparent;
+}
+
+/* The key under the intro line: dot + word, in a wrapping row */
+.status-key {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-5);
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--color-muted);
+}
+
+.status-key .ic-status {
+  margin-right: var(--space-1);
+}
+
+/* Typed title: the mono font in capitals, not the display font */
+/* One empty band under the red rule, then the title fills exactly one band,
+   so the description below starts on the grid too */
+.ic-title {
+  margin: var(--ic-line) 0 0;
+  line-height: var(--ic-line);
+  font-family: var(--font-mono);
+  font-size: var(--step-0);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.ic-desc {
+  line-height: var(--ic-line);         /* text sits on the ruled lines */
+}
+
+.ic-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: var(--space-3) 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.78rem;
+}
+
+.ic-chips li {
+  padding: 1px var(--space-2);
+  border: 1px solid var(--color-line);
+  border-radius: 3px;
+  background: var(--color-surface);    /* covers the ruled line behind the chip */
+  color: var(--color-muted);
+}
+
+/* .index-card .ic-links (0,2,0) beats .index-card p (0,1,1), so this margin wins
+   without !important */
+.index-card .ic-links {
+  display: flex;
+  gap: var(--space-4);
+  margin-top: var(--space-3);
+}

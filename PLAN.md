@@ -49,86 +49,34 @@ The museum is an *extra layer*: every page can also be reached through normal na
 - A **new idea** → Experiments, undated.
 Each feature goes in three steps: **works → right** (layout, keyboard, phones) **→ nice** (motion, polish).
 
+## ▶ Where we left off (update at the end of every session)
+
+*Last session: 2026-11-05 (third)*
+- **Branch:** `feat/code-page` (PR 2.3), cut from `main` at #18. These notes are its first commit.
+- **Merged this session:** #16 CAD sections (2.5), #17 About (2.1, encyclopedia biography, shared `cardyles.css`), #18 Contact & Résumé (2.2, title block, Copy button).
+- **This PR:** 2.3 Code Portfolio. Also tidied this file: Phase 1 collapsed to a summary (its parked orrery PR and Polish line kept below), and this section moved up here.
+- **Next** (in order, owner's call 2026-11-05): 2.4 Art, then the **design pass** once the skeleton is full (first note: the CAD "All projects" restyle). Orrery art (1.14b) runs alongside whenever the owner has time.
+- **Owner to fill in (Code):** the `<!-- CONTENT -->` slots in `code.html`: the intro line, your real projects in place of No. 002 and No. 003 (copy an `<li>` for more), and a Live link for MyWeb once Pages is on.
+- **Owner to fill in (Contact):** the `<!-- CONTENT -->` slots in `contact.html`: your real email (an alias is safest) as `data-user` / `data-domain` / `data-tld` plus the "[at]" text, status line, city, the résumé PDF at `assets/docs/resume.pdf` (then set the link's `href` and add `download`), GitHub and LinkedIn URLs.
+- **Owner to fill in (About):** the `<!-- CONTENT -->` slots in `aboutme.html`: your photo for the card, your real tools and years (Tool B–E are placeholders), education, city, the Background and Education paragraphs, GitHub and LinkedIn URLs.
+- **Owner to fill in (Home and projects):** End Stop Cap and Latch Hinge have **made-up stats, flavor text and Latch Hinge's description** in `data/projects.json` (temporary, 2026-11-05). Also the `<!-- CONTENT: … -->` slots in `index.html` (name line). Reference photos live in the git-ignored `references/` folder.
+- **Owner habit:** end every PR with the full git command list (CLAUDE.md, Company workflow).
+- **Owner to-dos on GitHub (before launch):** ruleset ✅ (active). Still: turn on secret scanning and push protection, set Actions to read-only, turn off the wiki, turn on "Automatically delete head branches". Delete the old backup bundle once happy.
+- **Merged so far:** #1 public-repo hygiene, #2–#10 Phase 1 (tokens, skeleton, layout, header, restyle, themes, carousel fixes), #11–#13 Home (2.0a–c), #14 frame-rate spin (1.15e), #15 ring camera (1.15g), #16 CAD sections (2.5), #17 About (2.1), #18 Contact (2.2).
+- **Design reference:** https://dazprojects.com/collections/all (white, hairlines, centered logo, catalog grid). We kept our own fonts (Cinzel, Instrument Sans). It feeds 3.3b.
+- **Known issues:** card text is about 9 px on 320 px phones (the catalog repeats it). The CAD page's tab title is still "Projects" (L1 sets real titles).
+
 ## Phase 0: Foundation cleanup ✅
 
 Done. Organized folders, URL-safe image names, `index.html`, relative links, a valid header, `.gitignore`, and 0 W3C errors.
 Info notes left on purpose: the empty popup `<h2>` (JS fills it), the carousel `<section>` with no heading, and the `/>` in `thelab.html`.
 
-## Phase 1: Responsive shell
+## Phase 1: Responsive shell ✅
 
-Goal: one shared look and layout that adapts from phone to wide desktop, built feature by feature, with one PR per feature.
-Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768 / 1024 / 1440 px, drag-resize the window, tab through with the keyboard, W3C validator.
+Done, closed 2026-11-04 (real-phone test and a Lighthouse accessibility run, both clear). PRs #2–#10, plus #14 and #15: design tokens and self-hosted fonts, the page skeleton and `.wrapper`, the adaptive header and footer, the dazprojects restyle with color bands and 70s stripes, three themes with the lantern picker, and the CAD carousel fitted to phones (popup, pause button, keyboard, frame-rate-independent spin, tilted ring). The reasons live in the decision log (D11–D24) and the merged PRs.
+**QA checklist for every PR:** DevTools 320 / 375 / 768 / 1024 / 1440 px, drag-resize the window, Tab through with the keyboard, W3C validator.
 
-### ▶ Where we left off (update at the end of every session)
-
-*Last session: 2026-11-05 (second)*
-- **Branch:** `feat/contact-page` (PR 2.2), cut from `main` at #17. These notes are its first commit.
-- **Merged this session:** #16 2.5 CAD sections (layout C; the owner's placeholder blocks stay above the entries for now), #17 2.1 About (encyclopedia biography, shared `cardyles.css`).
-- **This PR:** 2.2 Contact & Résumé.
-- **Design note (owner, 2026-11-05):** the CAD page's "All projects" area (2.5) doesn't fully fit the theme; it needs a graphic design change. Listed under Phase 2 → *Design pass*.
-- **Next** (in order, owner's call 2026-11-05): the rest of Phase 2 (2.2 Contact, 2.3 Code, 2.4 Art), then the **design pass** once the skeleton is full. Orrery art (1.14b) runs alongside whenever the owner has time.
-- **Owner to fill in (Contact):** the `<!-- CONTENT -->` slots in `contact.html`: your real email (an alias is safest) as `data-user` / `data-domain` / `data-tld` plus the "[at]" text, status line, city, the résumé PDF at `assets/docs/resume.pdf` (then set the link's `href` and add `download`), GitHub and LinkedIn URLs.
-- **Owner to fill in (About):** the `<!-- CONTENT -->` slots in `aboutme.html`: your photo for the card, your real tools and years (Tool B–E are placeholders), education, city, the Background and Education paragraphs, GitHub and LinkedIn URLs.
-- **Owner to fill in:** End Stop Cap and Latch Hinge have **made-up stats, flavor text and Latch Hinge's description** in `data/projects.json` (temporary, 2026-11-05). Also the `<!-- CONTENT: … -->` slots in `index.html` (name line). Reference photos live in the git-ignored `references/` folder.
-- **Owner habit:** end every PR with the full git command list (CLAUDE.md, Company workflow).
-- **Owner to-dos on GitHub (before launch):** ruleset ✅ (active). Still: turn on secret scanning and push protection, set Actions to read-only, turn off the wiki, turn on "Automatically delete head branches". Delete the old backup bundle once happy.
-- **Merged so far:** #1 public-repo hygiene, #2 design tokens (PR B), #3 page skeleton (PR C), #4 layout and footer (PR C2), #5 header nav (PR D), #6 restyle (PR D2), #7 themes and picker (PR E), #8 carousel fits phones (PR F1), #9 popup slide and fade (PR F2), #10 carousel controls (PR F3), #11 home hero (2.0a), #12 project data (2.0b), #13 card stack (2.0c), #14 frame-rate spin (1.15e), #15 ring camera (1.15g), #16 CAD sections (2.5), #17 About (2.1).
-- **Design reference:** https://dazprojects.com/collections/all (white, hairlines, centered logo, catalog grid). We kept our own fonts (Cinzel, Instrument Sans). It feeds 3.3b.
-- **Known issues:** card text is about 9 px on 320 px phones (the catalog repeats it).
-- **Open ideas:** other page titles are still placeholders ("About Me | Place Holder", "Projects"); footer and Résumé links are `#` (they wait for 2.2).
-
-**PR 0 · `docs/phase-1-roadmap`**
-- [x] Adopt GitHub flow (D11) and write this breakdown.
-
-**PR A · `chore/workflow`**: how we work
-- [x] **1.0a** PR template (`.github/pull_request_template.md`) with a what / why / tested checklist.
-- [x] **1.0b** *(Owner, on GitHub)* Branch protection on `main` (ruleset `protect-main`, active since 2026-11-01): changes arrive only through PRs. ⚠ Free private repos don't enforce rulesets. **Decision: make the repo public** (also needed for free GitHub Pages), then re-create the ruleset.
-- [x] **1.0c** GitHub Actions check that runs the HTML validator on every PR (automated QA, as companies do).
-
-**PR B · `feat/design-tokens`**: the look and one shared stylesheet
-- [x] **1.1** Picked: **Codex colors** (parchment, iron-gall ink, sanguine red) with **Fresco highlights** (lapis blue, ochre), and **Fresco fonts** (Cinzel display, Instrument Sans body). Shared: JetBrains Mono (code), Silkscreen (pixel museum).
-- [x] **1.2** Tokens in `:root` in `styles.css`: colors, fonts, spacing, and fluid type with `clamp()`. Self-host the fonts (D12).
-- [x] **1.3** Modern CSS reset: `box-sizing`, `img { max-width: 100% }`, base typography (body, headings, links, `:focus-visible`).
-- [x] **1.4** Every page (except `thelab.html`, D13) loads `styles.css`. Remove the duplicated header rules from `projyles.css`. (`aboutme.html` is empty, so it gets the link in 1.9.)
-- [x] **1.4b** Cleanup in `projyles.css`: remove the unused `.sub-heading-*` and `.slideshow-title` (the font was never loaded), and the dead `:hover` animation pause (the real pause is 1.15b). The `nth-child` rules stay (owner's choice).
-
-**PR C · `feat/page-skeleton`**: the same frame on every page (split from the layout, D17)
-- [x] **1.5** Landmarks on every page: `<header>`, `<main id="content">`, `<footer>`, all inside the owner's `#page` wrapper (projects' `<article>` moves in). The skip link now lands on `<main>`, not the carousel.
-- [x] **1.6** Skip link hidden until it receives keyboard focus (`.screen-reader-text` + `.skip-link:focus` in `styles.css`).
-- [x] **1.9** `aboutme.html` gets the shell. Rename `projects.html`'s body class `thehomepage` → `theprojectspage`.
-
-**PR C2 · `feat/layout-footer`**: the minimal column
-- [x] **1.7** Reusable `.wrapper` class (D17): `--content-max` cap, `clamp()` side padding, two mobile-first breakpoints (`40rem`, `64rem`).
-- [x] **1.8** Footer: name, ©, and placeholder links (GitHub, LinkedIn, email, résumé, plus the nav) that all share one markup pattern, so filling one in is a one-line edit.
-
-**PR D · `feat/header-nav`**: the adaptive header
-- [x] **1.10** Desktop: grid `1fr auto 1fr` with a centered logo (the Home link). Links are split around it (D18).
-- [x] **1.11** Phones: a Menu button opens the links. First shared JS, `js/script.js`. Without JS, the links just show.
-- [x] **1.12** Lab dropdown: on desktop it opens on hover or keyboard focus, and on phones a ▸ button folds it.
-
-**PR D2 · `feat/restyle-tokens`**: the dazprojects look (D19). Runs before PR E, so the night colors are made from the new day colors only once.
-- [x] **1.12a** White palette with the owner's vintage Japanese greens: pine `#385850` (links, headings), jade `#59877D` (hover underline), sage and sand for decoration, `#303030` ink.
-- [x] **1.12b** Fonts: decided to **keep** Cinzel (headings) and Instrument Sans (body). No change needed.
-- [x] **1.12c** Color blocks (D20): a full-width sand header band, a pine footer band with white text, sage hairlines. On hover and Tab, menu links (header, dropdown, phone menu) turn a muted deep jade and bold. Footer links turn pale kamenozoki blue, and other links turn gunjō blue. Five straight 70s stripes run down the right edge, from the header to the footer, on every screen size (D21). The dropdown is a cleaner panel without underlines.
-
-**PR E · `feat/theme-toggle`**: day and night
-- [x] **1.13** Three themes (D22). **Day** (unchanged). **Lantern**, the default night (rainy Japanese street): wet-asphalt blue-black, rain-blue links, chōchin red-orange active words with a soft neon glow, an akabeni red footer. **Moss**, an opt-in calm night: sage-scale greens, Cinnamon Buff highlights, pine footer, no glow. The OS setting picks Day or Lantern via `light-dark()`; `data-theme` on `<html>` forces any of the three. `projyles.css` popup grays now use tokens.
-- [x] **1.14** Theme picker (D23): a paper lantern hanging from the header in front of the stripes. Each click loops Auto → Day → Lantern → Moss → Auto, and the lantern's light shows the theme. A name tag shows on hover or focus. `js/themcript.js` loads in `<head>` without `defer` (no flash), saves the choice in `localStorage`, and only trusts the three known names.
-
-**PR F1 · `fix/projects-mobile`**: no more sideways scroll on phones
-- [x] **1.15** `projcript.js` calculates the figure size and ring radius from the slideshow width (`ResizeObserver`), capped at the original 190px / 300px, and sets `--figure-size` for the CSS.
-- [x] **1.17** The fixed 600px `#slideshow` height follows `--figure-size` instead (still 600px on desktop).
-
-**PR F2 · `fix/projects-popup`**: the popup stops covering the carousel
-- [x] **1.16** A container query on `#slideshow` picks the layout. Wide (≥ 62rem): the popup fades in beside the carousel, which glides left and scales to 0.8. Narrow (owner's spec): on tap, the carousel stops facing the pick and **slides smoothly down**, and the popup **fades in** above it. The stopped carousel stays visible, so the selector never disappears. Close reverses it. The popup image scales with the screen. Reduced motion: no slide or fade, it just appears. Height animates with `grid-template-rows: 0fr → 1fr`; closed = `visibility: hidden` (skipped by Tab); scroll anchoring off on this page.
-
-**PR F3 · `feat/carousel-controls`**: motion and keyboard access (WCAG 2.2.2)
-- [x] **1.15b** Hovering pauses the spin, and leaving resumes it (`pointerenter`/`pointerleave`, so a phone tap doesn't leave it stuck).
-- [x] **1.15c** A "Pause spin / Play spin" button above the ring, centered and first in Tab order. `prefers-reduced-motion` starts it paused and skips the 1s turn.
-- [x] **1.15d** Each figure holds a `<button>` (D24): Tab reaches it, Enter or Space opens it. Escape or Close closes the popup and puts focus back on the figure.
-- [x] **1.15e** `fix/carousel-frame-rate` (own PR after all, owner's pick): the spin is 6°/s on every screen (degrees per second × time since the last frame, capped at 0.1 s so a background tab doesn't jump), and the loop stops requesting frames while paused (`startSpin()` restarts it). Measured in headless Edge at 75 Hz: old 7.5°/s and 76 frames per paused second, new 6°/s and 0.
-- [x] **1.15f** Spinning-coin view (owner compared -8 to -20°): the ring tilts -14°. Design tokens in `styles.css` (3D displays group): `--ring-tilt` and `--ring-perspective` (the original 1000px). Tried and reverted: scaling the perspective with the ring. It kept the angle constant while resizing, but lost the perspective lines and splayed the figures like a cone (owner). `projcript.js` now only sets `--spin`; CSS writes `rotateX(tilt) rotateY(spin)`, so the ring reads as an ellipse and the back figures show above the front.
-- [x] **1.15g** `fix/ring-camera`: desktop looked almost flat while phone and tablet were right (owner). Cause: the camera (`perspective-origin`) defaulted to the middle of `.entire-content`, below the ring. A big ring then looked up from below, which cancelled the tilt. Fix: `perspective-origin` on the ring's centre and `transform-origin` on the ring's middle (in `projyles.css`). Same coin view at phone, tablet and desktop; the 1000px perspective lines are kept (owner picked preview B).
+**Parked from Phase 1:**
 
 **PR E2 · `feat/orrery-lamp`**: the theme picker becomes a pixel-art orrery (owner's pick, replaces the lantern; D23 keeps the logic). Sits in the gap between the page content and the stripes. **Art (1.14b, 1.14c) runs in parallel with PR F and Phase 2; the build (1.14d, 1.14e) comes after the early launch.**
 - [ ] **1.14b** Art direction: concept sketch of the lamp, which body shows each theme (sun = Day, moon = night…), size (e.g. 48×48 px, shown at 2×), palette from the theme tokens. Owner approves before any sprite work.
@@ -139,19 +87,17 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 **Polish** (done at the phase close): *(add refinements to finished features here)*
 - Theme lantern touches the end of the "CAD's Creations" `<h1>` at 320 px (found 2026-11-05; same risk as 1.14e).
 
-**Phase close:** ✅ 2026-11-04. Real-phone test over Wi-Fi (`python -m http.server 8000 --bind 0.0.0.0`) and a Lighthouse accessibility run, both clear (owner).
-
 ## Phase 2: Content-ready templates
 
 Goal: each page gets its final structure with clearly marked placeholder slots (`<!-- CONTENT: … -->`), so the owner can add real content later without touching layout code. Real content comes when the owner has gathered it.
 
-- [ ] **2.0 Home.** A first screen that answers "who, what, how to reach" in 5 seconds: name, role, one line, and **View projects** / **Résumé** buttons, plus a strip of selected work linking to `projects.html`. Real page title and meta description. Comes first because an empty home page is the biggest recruiter blocker. **Picked (owner, from previews):** B split hero + C's catalog below, **Blueprint** trading cards, clean page with two retro touches (monospace "Featured:" caption, hard-bordered catalog tiles). Split into two PRs:
+- [x] **2.0 Home.** A first screen that answers "who, what, how to reach" in 5 seconds: name, role, one line, and **View projects** / **Résumé** buttons, plus a strip of selected work linking to `projects.html`. Real page title and meta description. Comes first because an empty home page is the biggest recruiter blocker. **Picked (owner, from previews):** B split hero + C's catalog below, **Blueprint** trading cards, clean page with two retro touches (monospace "Featured:" caption, hard-bordered catalog tiles). Split into two PRs:
   - [x] **2.0a** `feat/home-hero`: hero (label, name, one line, **View projects** / **Résumé** buttons), ONE static Blueprint card in the featured slot, the catalog grid (tiles are links), real `<title>` and meta description. New `css/homyles.css`. All text is `<!-- CONTENT: … -->` slots.
   - [x] **2.0b** `feat/project-data` (D26): every project written once in `data/projects.json`; `js/homcript.js` fetches it and builds the catalog tiles with `createElement` + `textContent`. A `<noscript>` link to `projects.html` for visitors without JS, and a clear console error if the JSON has a typo.
   - [x] **2.0c** `feat/home-card-stack`: the 3-card stack from projects with `"featured": true`, written as `setupStack(container)` so Phase 3 can register it as a display. Card number, `v` badge and stars are derived from the data. `aria-live` caption, reduced motion.
 - [x] **2.1 About Me** (`feat/about-page`). Laid out like an encyclopedia biography (owner): title over a hairline, lead paragraph, an infobox (the Blueprint card + a facts table), a contents box, then Background, Education, Tools and years (year bars, owner), See also, External links. Plain HTML, no JS; every text slot is `<!-- CONTENT -->`. The card CSS moved to the shared `css/cardyles.css` (home pixel-identical before and after). Two additions there: `.card-holder`, because cqi in the card's own border rings measures the nearest *ancestor* container (without one, the viewport, so the rings turned ~30px thick), and footer labels from `data-label`. The card is `aria-hidden`, since all of it repeats page text. Bars come from `data-years` in CSS, not `style=""`, so a strict CSP (5.2) won't block them.
 - [x] **2.2 Contact & Résumé** (`feat/contact-page`). New `contact.html` laid out as an engineering drawing's **title block** (owner, from previews): name, status, email + Copy, résumé download, elsewhere. The address sits in the HTML as `data-*` parts and "[at]" text; `js/contcript.js` joins it into a `mailto:` link and shows the **Copy** button (Clipboard API, secure contexts only; otherwise it selects the address and says "press Ctrl+C"; result announced with `aria-live`). Every Contact, Email and Résumé `#` link on the site now points here (`contact.html#email`, `#resume`). The PDF itself waits for the owner (`assets/docs/resume.pdf`: no phone or home address, metadata stripped).
-- [ ] **2.3 Code Portfolio.** Project cards with a status badge and tech chips (ashanand pattern).
+- [x] **2.3 Code Portfolio** (`feat/code-page`). New `code.html`: each project is a **library catalog card** (owner, from previews): card number, a status **dot** top right (owner: filled = Live, half = In progress, ring = Archived; shape and colour both differ so colour is never the only clue, hidden text gives screen readers the word, a key sits under the intro), typed title, description on ruled lines, tech chips, Source/Live links, a punched hole. Plain HTML, no JS (owner: only one page shows them; copy an `<li>` to add one). Card colours are role tokens; the printed ink (ruled lines, red rule) is fixed palette like the stripes. Everything sits on one grid (`--ic-top` + n × `--ic-line`): the red rule is ruled line 1, the dot is centred in the band above it (owner), title and description start on lines (measured: 0px off at 1280 and 390 px). All card text ≥ 5.3:1 in every theme. Card 001 is this site (real repo link); 002–003 are placeholders. Every "Code Portfolio" `#` link now points here.
 - [ ] **2.4 Browse Art.** Responsive CSS-grid gallery for the art journals and photography.
 - [x] **2.5 CAD page sections** (`feat/cad-sections`). Layout **C, index + entries** (owner, from previews): a row of numbered jump links, then one `<article id="bridge-guitar">` per project (square image box, kicker line, title, description, optional `writeup` paragraphs, stats as a `<dl>`). `js/sectcript.js` builds it; `js/datacript.js` now holds the helpers shared with home. Home tiles and cards link to `projects.html#<id>`. The script scrolls to the hash itself (the entry doesn't exist yet when the browser tries), and the fixed image box keeps the jump steady (scroll anchoring is off on this page). Bad or duplicate ids get no anchor and a console warning. The owner's placeholder blocks (`.larger-projects`, `.item-image-block`) stay above the entries for now (owner, 2026-11-05). No page per project while the header is copied by hand (D3).
 - [ ] **2.6 Bold bands** (D20): full-width page sections that alternate white, sand and pine, like a woodblock print. Same pattern as the header and footer: the band is the outer element, and `.wrapper` sits inside. Build them section by section as pages get content.
