@@ -51,10 +51,11 @@ Each feature goes in three steps: **works → right** (layout, keyboard, phones)
 
 ## ▶ Where we left off (update at the end of every session)
 
-*Last session: 2026-11-05 (fourth)*
-- **Branch:** `feat/art-page` (PR 2.4), cut from `main` at #19. These notes are its first commit.
-- **Merged this session:** #16 CAD sections (2.5), #17 About (2.1), #18 Contact & Résumé (2.2), #19 Code Portfolio (2.3, catalog cards with status dots on one ruled grid).
-- **This PR:** 2.4 Browse Art as a salon wall (owner's idea; the owner passed the coding to Claude this time).
+*Last session: 2026-11-06*
+- **Branch:** `feat/contact-drag-out`, cut from `main` at #20. These notes are its first commit.
+- **Merged this session:** #16 CAD sections (2.5), #17 About (2.1), #18 Contact & Résumé (2.2), #19 Code Portfolio (2.3), #20 Browse Art (2.4, salon wall). **All Phase 2 page templates exist.**
+- **This PR:** the "Drag it out" experiment on the contact page (owner): the whole contact card drags out as `assets/docs/contact-sheet.pdf`, made by a print-only stylesheet (printing is always Day site-wide); the résumé button drags out too once it points at a real PDF. The screen look is unchanged (owner; pixel-identical to `main` in all three themes). CAD files waited and became task 2.9.
+- **Owner habit (new):** after editing `contact.html` text, regenerate the contact-sheet PDF (README, "Contact sheet PDF").
 - **Owner to fill in (Art):** the `<!-- CONTENT -->` slots in `art.html`: the intro line and your images (copy an `<li>`, change both paths, the alt text and the caption; optional `is-wide` / `is-tall` / `is-big`). Strip EXIF/GPS from photos first. Tune the tilt with `--salon-tilt` / `--salon-nudge` in `styles.css`.
 - **Next** (in order, owner's call 2026-11-05): after 2.4 the skeleton is full, so the **design pass** (first note: the CAD "All projects" restyle). Then 2.6–2.8. Orrery art (1.14b) runs alongside whenever the owner has time.
 - **Owner to fill in (Code):** the `<!-- CONTENT -->` slots in `code.html`: the intro line, your real projects in place of No. 002 and No. 003 (copy an `<li>` for more), and a Live link for MyWeb once Pages is on.
@@ -103,6 +104,7 @@ Goal: each page gets its final structure with clearly marked placeholder slots (
 - [x] **2.5 CAD page sections** (`feat/cad-sections`). Layout **C, index + entries** (owner, from previews): a row of numbered jump links, then one `<article id="bridge-guitar">` per project (square image box, kicker line, title, description, optional `writeup` paragraphs, stats as a `<dl>`). `js/sectcript.js` builds it; `js/datacript.js` now holds the helpers shared with home. Home tiles and cards link to `projects.html#<id>`. The script scrolls to the hash itself (the entry doesn't exist yet when the browser tries), and the fixed image box keeps the jump steady (scroll anchoring is off on this page). Bad or duplicate ids get no anchor and a console warning. The owner's placeholder blocks (`.larger-projects`, `.item-image-block`) stay above the entries for now (owner, 2026-11-05). No page per project while the header is copied by hand (D3).
 - [ ] **2.6 Bold bands** (D20): full-width page sections that alternate white, sand and pine, like a woodblock print. Same pattern as the header and footer: the band is the outer element, and `.wrapper` sits inside. Build them section by section as pages get content.
 - [ ] **2.8 How to add content** (README): add a project, a photo, an art piece; image size, naming and metadata rules.
+- [ ] **2.9 CAD files** (when the owner has them; after the design pass): downloadable STL / STEP / 3MF files per project on the CAD page. A `files` list per project in `projects.json` (path, format, size), shown as download links in each 2.5 entry, each also draggable onto the desktop or a slicer with the drag-out code from `contcript.js` (move it to `datacript.js` then, as the second user). Strip file metadata; mind repo size (big files may need Git LFS or a release download instead).
 - [ ] **2.7 Retro labels.** Small uppercase labels with wider `letter-spacing` (the daz "ALL PROJECTS" look), plus a few early-web details (visible borders, monospace captions). Pick which ones then.
 
 **Design pass** (after 2.4, once the skeleton is full; owner lists what to change, Claude renders lettered previews). Collect look-and-feel notes here instead of fixing them mid-feature:
@@ -182,6 +184,14 @@ Design doc first (art style, room ↔ section map, controls), then build in smal
 - **Step 3, medium.** "Download my theme" (a `.css` file built with a `Blob`), and **drag and drop** a theme file back in (`dragover`/`drop` + `FileReader`). Security: never inject the dropped file as raw CSS. CSS can load outside URLs (`url()`, `@import`) and leak data. Read only `--color-*`/`--font-*` lines and check each value (`CSS.supports("color", value)`).
 - **Global for everyone, hard, not planned.** That needs a server, a database and a login, or any visitor could restyle (deface) the site for everyone. GitHub Pages is static (D1). The simple global route: export the theme, paste it into `:root`, commit.
 - **When.** After Phase 1, in The Laboratory. Pairs with the Code Lens experiment.
+
+**🧲 Drag it out** (owner, 2026-11-06): drag a file straight off the site, onto the desktop or into an app. Inspired by blender.org/lab/mcp-server's "Drag and Drop into Blender" button.
+- **How Blender's works.** The button is (as far as the page shows) a plain `<a href>` to the add-on's `.zip`, with extra query parameters: `?repository=https://lab.blender.org/&blender_version_min=5.1.0`. Browsers make every link draggable, and the drag carries the URL (`text/uri-list` / `text/plain`); no JS needed. Blender listens for URL drops: it reads `repository=` (first drop: "add this repository?"), then installs the `.zip` (second drop), and later checks that repository for updates. The magic is on Blender's side, not the web page's.
+- **Link onto the desktop: no, not by itself.** Dropping an ordinary link on the desktop makes a *shortcut* to the URL (`.url` on Windows, `.webloc` on Mac), not the file.
+- **The real file: `DownloadURL`** (Chrome and Edge only, non-standard). On `dragstart`: `event.dataTransfer.setData("DownloadURL", "application/pdf:resume.pdf:" + new URL(link.href, location.href))` (format `mime:filename:absolute-url`). Dropping on the desktop or a folder then downloads the actual file there. Firefox and Safari ignore it and fall back to a shortcut, so the link must still work as a normal click download (`download` attribute).
+- **Built on the contact page** (`feat/contact-drag-out`): the whole title-block card drags out as `contact-sheet.pdf`; the résumé button joins in once it points at a real PDF; a keyboard-only link does the same without dragging. **CAD files:** task 2.9. A dropped STL can then go into Blender as a file (Blender's URL drop is for add-ons only).
+- **Security.** Only our own same-site files; build the URL from our JSON paths, never from visitor input; set the right MIME type; strip metadata from anything offered (D15).
+- **Testing.** The drag data is checked by script; the actual drop onto a desktop has to be tried by hand (a real mouse drag can't be automated headlessly).
 
 ---
 
