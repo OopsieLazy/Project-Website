@@ -45,6 +45,16 @@ Add one object to `data/projects.json`: the home catalog builds its tile and the
 
 JSON is strict: double quotes only, a comma between items but **not after the last one**, and no comments. If the catalog goes blank, the browser console (F12) says why.
 
+## Contact sheet PDF
+
+`assets/docs/contact-sheet.pdf` is the contact page's title block, printed. Visitors can drag the card onto their desktop (Chrome and Edge) to save it. It is made from the page's print stylesheet, so **after changing any text on `contact.html`, make it again**. With the site served (`python -m http.server 8000`), in Git Bash:
+
+```
+"/c/Program Files (x86)/Microsoft/Edge/Application/msedge.exe" --headless=new --no-pdf-header-footer --print-to-pdf="assets/docs/contact-sheet.pdf" http://localhost:8000/contact.html
+```
+
+Or open the page, press Ctrl+P and choose "Save as PDF": the print stylesheet gives the same single sheet. The PDF holds your email as plain text, so use an alias address.
+
 ## How this project is built
 
 I'm learning web development by building this site, working with Claude Code as both instructor and pair programmer.

@@ -20,7 +20,8 @@
   border-top: 0;
 }
 
-@media (min-width: 48rem) {
+/* ", print": the printed sheet uses the same two-column layout, even on a narrow page */
+@media (min-width: 48rem), print {
   .title-block {
     grid-template-columns: 2fr 1fr;
   }
@@ -130,4 +131,63 @@
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+/* Keyboard way to the contact-sheet PDF (dragging needs a mouse). Hidden like the
+   skip link until it gets keyboard focus, so the page looks the same for everyone else */
+.tb-sheet-link:focus-visible {
+  position: static;
+  display: inline-block;
+  width: auto;
+  height: auto;
+  margin-top: var(--space-2);
+  clip-path: none;
+  white-space: normal;
+  font-size: var(--step--1);
+}
+
+/* =========================================================
+   PRINT / SAVE AS PDF: just the title block, one clean sheet.
+   This is also how assets/docs/contact-sheet.pdf is made (see README).
+   Screen styles above are untouched: everything here only applies on paper
+   ========================================================= */
+@media print {
+  @page {
+    margin: 18mm;
+  }
+
+  /* Navigation, theme picker and buttons mean nothing on paper */
+  .site-header,
+  .site-footer,
+  .skip-link,
+  .copy-button,
+  #copy-status,
+  .tb-sheet-link {
+    display: none;
+  }
+
+  /* No 70s stripes, no right-hand room for them */
+  .site {
+    background: none;
+  }
+
+  .site-main {
+    padding: 0;
+  }
+
+  .title-block {
+    max-width: none;
+    margin: 0;
+  }
+
+  /* The résumé cell is left out: its relative link would point at wherever the
+     PDF was made. The email cell takes the full width instead */
+  #resume {
+    display: none;
+  }
+
+  #email {
+    grid-column: 1 / -1;
+    border-right: 0;
+  }
 }

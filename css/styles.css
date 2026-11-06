@@ -156,7 +156,9 @@
 :root[data-theme="lantern"] { color-scheme: dark; }
 
 /* Moss: the calm night, a forest after dark (sage scale + Cinnamon Buff, no glow).
-   It starts from the night side, then swaps only the colors that differ from Lantern */
+   It starts from the night side, then swaps only the colors that differ from Lantern.
+   Screens only: printing always uses Day (see PRINT just below) */
+@media screen {
 :root[data-theme="moss"] {
   color-scheme: dark;
   --color-bg: #1C211C;
@@ -172,6 +174,16 @@
   --color-active-menu: var(--color-cinnamon); /* 8.0 on the band */
   --color-active-footer: var(--color-cinnamon);  /* 4.7 on pine */
   --color-glow: transparent;
+}
+}
+
+/* PRINT (and "Save as PDF"): always the Day colours, whatever theme is picked.
+   Dark pages waste ink and print badly. Forcing color-scheme: light makes every
+   light-dark() pick its Day side; :root[data-theme] matches as strongly as the
+   Lantern rule above and comes later, so it wins */
+@media print {
+  :root,
+  :root[data-theme] { color-scheme: light; }
 }
 
 /* =========================================================
