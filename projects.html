@@ -11,6 +11,9 @@
         <script src="js/themcript.js"></script>
         <link rel="stylesheet" href="css/projyles.css">
         <script src="js/projcript.js"></script>
+        <!-- CAD sections (task 2.5): datacript.js first, deferred scripts run in this order -->
+        <script src="js/datacript.js" defer></script>
+        <script src="js/sectcript.js" defer></script>
     </head>
     
     <body class="theprojectspage">
@@ -162,6 +165,19 @@
                                 <figcaption class="item-caption">This is a test caption</figcaption>
                             </figure>
                         </div>
+
+                        <hr class="item-image-seperator is-stylized">
+                        <!-- One entry per project (task 2.5), built by js/sectcript.js from data/projects.json.
+                             To add or edit a project, change the JSON, not this page -->
+                        <section id="cad-sections" class="cad-sections" aria-labelledby="cad-sections-title">
+                            <h2 id="cad-sections-title" class="cad-label">All projects</h2>
+                            <!-- Jump links: list-style: none makes Safari drop the list meaning, so role="list" adds it back -->
+                            <ul id="cad-index" class="cad-index" role="list"></ul>
+                            <div id="cad-entries"></div>
+                            <noscript>
+                                <p class="cad-note">The project write-ups need JavaScript to load.</p>
+                            </noscript>
+                        </section>
                     </div>
 
                 </article>

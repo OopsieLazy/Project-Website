@@ -1,38 +1,9 @@
 // Home page: builds the catalog and the featured card stack from data/projects.json (D26).
 // Each project is typed once in the JSON; this script turns it into HTML.
 // Loaded with `defer`, so the page's HTML is already parsed when this runs.
+// loadProjects(), make() and makeImage() come from js/datacript.js, which loads first.
 
-const PROJECTS_URL = "data/projects.json";
 const MAX_FEATURED = 3; // the stack's CSS has a place for 3 cards (data-pos 0, 1, 2)
-
-// Fetch the JSON and turn it into a JavaScript array.
-// `async` lets us write `await` instead of chaining .then() calls.
-async function loadProjects() {
-    const response = await fetch(PROJECTS_URL);
-    // fetch() only fails on network errors; a missing file (404) still "succeeds", so check it
-    if (!response.ok) {
-        throw new Error(`${PROJECTS_URL} answered ${response.status}`);
-    }
-    // .json() throws a SyntaxError if the file has a typo (missing comma, trailing comma, comment)
-    return response.json();
-}
-
-// Small helper: make an element with a class and children.
-// append() turns plain strings into TEXT nodes, so it's as safe as textContent (D7):
-// a "<" in a project name shows as text and can never run as code. Never innerHTML
-function make(tag, className, ...children) {
-    const element = document.createElement(tag);
-    if (className) element.className = className;
-    element.append(...children);
-    return element;
-}
-
-function makeImage(src) {
-    const image = document.createElement("img");
-    image.src = src;
-    image.alt = ""; // the link around it already names the project, so alt text would read it twice
-    return image;
-}
 
 /* ---------- Catalog: one tile per project ---------- */
 
@@ -44,7 +15,7 @@ function buildTile(project) {
         // Skip missing parts instead of printing "undefined"
         make("span", "tile-meta", [project.type, project.year].filter(Boolean).join(" · "))
     );
-    link.href = "projects.html"; // Task 2.5 points this at projects.html#<id>
+    link.href = projectHref(project); // opens the project's entry on the CAD page
     return make("li", "", link);
 }
 
@@ -62,9 +33,6 @@ function showCatalogNote() {
 }
 
 /* ---------- Featured card stack (2.0c) ---------- */
-
-// "1" -> "01", so card numbers line up like a printed set (01/03)
-const twoDigits = (n) => String(n).padStart(2, "0");
 
 // One Blueprint card. The values in the corners are DERIVED, not typed:
 // card number from its place, "v8" from iterations, stars from difficulty
@@ -109,7 +77,7 @@ function buildCard(project, index, total) {
     );
     // It's a link because it GOES somewhere (a <button> DOES something on the page).
     // aria-label gives it a short name; otherwise a screen reader would read every stat
-    card.href = "projects.html";
+    card.href = projectHref(project);
     card.setAttribute("aria-label", `${project.name}, featured project`);
     card.dataset.name = project.name;
     return card;

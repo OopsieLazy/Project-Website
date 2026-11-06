@@ -20,8 +20,9 @@ Use a local server rather than double-clicking the file, because JS modules (Pha
 |---|---|
 | `css/styles.css` | Shared header, footer, design tokens and base styles |
 | `index.html` + `css/homyles.css` + `js/homcript.js` | Home page: hero, featured Blueprint card, project catalog |
-| `data/projects.json` | Every project, written once. The home catalog is built from it |
-| `projects.html` + `css/projyles.css` + `js/projcript.js` | CAD portfolio with the 3D carousel and side popup |
+| `data/projects.json` | Every project, written once. The home catalog and the CAD page entries are built from it |
+| `js/datacript.js` | Shared helpers that load the JSON and build elements safely (home and CAD page) |
+| `projects.html` + `css/projyles.css` + `js/projcript.js` + `js/sectcript.js` | CAD portfolio: the 3D carousel and side popup, then one entry per project (`projects.html#<id>`) |
 | `assets/images/` | All images |
 | `thelab.html` | Laboratory experiment (notebook-on-desk design) |
 | `PLAN.md` | Roadmap, task breakdown, architecture decisions |
@@ -29,12 +30,13 @@ Use a local server rather than double-clicking the file, because JS modules (Pha
 
 ## Add a project
 
-Add one object to `data/projects.json` and the home catalog builds its tile:
+Add one object to `data/projects.json`: the home catalog builds its tile and the CAD page builds its entry:
 
-- `id`: lowercase-kebab-case, unique (becomes the link anchor later)
+- `id`: lowercase-kebab-case, unique. It's the link anchor, `projects.html#bridge-guitar`; a bad or clashing id still shows the entry but gets no link (the console says why)
 - `name`, `image` (path in `assets/images/`), `alt`, `type` (e.g. `"Part · 3D print"`), `year`
 - `featured`: `true` puts it in the home card stack
 - Optional: `tool`, `description`, `flavor`, `stats` (`iterations`, `parts`, `printHours`, `difficulty` 1–5)
+- Optional: `writeup`, the longer story on the CAD page, as a list of paragraphs: `"writeup": ["First paragraph.", "Second paragraph."]`
 
 JSON is strict: double quotes only, a comma between items but **not after the last one**, and no comments. If the catalog goes blank, the browser console (F12) says why.
 
