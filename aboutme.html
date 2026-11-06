@@ -4,8 +4,12 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>About Me | Place Holder</title>
+        <!-- CONTENT: the tab title and the text search engines and link previews show -->
+        <title>About · Zach Nott</title>
+        <meta name="description" content="About Zach Nott: a mechanical designer who models parts in CAD and prints them to test.">
         <link rel="stylesheet" href="css/styles.css">
+        <link rel="stylesheet" href="css/cardyles.css">
+        <link rel="stylesheet" href="css/aboutyles.css">
         <script src="js/script.js" defer></script>
         <!-- No defer on purpose: it sets the saved theme before the page is drawn (no white flash) -->
         <script src="js/themcript.js"></script>
@@ -99,7 +103,122 @@
 
             <!-- Landmarks: screen readers can jump straight to main or footer. The skip link targets #content -->
             <main id="content" class="site-main wrapper">
-                <h1> Place Holder </h1>
+                <!-- An encyclopedia-style biography (task 2.1, owner's pick): title, lead paragraph,
+                     infobox, contents, sections. Plain HTML, no JS. Every text slot is marked CONTENT -->
+                <article class="bio">
+                    <header class="bio-head">
+                        <h1>Zach Nott</h1>
+                        <!-- CONTENT: one short line under the name -->
+                        <p class="bio-tagline">Designer · Maker · Student</p>
+                    </header>
+
+                    <!-- Phones: lead, infobox, the rest (source order). Wide screens: the infobox moves
+                         to a right column beside both the lead and the rest (grid areas in aboutyles.css) -->
+                    <div class="bio-layout">
+                        <!-- CONTENT: the lead. Your name in bold first, then who you are in a sentence or two -->
+                        <p class="bio-lead"><b>Zach Nott</b> is a mechanical designer who models parts in CAD and prints them to test: printer fixes, guitar hardware and mechanisms. The CAD work began about seven years ago, at the start of university.</p>
+
+                        <aside class="infobox" aria-label="Profile summary">
+                            <p class="infobox-title">Zach Nott</p>
+                            <!-- The card is decoration: its name, tools and text are all on this page as
+                                 real text too, so aria-hidden stops screen readers reading them twice.
+                                 .card-holder is required around a card (see cardyles.css) -->
+                            <div class="card-holder infobox-card" aria-hidden="true">
+                                <div class="bp-card">
+                                    <span class="card-top"><span class="card-tool">CAD</span><span class="card-name">Zach Nott</span><span class="card-number">00</span></span>
+                                    <!-- CONTENT: your photo (strip EXIF/GPS first) and your top four tools -->
+                                    <span class="card-art">
+                                        <img src="assets/images/placeholder.svg" alt="">
+                                        <span class="card-stats">
+                                            <span class="card-stat"><span class="card-icon">◆</span><b>7y</b><small>F360</small></span>
+                                            <span class="card-stat"><span class="card-icon">◆</span><b>4y</b><small>Tool B</small></span>
+                                            <span class="card-stat"><span class="card-icon">◆</span><b>3y</b><small>Tool C</small></span>
+                                            <span class="card-stat"><span class="card-icon">◆</span><b>2y</b><small>Tool D</small></span>
+                                        </span>
+                                    </span>
+                                    <span class="card-type">Designer · Maker · Student</span>
+                                    <span class="card-text">
+                                        <span class="card-desc">Designs parts you can hold, from first sketch to printed test.</span>
+                                        <span class="card-flavor">Create something from nothing.</span>
+                                    </span>
+                                    <!-- data-label names each footer cell (cardyles.css) -->
+                                    <span class="card-foot">
+                                        <span class="card-rev" data-label="YEARS">7</span>
+                                        <span class="card-difficulty" data-label="FOCUS">CAD · PRINT</span>
+                                        <span class="card-date" data-label="SINCE">2019</span>
+                                    </span>
+                                </div>
+                            </div>
+                            <!-- CONTENT: the facts. A row header (th scope="row") names each value for screen readers -->
+                            <table class="infobox-facts">
+                                <tr><th scope="row">Field</th><td>Mechanical design &amp; CAD</td></tr>
+                                <tr><th scope="row">Education</th><td>University, program</td></tr>
+                                <tr><th scope="row">Based in</th><td>City, country</td></tr>
+                                <tr><th scope="row">CAD since</th><td>2019</td></tr>
+                                <tr><th scope="row">Known for</th><td><a href="projects.html#bridge-guitar">Bridge Guitar</a></td></tr>
+                            </table>
+                        </aside>
+
+                        <div class="bio-rest">
+                            <!-- Contents box: plain links to the section ids below -->
+                            <nav class="bio-toc" aria-labelledby="toc-title">
+                                <h2 id="toc-title" class="bio-toc-title">Contents</h2>
+                                <ol>
+                                    <li><a href="#background">Background</a></li>
+                                    <li><a href="#education">Education</a></li>
+                                    <li><a href="#tools">Tools and years</a></li>
+                                    <li><a href="#see-also">See also</a></li>
+                                    <li><a href="#external-links">External links</a></li>
+                                </ol>
+                            </nav>
+
+                            <section id="background">
+                                <h2>Background</h2>
+                                <!-- CONTENT: how you got into design, what you like to make -->
+                                <p>Background paragraph: how CAD started, what kept it going, and the kind of problems you like to solve.</p>
+                            </section>
+
+                            <section id="education">
+                                <h2>Education</h2>
+                                <!-- CONTENT: school, program, years, anything you're proud of -->
+                                <p>Education paragraph: school, program and years.</p>
+                            </section>
+
+                            <section id="tools">
+                                <h2>Tools and years</h2>
+                                <!-- CONTENT: one row per tool. data-years (1–10) sets the bar length;
+                                     the years are also written as text, so the bar is only decoration -->
+                                <dl class="tool-list">
+                                    <div><dt>Fusion 360</dt><dd><span class="tool-bar" data-years="7"></span>7 years</dd></div>
+                                    <div><dt>Tool B</dt><dd><span class="tool-bar" data-years="4"></span>4 years</dd></div>
+                                    <div><dt>Tool C</dt><dd><span class="tool-bar" data-years="3"></span>3 years</dd></div>
+                                    <div><dt>Tool D</dt><dd><span class="tool-bar" data-years="2"></span>2 years</dd></div>
+                                    <div><dt>Tool E</dt><dd><span class="tool-bar" data-years="1"></span>1 year</dd></div>
+                                </dl>
+                            </section>
+
+                            <section id="see-also">
+                                <h2>See also</h2>
+                                <ul>
+                                    <li><a href="projects.html">CAD Portfolio</a></li>
+                                    <!-- These wait for tasks 2.3 (Code) and 2.2 (Résumé) -->
+                                    <li><a href="#">Code Portfolio</a></li>
+                                    <li><a href="#">Résumé</a></li>
+                                </ul>
+                            </section>
+
+                            <section id="external-links">
+                                <h2>External links</h2>
+                                <!-- CONTENT: real profile URLs. Links to other sites that open in a new tab
+                                     (target="_blank") also get rel="noopener noreferrer" -->
+                                <ul>
+                                    <li><a href="#">GitHub</a></li>
+                                    <li><a href="#">LinkedIn</a></li>
+                                </ul>
+                            </section>
+                        </div>
+                    </div>
+                </article>
             </main>
 
             <!-- The footer is the full-width pine band; .footer-inner keeps the content lined up with the page -->
