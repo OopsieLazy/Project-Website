@@ -36,7 +36,7 @@ The museum is an *extra layer*: every page can also be reached through normal na
 ## Order of work
 
 1. **Finish the skeleton:** PR F1, F2, F3 (CAD page works on phones, popup, motion and keyboard), then the Phase 1 close. ✅
-2. **Home** (2.0b project data, 2.0c card stack) ✅. **Launch postponed** (owner, 2026-11-05) until the look is right: design pass, orrery, bug fixes, more features. Set a *launch bar* (a short list of must-haves) so it has a finish line. The launch plan is ready: PR L1 `chore/launch-basics` (titles, footer name, stripe favicon A, Open Graph, `.nojekyll`), PR L2 `feat/csp-404`, then the owner enables Pages.
+2. **Home** (2.0b project data, 2.0c card stack) ✅. **Launch postponed** (owner, 2026-11-05) until the look is right: design pass (after step 3, once the skeleton is full), orrery, bug fixes, more features. Set a *launch bar* (a short list of must-haves) so it has a finish line. The launch plan is ready: PR L1 `chore/launch-basics` (titles, footer name, stripe favicon A, Open Graph, `.nojekyll`), PR L2 `feat/csp-404`, then the owner enables Pages.
 3. **The other content-ready templates** (rest of Phase 2): every page has its layout and clear slots, so adding content is filling in, not building.
 4. **Orrery lamp** (PR E2): the owner draws the art in parallel with steps 1–3; the build comes after.
 5. **Project displays** (Phase 3), then **the museum** (Phase 4), then the rest of Phase 5.
@@ -61,11 +61,11 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 
 ### ▶ Where we left off (update at the end of every session)
 
-*Last session: 2026-11-05*
-- **Branch:** `feat/project-data` (PR 2.0b), cut from `main` at #11 (renamed from `feat/home-card-stack`). The 2026-11-04 notes are its first commit.
-- **Done this session:** audit (img sizes, 404 page, stale CLAUDE.md line) and the **ideation pass**. Adopted: projects as JSON (D26), stack as `setupStack()`, 1.15e folded into 3.2, CAD write-ups as anchored sections, email + Copy button, About stat column, Phase 3 trimmed (3.3, 3.4 cut), first museum room = `404.html`, launch right after the home page.
-- **Also done:** 2.0b (#12) and 2.0c card stack (#13) merged. Launch postponed (see Order of work); favicon picked: **A, stripes**; the nav stays as is at launch. **1.15e built** on `fix/carousel-frame-rate`.
-- **Next** (owner picks): **design pass** (owner lists 3–5 things about the look, Claude renders lettered previews), **orrery art direction** (1.14b), **2.5 CAD sections** from the JSON, or the launch-independent half of L1 (footer name, favicon, titles).
+*Last session: 2026-11-05 (second)*
+- **Branch:** `feat/cad-sections` (PR 2.5), cut from `main` at #15. These notes are its first commit.
+- **Verified `main`:** 0 W3C errors, JSON and image paths OK, home and CAD pages render at 320 / 390 / 1440 px in Day and Lantern. #14 (1.15e) and #15 (1.15g) merged.
+- **This session:** 2.5 CAD sections, layout **C, index + entries** (owner, from previews).
+- **Next** (in order, owner's call 2026-11-05): the rest of Phase 2 (2.1 About, 2.2 Contact, 2.3 Code, 2.4 Art), then the **design pass** once the skeleton is full. Orrery art (1.14b) runs alongside whenever the owner has time.
 - **Owner to fill in:** End Stop Cap and Latch Hinge have **made-up stats, flavor text and Latch Hinge's description** in `data/projects.json` (temporary, 2026-11-05). Also the `<!-- CONTENT: … -->` slots in `index.html` (name line). Reference photos live in the git-ignored `references/` folder.
 - **Owner habit:** end every PR with the full git command list (CLAUDE.md, Company workflow).
 - **Owner to-dos on GitHub (before launch):** ruleset ✅ (active). Still: turn on secret scanning and push protection, set Actions to read-only, turn off the wiki, turn on "Automatically delete head branches". Delete the old backup bundle once happy.
@@ -134,6 +134,7 @@ Every PR ends with the **QA checklist**: DevTools device mode at 320 / 375 / 768
 - [ ] **1.14e** Check: reduced motion (planets stand still), keyboard and name tag, every theme, phone to desktop. Make sure it never covers page text (on phones it reaches into the column, so a page starting with a long line needs room, e.g. a float on the first heading).
 
 **Polish** (done at the phase close): *(add refinements to finished features here)*
+- Theme lantern touches the end of the "CAD's Creations" `<h1>` at 320 px (found 2026-11-05; same risk as 1.14e).
 
 **Phase close:** ✅ 2026-11-04. Real-phone test over Wi-Fi (`python -m http.server 8000 --bind 0.0.0.0`) and a Lighthouse accessibility run, both clear (owner).
 
@@ -149,7 +150,7 @@ Goal: each page gets its final structure with clearly marked placeholder slots (
 - [ ] **2.2 Contact & Résumé.** Info page with a résumé PDF download. Email as plain text with a **Copy** button (Clipboard API).
 - [ ] **2.3 Code Portfolio.** Project cards with a status badge and tech chips (ashanand pattern).
 - [ ] **2.4 Browse Art.** Responsive CSS-grid gallery for the art journals and photography.
-- [ ] **2.5 CAD page sections.** One section per project on `projects.html` with an `id` (`projects.html#bridge-guitar`, the JSON `id`), built from the JSON. Catalog tiles link to the anchor. No page per project while the header is copied by hand (D3).
+- [x] **2.5 CAD page sections** (`feat/cad-sections`). Layout **C, index + entries** (owner, from previews): a row of numbered jump links, then one `<article id="bridge-guitar">` per project (square image box, kicker line, title, description, optional `writeup` paragraphs, stats as a `<dl>`). `js/sectcript.js` builds it; `js/datacript.js` now holds the helpers shared with home. Home tiles and cards link to `projects.html#<id>`. The script scrolls to the hash itself (the entry doesn't exist yet when the browser tries), and the fixed image box keeps the jump steady (scroll anchoring is off on this page). Bad or duplicate ids get no anchor and a console warning. The owner's placeholder blocks (`.larger-projects`, `.item-image-block`) stay above the entries for now (owner, 2026-11-05). No page per project while the header is copied by hand (D3).
 - [ ] **2.6 Bold bands** (D20): full-width page sections that alternate white, sand and pine, like a woodblock print. Same pattern as the header and footer: the band is the outer element, and `.wrapper` sits inside. Build them section by section as pages get content.
 - [ ] **2.8 How to add content** (README): add a project, a photo, an art piece; image size, naming and metadata rules.
 - [ ] **2.7 Retro labels.** Small uppercase labels with wider `letter-spacing` (the daz "ALL PROJECTS" look), plus a few early-web details (visible borders, monospace captions). Pick which ones then.

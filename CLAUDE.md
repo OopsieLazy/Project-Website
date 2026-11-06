@@ -53,10 +53,12 @@ Each page pairs with its own stylesheet and script. The names are abbreviated:
 
 | Page | CSS | JS |
 |---|---|---|
-| `index.html` (Home) | `css/styles.css` + `css/homyles.css` | `js/script.js` + `js/themcript.js` + `js/homcript.js` (builds the catalog from `data/projects.json`, D26) |
-| `projects.html` (CAD Portfolio) | `css/styles.css` + `css/projyles.css` | `js/script.js` + `js/themcript.js` + `js/projcript.js` |
+| `index.html` (Home) | `css/styles.css` + `css/homyles.css` | `js/script.js` + `js/themcript.js` + `js/datacript.js` + `js/homcript.js` (builds the catalog from `data/projects.json`, D26) |
+| `projects.html` (CAD Portfolio) | `css/styles.css` + `css/projyles.css` | `js/script.js` + `js/themcript.js` + `js/projcript.js` + `js/datacript.js` + `js/sectcript.js` (project entries from the JSON) |
 | `thelab.html` | inline `<style>` | inline |
 | `aboutme.html` | `css/styles.css` | `js/script.js` + `js/themcript.js` |
+
+`js/datacript.js` holds the shared JSON helpers (`loadProjects`, `make`, `makeImage`, `projectHref`) and must load **before** the page script that uses them (both `defer`, so HTML order is run order).
 
 `styles.css`, `js/script.js` (header toggles, loaded with `defer`) and `js/themcript.js` (theme lantern, loaded **without** `defer` so the saved theme applies before the first paint) are shared by every page except `thelab.html`.
 
