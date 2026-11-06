@@ -273,3 +273,109 @@ will-change: transform;
   font-size: 13px;
   text-decoration: underline;
 }
+
+/* =========================================================
+   CAD SECTIONS (task 2.5, layout C "index + entries").
+   js/sectcript.js builds the index links and one .cad-entry per
+   project. Phones: image above the text. Wider: image left, text right.
+   ========================================================= */
+.cad-sections {
+  margin-top: var(--space-7);
+}
+
+/* Small mono labels, the same look as the home catalog's "All projects" (2.7 unifies them) */
+.cad-label,
+.cad-kicker {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  font-weight: 400;
+  color: var(--color-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* The index: jump links in a row that wraps */
+.cad-index {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-5);
+  margin: var(--space-4) 0 var(--space-6);
+  padding: 0;
+  list-style: none;
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+}
+
+.cad-entry {
+  display: grid;
+  gap: var(--space-5);
+  padding: var(--space-6) 0;
+  border-top: 1px solid var(--color-line);
+  /* A jump to #bridge-guitar stops a little above the hairline, not flush with the screen edge */
+  scroll-margin-top: var(--space-5);
+}
+
+@media (min-width: 40rem) {
+  .cad-entry {
+    grid-template-columns: 14rem 1fr;   /* fixed image column, text takes the rest */
+    align-items: start;
+  }
+}
+
+/* The image box has a FIXED shape (square) before the image arrives. That matters here:
+   scroll anchoring is off on this page (top of file), so if images above a #link target
+   grew the page as they loaded, the target would slide off the screen. A reserved box
+   can't grow, so the jump stays put. (5.4 adds width/height to every <img> for the same reason) */
+.cad-art {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  max-width: 20rem;                    /* phones: don't let one image fill the whole screen */
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+}
+
+.cad-art img {
+  width: 85%;
+  height: 85%;
+  object-fit: contain;                 /* the whole render shows, never cropped */
+}
+
+.cad-title {
+  margin: var(--space-1) 0 var(--space-3);
+}
+
+.cad-body p {
+  margin: 0 0 var(--space-3);
+}
+
+/* Stats: label above value, in a row that wraps on narrow screens */
+.cad-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3) var(--space-5);
+  margin: var(--space-4) 0;
+  font-family: var(--font-mono);
+}
+
+.cad-stats dt {
+  font-size: var(--step--1);
+  color: var(--color-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.cad-stats dd {
+  margin: 0;
+  font-size: var(--step-1);
+  color: var(--color-ink);
+}
+
+.cad-back {
+  font-size: var(--step--1);
+}
+
+.cad-note {
+  color: var(--color-muted);
+}
