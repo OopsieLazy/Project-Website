@@ -20,6 +20,7 @@ Use a local server rather than double-clicking the file, because JS modules (Pha
 |---|---|
 | `css/styles.css` | Shared header, footer, design tokens and base styles |
 | `css/cardyles.css` | The Blueprint trading card, shared by Home and About. Wrap each card in a `.card-holder` |
+| `contact.html` + `css/contyles.css` + `js/contcript.js` | Contact & Résumé as a drawing title block: email with a Copy button, résumé PDF download |
 | `aboutme.html` + `css/aboutyles.css` | About page, laid out like an encyclopedia biography (fill in the `<!-- CONTENT -->` slots) |
 | `index.html` + `css/homyles.css` + `js/homcript.js` | Home page: hero, featured Blueprint card, project catalog |
 | `data/projects.json` | Every project, written once. The home catalog and the CAD page entries are built from it |
