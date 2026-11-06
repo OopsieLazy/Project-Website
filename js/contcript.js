@@ -50,4 +50,42 @@ function setUpEmail() {
     copyButton.hidden = false;
 }
 
+/* ---------- Drag-out: drop the real file, not a shortcut (PLAN.md Experiments) ----------
+   Dragging an ordinary link onto the desktop only makes a shortcut (.url / .webloc).
+   Chrome and Edge also read a non-standard drag type, "DownloadURL", in the format
+   "mime-type:file-name:absolute-url". Dropped on the desktop or a folder, they download
+   the file there. Firefox and Safari ignore it, so every file also has a normal link */
+
+function allowDragOut(element, href, mimeType) {
+    element.addEventListener("dragstart", (event) => {
+        // Drags that start on a link INSIDE the element (email, GitHub…) bubble up to here:
+        // leave those alone, they are ordinary link drags
+        if (event.target !== element) return;
+        const url = new URL(href, location.href);  // DownloadURL needs a full address, not a relative path
+        const fileName = url.pathname.split("/").pop();
+        event.dataTransfer.setData("DownloadURL", `${mimeType}:${fileName}:${url.href}`);
+        event.dataTransfer.setData("text/uri-list", url.href); // other browsers: dropping on a tab opens the file
+        event.dataTransfer.setData("text/plain", url.href);
+    });
+}
+
+function setUpDragOut() {
+    // 1. The whole contact card drags out as its own PDF (owner's pick).
+    //    draggable is set here, not in the HTML, so without JS the card behaves like normal text
+    const sheet = document.querySelector("#contact-sheet");
+    if (sheet && sheet.dataset.pdf) {
+        sheet.draggable = true;
+        sheet.title = "Drag this card to your desktop to save it as a PDF";
+        allowDragOut(sheet, sheet.dataset.pdf, "application/pdf");
+    }
+
+    // 2. The résumé button, once it points at a real PDF (it's "#" until you add one)
+    const resumeLink = document.querySelector("#resume .tb-button");
+    const resumeHref = resumeLink && resumeLink.getAttribute("href");
+    if (resumeHref && resumeHref.endsWith(".pdf")) {
+        allowDragOut(resumeLink, resumeHref, "application/pdf");
+    }
+}
+
 setUpEmail();
+setUpDragOut();

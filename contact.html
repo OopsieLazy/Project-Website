@@ -106,12 +106,18 @@
                 <!-- Contact & Résumé (task 2.2, owner's pick A): the page as an engineering drawing's
                      title block. One ruled box; each cell is a small label over its value.
                      Every text slot is marked CONTENT -->
-                <article class="title-block">
+                <!-- Drag-out (Experiments, "Drag it out"): js/contcript.js makes this whole card draggable.
+                     Dropped on the desktop in Chrome or Edge, it saves data-pdf, a PDF of this card.
+                     After changing any text here, regenerate that PDF (README, "Contact sheet PDF") -->
+                <article class="title-block" id="contact-sheet" data-pdf="assets/docs/contact-sheet.pdf">
                     <div class="tb-cell">
                         <!-- One h1 for the page: the label and the name read together, "Contact & Résumé, Zach Nott" -->
                         <h1 class="tb-title"><span class="tb-label">Contact &amp; Résumé</span> Zach Nott</h1>
                         <!-- CONTENT: your field and where you're based -->
                         <p class="tb-note">Mechanical design &amp; CAD · City, country</p>
+                        <!-- Keyboard users can't drag, so this link does the same job.
+                             Hidden until it gets keyboard focus (contyles.css) -->
+                        <a class="tb-sheet-link screen-reader-text" href="assets/docs/contact-sheet.pdf" download>Save this contact sheet as a PDF</a>
                     </div>
 
                     <div class="tb-cell">
