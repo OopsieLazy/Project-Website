@@ -10,6 +10,8 @@
         <link rel="stylesheet" href="css/styles.css">
         <link rel="stylesheet" href="css/homyles.css">
         <script src="js/script.js" defer></script>
+        <!-- datacript.js before homcript.js: deferred scripts run in this order -->
+        <script src="js/datacript.js" defer></script>
         <script src="js/homcript.js" defer></script>
         <!-- No defer on purpose: it sets the saved theme before the page is drawn (no white flash) -->
         <script src="js/themcript.js"></script>
