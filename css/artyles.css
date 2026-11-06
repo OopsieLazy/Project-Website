@@ -1,0 +1,186 @@
+/* Browse Art page (task 2.4, owner's pick): a "salon hang".
+   Framed pictures of mixed sizes packed onto the page, each a little crooked, with a
+   straight museum label under each. Shared header, tokens and footer live in styles.css */
+
+.art-head {
+  margin-block: var(--space-7) var(--space-5);
+}
+
+.art-head h1 {
+  margin: 0 0 var(--space-2);
+}
+
+.art-head p {
+  margin: 0;
+}
+
+.art-room {
+  margin-bottom: var(--space-8);
+}
+
+/* Small mono label, the same look as the other pages' section labels */
+.art-label {
+  margin: var(--space-6) 0 var(--space-5);
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  font-weight: 400;
+  color: var(--color-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* =========================================================
+   THE WALL. A grid of cells on the plain page background; a piece spans
+   1 or 2 cells. grid-auto-flow: dense lets a small piece fill a gap that
+   a big one left behind, so the wall stays packed whatever the HTML order
+   ========================================================= */
+.salon {
+  --cell: 9rem;                        /* one grid cell: frame + its label */
+
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(var(--cell), 40%), 1fr));
+  grid-auto-rows: var(--cell);
+  grid-auto-flow: dense;
+  gap: var(--space-6) clamp(var(--space-4), 3vw, var(--space-6));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.salon > .is-wide { grid-column: span 2; }
+.salon > .is-tall { grid-row: span 2; }
+.salon > .is-big  { grid-column: span 2; grid-row: span 2; }
+
+/* One piece = the frame (fills the space) + the label (its own height) */
+.piece {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: var(--space-2);
+  height: 100%;
+  margin: 0;
+}
+
+/* =========================================================
+   THE FRAME. The link itself is the frame: border = moulding,
+   padding = mat, the picture fills the rest.
+
+   The moulding trick: each side of a border can have its own colour,
+   and the browser joins them at 45°. Light on top, mid on the sides,
+   dark at the bottom reads as a carved moulding lit from above, with
+   real mitred corners. Colours are objects (the same in every theme),
+   so they live here as local variables, one set per moulding.
+
+   Tilt and offset are fractions of the design tokens --salon-tilt and
+   --salon-nudge in styles.css: change those, not the numbers below
+   ========================================================= */
+.frame {
+  /* Gilt (the default moulding) */
+  --frame-light: #E8CB86;
+  --frame-mid: #C49B4D;
+  --frame-dark: #8A6526;
+  --frame-width: 0.8rem;
+  --mat-width: 0.6rem;
+  --tilt: 0deg;
+  --nudge: 0rem;
+  --lift: 0rem;
+
+  display: block;
+  height: 100%;
+  padding: var(--mat-width);
+  border: var(--frame-width) solid;
+  border-color: var(--frame-light) var(--frame-mid) var(--frame-dark) var(--frame-mid);
+  background: var(--color-washi);      /* the paper mat */
+  box-shadow:
+    inset 0 0 0 1px rgb(0 0 0 / 0.35),               /* the moulding's inner lip */
+    inset 0.15rem 0.2rem 0.35rem rgb(0 0 0 / 0.25),  /* the frame's shadow on the mat */
+    0 0 0 1px rgb(0 0 0 / 0.4),                      /* crisp outer edge */
+    0 0.6rem 1rem -0.3rem rgb(0 0 0 / 0.45);         /* hanging a little off the wall */
+  /* rotate and translate are separate properties (not one transform),
+     so the hover can straighten one without wiping out the others */
+  rotate: var(--tilt);
+  translate: var(--nudge) var(--lift);
+  transition: rotate 250ms ease, translate 250ms ease, scale 250ms ease;
+}
+
+.frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;                   /* fill the opening, crop the edges, never stretch */
+  /* The mat's bevelled cut: a thin white edge with a faint line around it */
+  border: 0.15rem solid #FFFFFF;
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 0.18);
+}
+
+/* Mouldings, on cycles of different lengths so they mix irregularly */
+.salon > li:nth-child(3n + 2) .frame {         /* walnut */
+  --frame-light: #8C603E;
+  --frame-mid: #6B4429;
+  --frame-dark: #432815;
+  --frame-width: 0.7rem;
+}
+.salon > li:nth-child(5n + 4) .frame {         /* light oak */
+  --frame-light: #DDBE88;
+  --frame-mid: #BC935A;
+  --frame-dark: #8C6739;
+  --frame-width: 0.6rem;
+}
+.salon > li:nth-child(4n + 3) .frame {         /* thin black, wide mat: the modern one */
+  --frame-light: #4A4A4A;
+  --frame-mid: #2A2A2A;
+  --frame-dark: #121212;
+  --frame-width: 0.4rem;
+  --mat-width: 1rem;
+}
+
+/* "Random" tilts without JS: rules with different cycle lengths (2, 3, 4, 5, 7) overlap.
+   For each property the last matching rule wins, and a rule that doesn't set a property
+   leaves the earlier value, so the combinations only repeat every 420 pieces.
+   The numbers are fractions of the tokens (-1 = the full amount the other way) */
+.salon > li:nth-child(2n) .frame     { --tilt: calc(var(--salon-tilt) * 0.5);   --lift: calc(var(--salon-nudge) * -0.6); }
+.salon > li:nth-child(3n) .frame     { --tilt: calc(var(--salon-tilt) * -0.8);  --nudge: calc(var(--salon-nudge) * 0.7); }
+.salon > li:nth-child(5n) .frame     { --tilt: calc(var(--salon-tilt) * 1);     --nudge: calc(var(--salon-nudge) * -1); --lift: calc(var(--salon-nudge) * 0.5); }
+.salon > li:nth-child(7n) .frame     { --tilt: calc(var(--salon-tilt) * -0.35); --lift: calc(var(--salon-nudge) * 1); }
+.salon > li:nth-child(4n + 1) .frame { --tilt: calc(var(--salon-tilt) * -0.6);  --nudge: calc(var(--salon-nudge) * -0.4); }
+
+/* Hover or keyboard focus: someone straightens the crooked frame */
+.salon > li:hover .frame,
+.salon > li:focus-within .frame {
+  position: relative;
+  z-index: 1;                          /* above its tilted neighbours */
+  rotate: 0deg;
+  translate: 0 0;
+  scale: 1.03;
+}
+
+/* styles.css colours focused links instead of drawing a ring; a frame needs a real ring */
+.frame:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+  text-shadow: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .frame {
+    transition: none;
+  }
+}
+
+/* =========================================================
+   THE LABEL. Straight, under the frame, like a museum wall label:
+   title in ink, the detail (page, year) smaller in muted mono
+   ========================================================= */
+.piece figcaption {
+  text-align: center;
+  font-size: var(--step--1);
+  line-height: 1.3;
+  color: var(--color-ink);
+}
+
+.label-meta {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  letter-spacing: 0.04em;
+}
