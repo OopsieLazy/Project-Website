@@ -57,6 +57,7 @@ Each page pairs with its own stylesheet and script. The names are abbreviated:
 | `projects.html` (CAD Portfolio) | `css/styles.css` + `css/projyles.css` | `js/script.js` + `js/themcript.js` + `js/projcript.js` + `js/datacript.js` + `js/sectcript.js` (project entries from the JSON) |
 | `thelab.html` | inline `<style>` | inline |
 | `aboutme.html` | `css/styles.css` + `css/cardyles.css` + `css/aboutyles.css` | `js/script.js` + `js/themcript.js` |
+| `contact.html` (Contact & Résumé) | `css/styles.css` + `css/contyles.css` | `js/script.js` + `js/themcript.js` + `js/contcript.js` (rebuilds the email, Copy button) |
 
 `css/cardyles.css` is the shared Blueprint card. Every card must sit inside a `.card-holder` (or another `container-type: inline-size` box the card's width): the card's own border rings use `cqi`, which measures the nearest ancestor container.
 
