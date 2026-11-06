@@ -140,6 +140,13 @@
      keeps the strong perspective lines that make the carousel work (owner, 2026-11-05).
      Smaller = camera closer = stronger perspective */
   --ring-perspective: 1000px;
+
+  /* Salon wall (art.html, artyles.css): how wildly the picture frames hang.
+     Every frame's tilt and offset is a fraction (-1 to 1) of these two, so changing one
+     value calms or wildens the whole wall. 0deg + 0rem = perfectly straight and in line.
+     Tried: 3deg + 0.3rem (picked, owner), 6deg + 0.5rem (too wild), 10deg chaotic */
+  --salon-tilt: 3deg;      /* the biggest tilt any frame gets */
+  --salon-nudge: 0.3rem;   /* the biggest shift off its spot, sideways and up/down */
 }
 
 /* Theme picked with the toggle (task 1.14). js/themcript.js sets data-theme on <html>.

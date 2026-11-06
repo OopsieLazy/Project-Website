@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- CONTENT: the tab title and the text search engines and link previews show -->
+        <title>Browse Art · Zach Nott</title>
+        <meta name="description" content="Art journals and photography by Zach Nott, hung salon-style.">
+        <link rel="stylesheet" href="css/styles.css">
+        <link rel="stylesheet" href="css/artyles.css">
+        <script src="js/script.js" defer></script>
+        <!-- No defer on purpose: it sets the saved theme before the page is drawn (no white flash) -->
+        <script src="js/themcript.js"></script>
+    </head>
+    
+    <body class="theartpage">
+
+        <div id="page" class="site">
+            <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
+            <!-- Same header in index.html, projects.html, aboutme.html, contact.html, code.html and art.html: change all six together -->
+            <header id="topbranch" class="site-header">
+                <div class="site-branding">
+                </div>
+
+                <nav id="site-nav" class="main-nav wrapper" aria-label="Main">
+                    <!-- Mobile menu button: hidden until js/script.js runs, so without JS the links just stay visible -->
+                    <button id="menu-toggle" class="menu-toggle" type="button" aria-expanded="true" hidden>
+                        <span aria-hidden="true">&#9776;</span> Menu
+                    </button>
+
+                    <!-- Left Side Of Header -->
+                    <div class="header-column-left">
+                        <ul class="header-left-list">
+                            <li class="header-left-item" id="item-cad">
+                                <a class="menu-link" href="projects.html">CAD Portfolio</a></li>
+                            <li class="header-left-item" id="item-code">
+                                <a class="menu-link" href="code.html">Code Portfolio</a></li>
+                            <li class="header-left-item" id="item-art">
+                                <a class="menu-link" href="art.html">Browse Art</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Center Of Header -->
+                    <!-- The logo is the Home link, so its alt text names where it goes, not what it looks like -->
+                    <div class="header-column-center">
+                        <a href="index.html" class="size-spacing-style-logo">
+                            <span class="header-center-logo-original-container">
+                                <!-- Place Holder Image -->
+                                <img src="assets/images/placeholder.svg" alt="Home">
+                            </span>
+                        </a>
+                    </div>
+
+                    <!-- Right Side Of Header -->
+                    <div class="header-column-right">
+                        <div class="inner-menu">
+                            <div id="primary-nav" class="menu-wrap">
+                                <ul class="menu-horizontal">
+                                    <li class="header-right-item" id="item-about">
+                                        <a class="menu-link" href="aboutme.html">About Me</a></li>
+                                    <li class="header-right-item" id="item-contact">
+                                        <a class="menu-link" href="contact.html">Contact and Resume</a></li>
+                                    <li class="header-right-item mega-menu-item" id="item-lab">
+                                        <a class="menu-link" href="thelab.html">The Laboratory</a>
+                                        <!-- Phone-only toggle for the Lab links: hidden until js/script.js runs, like the Menu button.
+                                             It must come before the list, because the CSS "~" only reaches later siblings -->
+                                        <button class="submenu-toggle" type="button" aria-expanded="true" aria-label="Laboratory links" hidden><span aria-hidden="true">&#9656;</span></button>
+                                        <ul class="mega-sub-menu">
+                                            <li class="mega-menu-item"><a class="menu-link" href="#">Electronics and Circuitry</a></li>
+                                            <li class="mega-menu-item"><a class="menu-link" href="#">Computer Design and Code</a></li>
+                                            <li class="mega-menu-item"><a class="menu-link" href="#">Physical Realm and CAD</a></li>
+                                            <li class="mega-menu-item"><a class="menu-link" href="#">The AI Abode</a></li>
+                                            <li class="mega-menu-item"><a class="menu-link" href="#">In Works</a></li>
+                                            <li class="mega-menu-item"><a class="menu-link" href="#">Complete Projects</a></li>
+                                            <li class="mega-menu-item"><a class="menu-link" href="#">Research Topics</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+                <!-- Theme picker: a paper lantern hanging from the header band (js/themcript.js, task 1.14).
+                     Hidden until the script runs; without JS the site just follows the OS.
+                     All the art is this <svg> plus the THEME LANTERN section of styles.css -->
+                <button id="theme-lantern" class="theme-lantern" type="button" hidden>
+                    <svg class="lantern-art" viewBox="0 0 40 72" width="40" height="72" aria-hidden="true" focusable="false">
+                        <line class="lantern-string" x1="20" y1="0" x2="20" y2="9"/>
+                        <ellipse class="lantern-paper" cx="20" cy="30" rx="16" ry="20"/>
+                        <path class="lantern-half" d="M20 10a16 20 0 0 1 0 40z"/>
+                        <ellipse class="lantern-core" cx="20" cy="28" rx="8" ry="11"/>
+                        <path class="lantern-ribs" d="M8.6 16h22.8M5.3 22h29.4M4 30h32M5.3 38h29.4M8.6 44h22.8"/>
+                        <rect class="lantern-cap" x="11" y="8" width="18" height="4" rx="1"/>
+                        <rect class="lantern-cap" x="11" y="48" width="18" height="4" rx="1"/>
+                        <line class="lantern-string" x1="20" y1="52" x2="20" y2="64"/>
+                        <rect class="lantern-tassel" x="18" y="63" width="4" height="9" rx="1"/>
+                    </svg>
+                    <span class="theme-tag"><span class="theme-kanji" lang="ja" aria-hidden="true">自動</span> <span class="theme-name">Auto</span><span class="screen-reader-text"> theme. Press for the next theme</span></span>
+                </button>
+            </header>
+
+            <!-- Landmarks: screen readers can jump straight to main or footer. The skip link targets #content -->
+            <main id="content" class="site-main wrapper">
+                <!-- Browse Art (task 2.4, owner's pick): a "salon hang", framed pictures packed in
+                     mixed sizes, each a little crooked, with a straight label underneath. Plain HTML, no JS.
+                     TO ADD A PIECE: copy one <li> block and change the two image paths, the alt text,
+                     the label title and its detail (the <span>). Optional size class on the <li>:
+                     is-wide (landscape), is-tall (portrait) or is-big. The moulding and the tilt are
+                     picked automatically by its position (artyles.css), so the wall stays varied -->
+                <header class="art-head">
+                    <h1>Browse Art</h1>
+                    <!-- CONTENT: one line about your art journals and photography -->
+                    <p>One line about your art journals and photography.</p>
+                </header>
+
+                <section class="art-room" aria-labelledby="journals-title">
+                    <h2 id="journals-title" class="art-label">Art journals</h2>
+                    <!-- CONTENT: your journal pages (photographed flat, metadata stripped) -->
+                    <ul class="salon" role="list">
+                        <li class="is-tall">
+                            <figure class="piece">
+                                <a class="frame" href="assets/images/placeholder.svg"><img src="assets/images/placeholder.svg" alt="Placeholder: Journal 1, page 4"></a>
+                                <figcaption>Journal 1 <span class="label-meta">page 4</span></figcaption>
+                            </figure>
+                        </li>
+                        <li>
+                            <figure class="piece">
+                                <a class="frame" href="assets/images/placeholder.svg"><img src="assets/images/placeholder.svg" alt="Placeholder: Journal 1, page 9"></a>
+                                <figcaption>Journal 1 <span class="label-meta">page 9</span></figcaption>
+                            </figure>
+                        </li>
+                        <li class="is-big">
+                            <figure class="piece">
+                                <a class="frame" href="assets/images/placeholder.svg"><img src="assets/images/placeholder.svg" alt="Placeholder: Journal 2, spread 2"></a>
+                                <figcaption>Journal 2 <span class="label-meta">spread 2</span></figcaption>
+                            </figure>
+                        </li>
+                        <li>
+                            <figure class="piece">
+                                <a class="frame" href="assets/images/placeholder.svg"><img src="assets/images/placeholder.svg" alt="Placeholder: Journal 2, page 7"></a>
+                                <figcaption>Journal 2 <span class="label-meta">page 7</span></figcaption>
+                            </figure>
+                        </li>
+                        <li class="is-wide">
+                            <figure class="piece">
+                                <a class="frame" href="assets/images/placeholder.svg"><img src="assets/images/placeholder.svg" alt="Placeholder: Journal 3, spread 1"></a>
+                                <figcaption>Journal 3 <span class="label-meta">spread 1</span></figcaption>
+                            </figure>
+                        </li>
+                        <li>
+                            <figure class="piece">
+                                <a class="frame" href="assets/images/placeholder.svg"><img src="assets/images/placeholder.svg" alt="Placeholder: Journal 3, page 5"></a>
+                                <figcaption>Journal 3 <span class="label-meta">page 5</span></figcaption>
+                            </figure>
+                        </li>
+                        <li>
+                            <figure class="piece">
+                                <a class="frame" href="assets/images/placeholder.svg"><img src="assets/images/placeholder.svg" alt="Placeholder: Journal 3, page 8"></a>
+                                <figcaption>Journal 3 <span class="label-meta">page 8</span></figcaption>
+                            </figure>
+                        </li>
+                        <li>
+                            <figure class="piece">
+                                <a class="frame" href="assets/images/placeholder.svg"><img src="assets/images/placeholder.svg" alt="Placeholder: Journal 3, page 11"></a>
+                                <figcaption>Journal 3 <span class="label-meta">page 11</span></figcaption>
+                            </figure>
+                        </li>
+                        <li>
+                            <figure class="piece">
+                                <a class="frame" href="assets/images/placeholder.svg"><img src="assets/images/placeholder.svg" alt="Placeholder: Journal 4, cover"></a>
+                                <figcaption>Journal 4 <span class="label-meta">cover</span></figcaption>
+                            </figure>
+                        </li>
+                        <li>
+                            <figure class="piece">
+                                <a class="frame" href="assets/images/placeholder.svg"><img src="assets/images/placeholder.svg" alt="Placeholder: Journal 4, page 2"></a>
+                                <figcaption>Journal 4 <span class="label-meta">page 2</span></figcaption>
+                            </figure>
+                        </li>
+                        <li>
+                            <figure class="piece">
+                                <a class="frame" href="assets/images/placeholder.svg"><img src="assets/images/placeholder.svg" alt="Placeholder: Journal 4, page 6"></a>
+                                <figcaption>Journal 4 <span class="label-meta">page 6</span></figcaption>
+                            </figure>
+                        </li>
+                        <li>
+                            <figure class="piece">
+                                <a class="frame" href="assets/images/placeholder.svg"><img src="assets/images/placeholder.svg" alt="Placeholder: Journal 5, cover"></a>
+                                <figcaption>Journal 5 <span class="label-meta">cover</span></figcaption>
+                            </figure>
+                        </li>
+                    </ul>
+                </section>
+
+                <section class="art-room" aria-labelledby="photos-title">
+                    <h2 id="photos-title" class="art-label">Photography</h2>
+                    <!-- CONTENT: your photos (strip EXIF/GPS first: phone photos carry your location) -->
+                    <ul class="salon" role="list">
+                        <li class="is-wide">
+                            <figure class="piece">
+                                <a class="frame" href="assets/images/placeholder.svg"><img src="assets/images/placeholder.svg" alt="Placeholder: Harbour, 2025"></a>
+                                <figcaption>Harbour <span class="label-meta">2025</span></figcaption>
+                            </figure>
+                        </li>
+                        <li>
+                            <figure class="piece">
+                                <a class="frame" href="assets/images/placeholder.svg"><img src="assets/images/placeholder.svg" alt="Placeholder: Rain, 2025"></a>
+                                <figcaption>Rain <span class="label-meta">2025</span></figcaption>
+                            </figure>
+                        </li>
+                        <li class="is-tall">
+                            <figure class="piece">
+                                <a class="frame" href="assets/images/placeholder.svg"><img src="assets/images/placeholder.svg" alt="Placeholder: Lantern street, 2024"></a>
+                                <figcaption>Lantern street <span class="label-meta">2024</span></figcaption>
+                            </figure>
+                        </li>
+                        <li>
+                            <figure class="piece">
+                                <a class="frame" href="assets/images/placeholder.svg"><img src="assets/images/placeholder.svg" alt="Placeholder: Market, 2024"></a>
+                                <figcaption>Market <span class="label-meta">2024</span></figcaption>
+                            </figure>
+                        </li>
+                        <li class="is-big">
+                            <figure class="piece">
+                                <a class="frame" href="assets/images/placeholder.svg"><img src="assets/images/placeholder.svg" alt="Placeholder: Studio, 2024"></a>
+                                <figcaption>Studio <span class="label-meta">2024</span></figcaption>
+                            </figure>
+                        </li>
+                        <li>
+                            <figure class="piece">
+                                <a class="frame" href="assets/images/placeholder.svg"><img src="assets/images/placeholder.svg" alt="Placeholder: Bridge, 2023"></a>
+                                <figcaption>Bridge <span class="label-meta">2023</span></figcaption>
+                            </figure>
+                        </li>
+                        <li class="is-wide">
+                            <figure class="piece">
+                                <a class="frame" href="assets/images/placeholder.svg"><img src="assets/images/placeholder.svg" alt="Placeholder: Coast, 2023"></a>
+                                <figcaption>Coast <span class="label-meta">2023</span></figcaption>
+                            </figure>
+                        </li>
+                        <li>
+                            <figure class="piece">
+                                <a class="frame" href="assets/images/placeholder.svg"><img src="assets/images/placeholder.svg" alt="Placeholder: Window, 2023"></a>
+                                <figcaption>Window <span class="label-meta">2023</span></figcaption>
+                            </figure>
+                        </li>
+                        <li>
+                            <figure class="piece">
+                                <a class="frame" href="assets/images/placeholder.svg"><img src="assets/images/placeholder.svg" alt="Placeholder: Stairs, 2022"></a>
+                                <figcaption>Stairs <span class="label-meta">2022</span></figcaption>
+                            </figure>
+                        </li>
+                        <li>
+                            <figure class="piece">
+                                <a class="frame" href="assets/images/placeholder.svg"><img src="assets/images/placeholder.svg" alt="Placeholder: Garden, 2022"></a>
+                                <figcaption>Garden <span class="label-meta">2022</span></figcaption>
+                            </figure>
+                        </li>
+                        <li class="is-wide">
+                            <figure class="piece">
+                                <a class="frame" href="assets/images/placeholder.svg"><img src="assets/images/placeholder.svg" alt="Placeholder: Night bus, 2022"></a>
+                                <figcaption>Night bus <span class="label-meta">2022</span></figcaption>
+                            </figure>
+                        </li>
+                        <li>
+                            <figure class="piece">
+                                <a class="frame" href="assets/images/placeholder.svg"><img src="assets/images/placeholder.svg" alt="Placeholder: Kettle, 2021"></a>
+                                <figcaption>Kettle <span class="label-meta">2021</span></figcaption>
+                            </figure>
+                        </li>
+                        <li>
+                            <figure class="piece">
+                                <a class="frame" href="assets/images/placeholder.svg"><img src="assets/images/placeholder.svg" alt="Placeholder: Moth, 2021"></a>
+                                <figcaption>Moth <span class="label-meta">2021</span></figcaption>
+                            </figure>
+                        </li>
+                        <li>
+                            <figure class="piece">
+                                <a class="frame" href="assets/images/placeholder.svg"><img src="assets/images/placeholder.svg" alt="Placeholder: Fern, 2021"></a>
+                                <figcaption>Fern <span class="label-meta">2021</span></figcaption>
+                            </figure>
+                        </li>
+                        <li>
+                            <figure class="piece">
+                                <a class="frame" href="assets/images/placeholder.svg"><img src="assets/images/placeholder.svg" alt="Placeholder: Lighthouse, 2021"></a>
+                                <figcaption>Lighthouse <span class="label-meta">2021</span></figcaption>
+                            </figure>
+                        </li>
+                        <li>
+                            <figure class="piece">
+                                <a class="frame" href="assets/images/placeholder.svg"><img src="assets/images/placeholder.svg" alt="Placeholder: Ferry, 2020"></a>
+                                <figcaption>Ferry <span class="label-meta">2020</span></figcaption>
+                            </figure>
+                        </li>
+                    </ul>
+                </section>
+            </main>
+
+            <!-- The footer is the full-width pine band; .footer-inner keeps the content lined up with the page -->
+            <footer class="site-footer">
+                <div class="footer-inner wrapper">
+                    <!-- Every footer link uses the same pattern: to fill one in, change only its href (and text) -->
+                    <nav class="footer-nav" aria-label="Footer">
+                        <ul class="footer-list">
+                            <li class="footer-item"><a class="footer-link" href="index.html">Home</a></li>
+                            <li class="footer-item"><a class="footer-link" href="projects.html">CAD Portfolio</a></li>
+                            <li class="footer-item"><a class="footer-link" href="code.html">Code Portfolio</a></li>
+                            <li class="footer-item"><a class="footer-link" href="aboutme.html">About Me</a></li>
+                            <li class="footer-item"><a class="footer-link" href="contact.html">Contact and Resume</a></li>
+                        </ul>
+                    </nav>
+
+                    <!-- GitHub and LinkedIn are placeholders. Email and Résumé go to the contact page (2.2), which keeps
+                         the address out of the HTML: a plain mailto: here would be scraped by spam bots -->
+                    <ul class="footer-list">
+                        <li class="footer-item"><a class="footer-link" href="#">GitHub</a></li>
+                        <li class="footer-item"><a class="footer-link" href="#">LinkedIn</a></li>
+                        <li class="footer-item"><a class="footer-link" href="contact.html#email">Email</a></li>
+                        <li class="footer-item"><a class="footer-link" href="contact.html#resume">Résumé</a></li>
+                    </ul>
+
+                    <p class="footer-copy">&copy; 2026 Your Name</p>
+                </div>
+            </footer>
+        </div>
+    </body>
+
+</html>
