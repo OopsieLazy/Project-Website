@@ -51,10 +51,10 @@ Each feature goes in three steps: **works → right** (layout, keyboard, phones)
 
 ## ▶ Where we left off (update at the end of every session)
 
-*Last session: 2026-11-06*
-- **Branch:** `feat/contact-drag-out`, cut from `main` at #20. These notes are its first commit.
-- **Merged this session:** #16 CAD sections (2.5), #17 About (2.1), #18 Contact & Résumé (2.2), #19 Code Portfolio (2.3), #20 Browse Art (2.4, salon wall). **All Phase 2 page templates exist.**
-- **This PR:** the "Drag it out" experiment on the contact page (owner): the whole contact card drags out as `assets/docs/contact-sheet.pdf`, made by a print-only stylesheet (printing is always Day site-wide); the résumé button drags out too once it points at a real PDF. The screen look is unchanged (owner; pixel-identical to `main` in all three themes). CAD files waited and became task 2.9.
+*Last session: 2026-11-07*
+- **Branch:** `feat/cad-restyle` (design pass, first item), cut from `main` at #21. These notes are its first commit.
+- **Merged since last notes:** #20 Browse Art (2.4, salon wall), #21 contact card drag-out (PDF). **All Phase 2 page templates exist.**
+- **This PR:** design pass item 1, the CAD "All projects" area as **drawing sheets** (owner's pick A), plus the Phase 1 polish fix for the lantern touching the CAD heading (same page). The placeholder blocks stay and become the featured area, roadmap 3.10. More design-pass items: owner to list when ready.
 - **Owner habit (new):** after editing `contact.html` text, regenerate the contact-sheet PDF (README, "Contact sheet PDF").
 - **Owner to fill in (Art):** the `<!-- CONTENT -->` slots in `art.html`: the intro line and your images (copy an `<li>`, change both paths, the alt text and the caption; optional `is-wide` / `is-tall` / `is-big`). Strip EXIF/GPS from photos first. Tune the tilt with `--salon-tilt` / `--salon-nudge` in `styles.css`.
 - **Next** (in order, owner's call 2026-11-05): after 2.4 the skeleton is full, so the **design pass** (first note: the CAD "All projects" restyle). Then 2.6–2.8. Orrery art (1.14b) runs alongside whenever the owner has time.
@@ -64,7 +64,7 @@ Each feature goes in three steps: **works → right** (layout, keyboard, phones)
 - **Owner to fill in (Home and projects):** End Stop Cap and Latch Hinge have **made-up stats, flavor text and Latch Hinge's description** in `data/projects.json` (temporary, 2026-11-05). Also the `<!-- CONTENT: … -->` slots in `index.html` (name line). Reference photos live in the git-ignored `references/` folder.
 - **Owner habit:** end every PR with the full git command list (CLAUDE.md, Company workflow).
 - **Owner to-dos on GitHub (before launch):** ruleset ✅ (active). Still: turn on secret scanning and push protection, set Actions to read-only, turn off the wiki, turn on "Automatically delete head branches". Delete the old backup bundle once happy.
-- **Merged so far:** #1 public-repo hygiene, #2–#10 Phase 1 (tokens, skeleton, layout, header, restyle, themes, carousel fixes), #11–#13 Home (2.0a–c), #14 frame-rate spin (1.15e), #15 ring camera (1.15g), #16 CAD sections (2.5), #17 About (2.1), #18 Contact (2.2), #19 Code (2.3).
+- **Merged so far:** #1 public-repo hygiene, #2–#10 Phase 1 (tokens, skeleton, layout, header, restyle, themes, carousel fixes), #11–#13 Home (2.0a–c), #14 frame-rate spin (1.15e), #15 ring camera (1.15g), #16 CAD sections (2.5), #17 About (2.1), #18 Contact (2.2), #19 Code (2.3), #20 Art (2.4), #21 contact drag-out.
 - **Design reference:** https://dazprojects.com/collections/all (white, hairlines, centered logo, catalog grid). We kept our own fonts (Cinzel, Instrument Sans). It feeds 3.3b.
 - **Known issues:** card text is about 9 px on 320 px phones (the catalog repeats it). The CAD page's tab title is still "Projects" (L1 sets real titles).
 
@@ -87,7 +87,7 @@ Done, closed 2026-11-04 (real-phone test and a Lighthouse accessibility run, bot
 - [ ] **1.14e** Check: reduced motion (planets stand still), keyboard and name tag, every theme, phone to desktop. Make sure it never covers page text (on phones it reaches into the column, so a page starting with a long line needs room, e.g. a float on the first heading).
 
 **Polish** (done at the phase close): *(add refinements to finished features here)*
-- Theme lantern touches the end of the "CAD's Creations" `<h1>` at 320 px (found 2026-11-05; same risk as 1.14e).
+- [x] Theme lantern ran 8 px into the "CAD's Creations" `<h1>` between ~330 and 340 px wide (measured by sweeping every page 300–640 px; only this page). Fixed in `feat/cad-restyle`: on phones that heading keeps a lantern-sized gap.
 
 ## Phase 2: Content-ready templates
 
@@ -108,7 +108,7 @@ Goal: each page gets its final structure with clearly marked placeholder slots (
 - [ ] **2.7 Retro labels.** Small uppercase labels with wider `letter-spacing` (the daz "ALL PROJECTS" look), plus a few early-web details (visible borders, monospace captions). Pick which ones then.
 
 **Design pass** (after 2.4, once the skeleton is full; owner lists what to change, Claude renders lettered previews). Collect look-and-feel notes here instead of fixing them mid-feature:
-- [ ] **CAD "All projects" area** (2.5, `projects.html` below the carousel): the graphic design doesn't fully fit the theme yet (owner, 2026-11-05). Restyle the index and entries in the site's look (retro curiosity cabinet: stripes, Blueprint linework, Japanese palette), and decide the fate of the owner's placeholder blocks above them.
+- [x] **CAD "All projects" area** (`feat/cad-restyle`): restyled as **A, drawing sheet** (owner, from previews): each project is an engineering drawing (ruled double frame with zone ticks, dashed viewport with crop marks, DWG numbers, stats as a title-block table), the index a ruled sheet list. All lines are `--color-accent`, so night turns it into a blueprint. CSS only (`projyles.css`); HTML, JS and anchors unchanged. Title block is 2 × 2 until its column is wide enough for 4 (container query on `.cad-body`); no label overflows from 320 to 1440 px. The owner's placeholder blocks stay; they become the featured area (3.10).
 
 ## Phase 3: Project display system (pluggable)
 
@@ -132,6 +132,7 @@ Pattern: each display is a self-contained JS file that sets itself up on any con
   - [ ] **3.7d Info card.** On settle, show the image above the title and description, read from the same `data-*` attributes as the carousel. Announce it with `aria-live`. Reduced motion: no spin, just step and show.
   *Inspired by the owner's memory of the Chaotic game's match-select wheel. Our own design and art, not a copy of the game's look. Sketch the camera angle before 3.7a.*
 - [ ] **3.9 Phone mini-player** (was 1.16b, D16): tapping a figure shrinks the carousel and docks it to the left, like YouTube's mini-player, while the project info slides up. On phones the carousel **keeps spinning** (desktop still stops and faces the pick). Tapping the mini carousel or Close restores it. CSS `transform: scale()` + `transition`, and JS picks the behavior with `matchMedia`. Reduced motion (1.15c) keeps it paused. *Open question: can you pick another project from the mini carousel, or only restore it?*
+- [ ] **3.10 CAD featured area** (owner, 2026-11-07): the owner's two placeholder blocks above the CAD entries (`.larger-projects` "growing style, where you see part and expands to image or project view", and `.item-image-block`) become a featured area: projects with `"featured": true` in `projects.json` shown large, each showing a detail first and growing into the full image or the project entry on click. Built as a display (3.1 pattern), so it can be reused.
 - [ ] **3.8 Display switcher.** A small toolbar (Carousel · Film · Reel · Grid) above the projects. Each button swaps the `data-display` value and re-runs the loader from 3.1. The choice is remembered in `localStorage`, and the grid is the default.
 
 ## Phase 4: The museum
