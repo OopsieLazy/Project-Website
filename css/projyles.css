@@ -275,9 +275,14 @@ will-change: transform;
 }
 
 /* =========================================================
-   CAD SECTIONS (task 2.5, layout C "index + entries").
-   js/sectcript.js builds the index links and one .cad-entry per
-   project. Phones: image above the text. Wider: image left, text right.
+   CAD SECTIONS (task 2.5; restyled in the design pass as option A,
+   "drawing sheet", owner's pick). js/sectcript.js builds the index and
+   one .cad-entry per project; this file only dresses them.
+   Each project looks like an engineering drawing: a ruled double frame
+   with zone ticks, a dashed viewport with crop marks round the render,
+   a DWG number, and the stats as a title-block table.
+   All lines use --color-accent, so the sheet follows the theme: pine
+   lines on white by day, pale blue lines at night, like a blueprint
    ========================================================= */
 .cad-sections {
   margin-top: var(--space-7);
@@ -295,50 +300,106 @@ will-change: transform;
   text-transform: uppercase;
 }
 
-/* The index: jump links in a row that wraps */
+/* "DWG" is added by CSS, so the JSON and the jump-link text stay plain numbers */
+.cad-kicker::before,
+.cad-index a::before {
+  content: "DWG ";
+}
+
+/* The index as a drawing's sheet list: a ruled box of cells.
+   Each cell draws its right and bottom rule; the -1px margins overlap
+   neighbouring rules so lines never double up */
 .cad-index {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2) var(--space-5);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(14rem, 100%), 1fr));
   margin: var(--space-4) 0 var(--space-6);
   padding: 0;
   list-style: none;
+  border: 2px solid var(--color-accent);
   font-family: var(--font-mono);
   font-size: var(--step--1);
 }
 
+.cad-index li {
+  margin: 0 -1px -1px 0;
+  border-right: 1px solid var(--color-accent);
+  border-bottom: 1px solid var(--color-accent);
+}
+
+.cad-index a {
+  display: block;
+  padding: var(--space-2) var(--space-3);
+  text-decoration: none;
+}
+
+.cad-index a:hover,
+.cad-index a:focus-visible {
+  text-decoration: underline;
+}
+
+/* =========================================================
+   THE SHEET. Border = outer frame line, outline (pulled inside with a
+   negative offset) = inner frame line. The zone ticks along the top and
+   bottom are two thin repeating gradients: a 1px line every 12.5%
+   (8 zones), only 0.6rem tall, painted in the margin between the lines
+   ========================================================= */
 .cad-entry {
+  --sheet-inset: 0.6rem;               /* gap between the two frame lines */
+
   display: grid;
   gap: var(--space-5);
-  padding: var(--space-6) 0;
-  border-top: 1px solid var(--color-line);
-  /* A jump to #bridge-guitar stops a little above the hairline, not flush with the screen edge */
+  margin-bottom: var(--space-6);
+  /* Side padding shrinks on phones so the 2 × 2 title block keeps room for "ITERATIONS" at 320px */
+  padding: var(--space-6) clamp(var(--space-3), 4vw, var(--space-5)) var(--space-5);
+  border: 2px solid var(--color-accent);
+  outline: 1px solid var(--color-accent);
+  outline-offset: calc(-1 * var(--sheet-inset));
+  background:
+    repeating-linear-gradient(90deg, var(--color-accent) 0 1px, transparent 1px 12.5%)
+      top / 100% var(--sheet-inset) no-repeat,
+    repeating-linear-gradient(90deg, var(--color-accent) 0 1px, transparent 1px 12.5%)
+      bottom / 100% var(--sheet-inset) no-repeat;
+  /* A jump to #bridge-guitar stops a little above the sheet, not flush with the screen edge */
   scroll-margin-top: var(--space-5);
 }
 
 @media (min-width: 40rem) {
   .cad-entry {
-    grid-template-columns: 14rem 1fr;   /* fixed image column, text takes the rest */
+    grid-template-columns: 14rem 1fr;   /* fixed viewport column, text takes the rest */
     align-items: start;
   }
 }
 
-/* The image box has a FIXED shape (square) before the image arrives. That matters here:
+/* The viewport. It has a FIXED shape (square) before the image arrives. That matters here:
    scroll anchoring is off on this page (top of file), so if images above a #link target
    grew the page as they loaded, the target would slide off the screen. A reserved box
-   can't grow, so the jump stays put. (5.4 adds width/height to every <img> for the same reason) */
+   can't grow, so the jump stays put. (5.4 adds width/height to every <img> for the same reason)
+   The dashed outline is the viewport; the two corner marks are crop marks */
 .cad-art {
+  position: relative;
   display: grid;
   place-items: center;
   aspect-ratio: 1;
   max-width: 20rem;                    /* phones: don't let one image fill the whole screen */
-  background: var(--color-surface);
-  border: 1px solid var(--color-line);
+  outline: 1px dashed var(--color-muted);
+  outline-offset: -0.5rem;
 }
 
+.cad-art::before,
+.cad-art::after {
+  content: "";
+  position: absolute;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid var(--color-accent);
+}
+
+.cad-art::before { top: 0; left: 0; border-right: 0; border-bottom: 0; }
+.cad-art::after  { right: 0; bottom: 0; border-left: 0; border-top: 0; }
+
 .cad-art img {
-  width: 85%;
-  height: 85%;
+  width: 80%;
+  height: 80%;
   object-fit: contain;                 /* the whole render shows, never cropped */
 }
 
@@ -350,17 +411,43 @@ will-change: transform;
   margin: 0 0 var(--space-3);
 }
 
-/* Stats: label above value, in a row that wraps on narrow screens */
+/* =========================================================
+   THE TITLE BLOCK: the stats as a ruled table.
+   gap: 1px over an accent-coloured background, with each cell painted
+   in the page colour, draws every inner rule at once, whatever the
+   number of columns: 4 across on wider screens, 2 × 2 on phones
+   ========================================================= */
 .cad-stats {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-3) var(--space-5);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
   margin: var(--space-4) 0;
+  border: 1px solid var(--color-accent);
+  background: var(--color-accent);
   font-family: var(--font-mono);
 }
 
+/* 4 across only when the TEXT COLUMN is wide enough, not the screen: beside the
+   viewport the column stays narrow until well past tablet width. A container query
+   asks the column itself (the same idea as the slideshow's container query above).
+   26rem ≈ four cells that fit "ITERATIONS" */
+.cad-body {
+  container-type: inline-size;
+}
+
+@container (min-width: 26rem) {
+  .cad-stats {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.cad-stats div {
+  padding: var(--space-1) var(--space-2);
+  background: var(--color-bg);
+}
+
 .cad-stats dt {
-  font-size: var(--step--1);
+  font-size: 0.75rem;
   color: var(--color-muted);
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -368,7 +455,7 @@ will-change: transform;
 
 .cad-stats dd {
   margin: 0;
-  font-size: var(--step-1);
+  font-size: var(--step-0);
   color: var(--color-ink);
 }
 
@@ -378,4 +465,13 @@ will-change: transform;
 
 .cad-note {
   color: var(--color-muted);
+}
+
+/* Design pass: the theme lantern hangs into the top of the page. Between about 330 and 340px
+   wide this page's heading fits on one line and ran 8px into it (measured; every other
+   page's first heading sits lower and stays clear). On phones, keep a lantern-sized gap */
+@media (max-width: 40rem) {
+  .content-headers h1 {
+    padding-right: var(--space-7);
+  }
 }
