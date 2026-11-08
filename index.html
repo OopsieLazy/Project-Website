@@ -160,9 +160,19 @@
             <!-- The footer is the full-width pine band; .footer-inner keeps the content lined up with the page -->
             <footer class="site-footer">
                 <div class="footer-inner wrapper">
-                    <!-- Every footer link uses the same pattern: to fill one in, change only its href (and text) -->
-                    <nav class="footer-nav" aria-label="Footer">
-                        <ul class="footer-list">
+                    <!-- Same footer in all six pages: change them together.
+                         Phones show labelled groups; from 40rem it's centered rows (css/styles.css, FOOTER).
+                         Every link uses the same pattern: to fill one in, change only its href (and text) -->
+                    <div class="footer-brand">
+                        <p class="footer-name">Zach Nott</p>
+                        <p class="footer-tagline">Mechanical design &amp; CAD</p>
+                    </div>
+
+                    <!-- aria-labelledby names the landmark with the visible "Pages" label,
+                         so screen readers announce "Pages, navigation" -->
+                    <nav class="footer-nav" aria-labelledby="footer-pages-label">
+                        <p class="footer-label" id="footer-pages-label">Pages</p>
+                        <ul class="footer-list footer-pages">
                             <li class="footer-item"><a class="footer-link" href="index.html">Home</a></li>
                             <li class="footer-item"><a class="footer-link" href="projects.html">CAD Portfolio</a></li>
                             <li class="footer-item"><a class="footer-link" href="code.html">Code Portfolio</a></li>
@@ -172,14 +182,26 @@
                         </ul>
                     </nav>
 
-                    <!-- The owner's profiles on other sites. Email and Resume go to the contact page (2.2), which keeps
-                         the address out of the HTML: a plain mailto: here would be scraped by spam bots -->
-                    <ul class="footer-list">
-                        <li class="footer-item"><a class="footer-link" href="https://github.com/OopsieLazy">GitHub</a></li>
-                        <li class="footer-item"><a class="footer-link" href="https://makerworld.com/en/@Azuya_1500">MakerWorld</a></li>
-                        <li class="footer-item"><a class="footer-link" href="contact.html#email">Email</a></li>
-                        <li class="footer-item"><a class="footer-link" href="contact.html#resume">Resume</a></li>
-                    </ul>
+                    <!-- Two groups in one wrapper: side by side on phones, one dotted row on wider screens -->
+                    <div class="footer-extras">
+                        <!-- The owner's profiles on other sites -->
+                        <div class="footer-group">
+                            <p class="footer-label">Elsewhere</p>
+                            <ul class="footer-list">
+                                <li class="footer-item"><a class="footer-link" href="https://github.com/OopsieLazy">GitHub</a></li>
+                                <li class="footer-item"><a class="footer-link" href="https://makerworld.com/en/@Azuya_1500">MakerWorld</a></li>
+                            </ul>
+                        </div>
+                        <!-- Email and Resume go to the contact page (2.2), which keeps the address out of
+                             the HTML: a plain mailto: here would be scraped by spam bots -->
+                        <div class="footer-group">
+                            <p class="footer-label">Get in touch</p>
+                            <ul class="footer-list">
+                                <li class="footer-item"><a class="footer-link" href="contact.html#email">Email</a></li>
+                                <li class="footer-item"><a class="footer-link" href="contact.html#resume">Resume</a></li>
+                            </ul>
+                        </div>
+                    </div>
 
                     <p class="footer-copy">&copy; 2026 Zach Nott</p>
                 </div>
