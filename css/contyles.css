@@ -1,4 +1,4 @@
-/* Contact & Résumé page (task 2.2, owner's pick A): an engineering drawing's title block.
+/* Contact and Resume page (task 2.2, owner's pick A): an engineering drawing's title block.
    Shared header, tokens and footer live in styles.css */
 
 /* One ruled box. Phones: one column, a rule between cells.
@@ -180,7 +180,7 @@
     margin: 0;
   }
 
-  /* The résumé cell is left out: its relative link would point at wherever the
+  /* The resume cell is left out: its relative link would point at wherever the
      PDF was made. The email cell takes the full width instead */
   #resume {
     display: none;

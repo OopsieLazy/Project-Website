@@ -129,7 +129,10 @@
   --content-max: 72rem;    /* widest the page content gets (~1152px) */
   --gutter: clamp(var(--space-4), 5vw, var(--space-7));  /* side padding of .wrapper: 16px on phones, up to 48px */
   --radius: 4px;           /* small, crisp corners to keep it minimal */
-  --logo-size: var(--space-7);  /* header logo, 48px: square, so one value sets width and height */
+  --logo-size: var(--space-7);  /* header logo height, 48px; its width follows the logo file's shape */
+  --lantern-width: clamp(2rem, 3vw, 2.75rem);   /* the theme lantern (THEME LANTERN section) */
+  --lantern-drop: calc(var(--lantern-width) * 1.8);  /* how far it hangs: its art is 40 × 72, so height = 1.8 × width */
+  --golden: 1.618;         /* φ, the golden ratio: used for spacing that should feel "just right" */
 
   /* 3D displays: the CAD carousel (projyles.css), later the spin reel (3.7).
      Ring tilt = the spinning-coin view: how far the ring tips toward you.
@@ -289,6 +292,19 @@ hr {
   margin-block: var(--space-7);
 }
 
+/* Retro label (was 2.7, owner's call in R1): the small typewriter caps used over
+   headings and sections, like the labels on a drawing or a museum case.
+   One shared class instead of the same five lines in every page's CSS.
+   Each page adopts it in its refinement task (R1 Home first) */
+.retro-label {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  font-weight: 400;
+  color: var(--color-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 /* =========================================================
    ACCESSIBILITY HELPERS
    ========================================================= */
@@ -422,26 +438,44 @@ hr {
 
 /* Phone layout. Named grid areas: each part says where it goes by name,
    and the desktop block at the end rearranges the same names */
+/* 1fr auto 1fr: two equal side columns keep the logo centered on the band (owner, R1),
+   the Menu button sits in the right one and an empty "." cell balances it on the left */
 .main-nav {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: 1fr auto 1fr;
   grid-template-areas:
-    "logo  toggle"
-    "left  left"
-    "right right";
+    ".     logo  toggle"
+    "left  left  left"
+    "right right right";
   align-items: center;
   column-gap: var(--space-4);
 }
 
 .header-column-center { grid-area: logo; }
-.menu-toggle          { grid-area: toggle; }
+.menu-toggle          { grid-area: toggle; justify-self: end; }
 .header-column-left   { grid-area: left; }
 .header-column-right  { grid-area: right; }
 
-/* The SVG is 300x300; without a size it fills the whole column */
+/* The logo is as tall as the slot, and its width follows its own shape (width: auto),
+   so a square or wide replacement logo fits without changing this rule */
 .header-column-center img {
-  width: var(--logo-size);
+  width: auto;
   height: var(--logo-size);
+}
+
+/* inline-block: an inline link around an image has no box of its own (only empty
+   line fragments), so a focus ring has nothing to draw around. vertical-align: top
+   stops it sitting on the text baseline, which would add a gap below the logo */
+.size-spacing-style-logo {
+  display: inline-block;
+  vertical-align: top;
+}
+
+/* Links show keyboard focus by changing the text color, which can't change an image.
+   So the logo link gets the ring back (a class plus :focus-visible beats a:focus-visible) */
+.size-spacing-style-logo:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
 }
 
 /* ---------- Links ---------- */
@@ -469,6 +503,13 @@ hr {
 }
 
 /* Phones: one link per row, and the padding makes each row a big tap target */
+/* The Lab link is hidden until the Lab exists (R1). The desktop block below gives
+   .header-right-item a display value, which would beat the hidden attribute,
+   so this rule says it again with a stronger selector (an id beats a class) */
+#item-lab[hidden] {
+  display: none;
+}
+
 .header-left-item,
 .header-right-item {
  padding: 15px;
@@ -488,6 +529,25 @@ hr {
   color: var(--color-ink);
   font-size: var(--step--1);
   cursor: pointer;
+}
+
+/* The narrowest phones can't fit the centered logo AND "☰ Menu" on both sides of it,
+   so the button keeps only the ☰ icon (a 48px square) and the word is hidden the
+   screen-reader-text way: still read aloud, so the button's name stays "Menu" */
+@media (width < 24rem) {
+  .menu-toggle {
+    min-width: var(--space-7);
+    padding-inline: 0;
+  }
+
+  .menu-word {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
 }
 
 /* ---------- Lab dropdown ----------
@@ -652,7 +712,7 @@ hr {
 /* A plain button underneath: keyboard, screen readers and Enter/Space work for free.
    Never set display here, or the hidden attribute stops working (no JS = no lantern) */
 .theme-lantern {
-  --lantern-width: clamp(2rem, 3vw, 2.75rem);
+  /* --lantern-width lives with the tokens at the top: the home hero measures from it too */
   --lantern-paper: var(--color-washi);
   --lantern-core: transparent;          /* the warm light inside */
   --lantern-glow: transparent;          /* the light spilling onto the page */
