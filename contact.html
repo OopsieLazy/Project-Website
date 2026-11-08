@@ -5,8 +5,8 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- CONTENT: the tab title and the text search engines and link previews show -->
-        <title>Contact &amp; Résumé · Zach Nott</title>
-        <meta name="description" content="Contact Zach Nott by email, and download the résumé (PDF).">
+        <title>Contact and Resume · Zach Nott</title>
+        <meta name="description" content="Contact Zach Nott by email, and download the resume (PDF).">
         <link rel="stylesheet" href="css/styles.css">
         <link rel="stylesheet" href="css/contyles.css">
         <script src="js/script.js" defer></script>
@@ -27,7 +27,7 @@
                 <nav id="site-nav" class="main-nav wrapper" aria-label="Main">
                     <!-- Mobile menu button: hidden until js/script.js runs, so without JS the links just stay visible -->
                     <button id="menu-toggle" class="menu-toggle" type="button" aria-expanded="true" hidden>
-                        <span aria-hidden="true">&#9776;</span> Menu
+                        <span aria-hidden="true">&#9776;</span> <span class="menu-word">Menu</span>
                     </button>
 
                     <!-- Left Side Of Header -->
@@ -47,8 +47,9 @@
                     <div class="header-column-center">
                         <a href="index.html" class="size-spacing-style-logo">
                             <span class="header-center-logo-original-container">
-                                <!-- Place Holder Image -->
-                                <img src="assets/images/placeholder.svg" alt="Home">
+                                <!-- The logo is one file: replace assets/images/logo.svg to change it on every page.
+                                     width/height reserve its space while it loads -->
+                                <img src="assets/images/logo.svg" alt="Home" width="128" height="48">
                             </span>
                         </a>
                     </div>
@@ -62,7 +63,8 @@
                                         <a class="menu-link" href="aboutme.html">About Me</a></li>
                                     <li class="header-right-item" id="item-contact">
                                         <a class="menu-link" href="contact.html">Contact and Resume</a></li>
-                                    <li class="header-right-item mega-menu-item" id="item-lab">
+                                    <!-- Hidden until The Laboratory is a real page (R1, owner 2026-11-07). Remove "hidden" to bring it back -->
+                                    <li class="header-right-item mega-menu-item" id="item-lab" hidden>
                                         <a class="menu-link" href="thelab.html">The Laboratory</a>
                                         <!-- Phone-only toggle for the Lab links: hidden until js/script.js runs, like the Menu button.
                                              It must come before the list, because the CSS "~" only reaches later siblings -->
@@ -103,7 +105,7 @@
 
             <!-- Landmarks: screen readers can jump straight to main or footer. The skip link targets #content -->
             <main id="content" class="site-main wrapper">
-                <!-- Contact & Résumé (task 2.2, owner's pick A): the page as an engineering drawing's
+                <!-- Contact and Resume (task 2.2, owner's pick A): the page as an engineering drawing's
                      title block. One ruled box; each cell is a small label over its value.
                      Every text slot is marked CONTENT -->
                 <!-- Drag-out (Experiments, "Drag it out"): js/contcript.js makes this whole card draggable.
@@ -111,8 +113,8 @@
                      After changing any text here, regenerate that PDF (README, "Contact sheet PDF") -->
                 <article class="title-block" id="contact-sheet" data-pdf="assets/docs/contact-sheet.pdf">
                     <div class="tb-cell">
-                        <!-- One h1 for the page: the label and the name read together, "Contact & Résumé, Zach Nott" -->
-                        <h1 class="tb-title"><span class="tb-label">Contact &amp; Résumé</span> Zach Nott</h1>
+                        <!-- One h1 for the page: the label and the name read together, "Contact and Resume, Zach Nott" -->
+                        <h1 class="tb-title"><span class="tb-label">Contact and Resume</span> Zach Nott</h1>
                         <!-- CONTENT: your field and where you're based -->
                         <p class="tb-note">Mechanical design &amp; CAD · City, country</p>
                         <!-- Keyboard users can't drag, so this link does the same job.
@@ -140,7 +142,7 @@
                     </div>
 
                     <div class="tb-cell" id="resume">
-                        <h2 class="tb-label">Résumé</h2>
+                        <h2 class="tb-label">Resume</h2>
                         <!-- CONTENT: save the PDF as assets/docs/resume.pdf, then set href="assets/docs/resume.pdf"
                              and add the download attribute. Before adding it: no phone number or home address
                              (the repo and the site are public), and strip the PDF's metadata (author, software,
@@ -151,11 +153,11 @@
 
                     <div class="tb-cell tb-wide">
                         <h2 class="tb-label">Elsewhere</h2>
-                        <!-- CONTENT: real profile URLs. A link that opens a new tab (target="_blank")
-                             also gets rel="noopener noreferrer" -->
+                        <!-- Profiles on other sites. They open in the same tab; a link that opens a new tab
+                             (target="_blank") also gets rel="noopener noreferrer" -->
                         <ul class="tb-links" role="list">
-                            <li><a href="#">GitHub</a></li>
-                            <li><a href="#">LinkedIn</a></li>
+                            <li><a href="https://github.com/OopsieLazy">GitHub</a></li>
+                            <li><a href="https://makerworld.com/en/@Azuya_1500">MakerWorld</a></li>
                         </ul>
                     </div>
                 </article>
@@ -170,21 +172,22 @@
                             <li class="footer-item"><a class="footer-link" href="index.html">Home</a></li>
                             <li class="footer-item"><a class="footer-link" href="projects.html">CAD Portfolio</a></li>
                             <li class="footer-item"><a class="footer-link" href="code.html">Code Portfolio</a></li>
+                            <li class="footer-item"><a class="footer-link" href="art.html">Browse Art</a></li>
                             <li class="footer-item"><a class="footer-link" href="aboutme.html">About Me</a></li>
                             <li class="footer-item"><a class="footer-link" href="contact.html">Contact and Resume</a></li>
                         </ul>
                     </nav>
 
-                    <!-- GitHub and LinkedIn are placeholders. Email and Résumé go to the contact page (2.2), which keeps
+                    <!-- The owner's profiles on other sites. Email and Resume go to the contact page (2.2), which keeps
                          the address out of the HTML: a plain mailto: here would be scraped by spam bots -->
                     <ul class="footer-list">
-                        <li class="footer-item"><a class="footer-link" href="#">GitHub</a></li>
-                        <li class="footer-item"><a class="footer-link" href="#">LinkedIn</a></li>
+                        <li class="footer-item"><a class="footer-link" href="https://github.com/OopsieLazy">GitHub</a></li>
+                        <li class="footer-item"><a class="footer-link" href="https://makerworld.com/en/@Azuya_1500">MakerWorld</a></li>
                         <li class="footer-item"><a class="footer-link" href="contact.html#email">Email</a></li>
-                        <li class="footer-item"><a class="footer-link" href="contact.html#resume">Résumé</a></li>
+                        <li class="footer-item"><a class="footer-link" href="contact.html#resume">Resume</a></li>
                     </ul>
 
-                    <p class="footer-copy">&copy; 2026 Your Name</p>
+                    <p class="footer-copy">&copy; 2026 Zach Nott</p>
                 </div>
             </footer>
         </div>

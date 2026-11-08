@@ -79,7 +79,7 @@ function setUpDragOut() {
         allowDragOut(sheet, sheet.dataset.pdf, "application/pdf");
     }
 
-    // 2. The résumé button, once it points at a real PDF (it's "#" until you add one)
+    // 2. The resume button, once it points at a real PDF (it's "#" until you add one)
     const resumeLink = document.querySelector("#resume .tb-button");
     const resumeHref = resumeLink && resumeLink.getAttribute("href");
     if (resumeHref && resumeHref.endsWith(".pdf")) {

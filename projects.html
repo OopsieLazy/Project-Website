@@ -28,7 +28,7 @@
                 <nav id="site-nav" class="main-nav wrapper" aria-label="Main">
                     <!-- Mobile menu button: hidden until js/script.js runs, so without JS the links just stay visible -->
                     <button id="menu-toggle" class="menu-toggle" type="button" aria-expanded="true" hidden>
-                        <span aria-hidden="true">&#9776;</span> Menu
+                        <span aria-hidden="true">&#9776;</span> <span class="menu-word">Menu</span>
                     </button>
 
                     <!-- Left Side Of Header -->
@@ -48,8 +48,9 @@
                     <div class="header-column-center">
                         <a href="index.html" class="size-spacing-style-logo">
                             <span class="header-center-logo-original-container">
-                                <!-- Place Holder Image -->
-                                <img src="assets/images/placeholder.svg" alt="Home">
+                                <!-- The logo is one file: replace assets/images/logo.svg to change it on every page.
+                                     width/height reserve its space while it loads -->
+                                <img src="assets/images/logo.svg" alt="Home" width="128" height="48">
                             </span>
                         </a>
                     </div>
@@ -63,7 +64,8 @@
                                         <a class="menu-link" href="aboutme.html">About Me</a></li>
                                     <li class="header-right-item" id="item-contact">
                                         <a class="menu-link" href="contact.html">Contact and Resume</a></li>
-                                    <li class="header-right-item mega-menu-item" id="item-lab">
+                                    <!-- Hidden until The Laboratory is a real page (R1, owner 2026-11-07). Remove "hidden" to bring it back -->
+                                    <li class="header-right-item mega-menu-item" id="item-lab" hidden>
                                         <a class="menu-link" href="thelab.html">The Laboratory</a>
                                         <!-- Phone-only toggle for the Lab links: hidden until js/script.js runs, like the Menu button.
                                              It must come before the list, because the CSS "~" only reaches later siblings -->
@@ -192,21 +194,22 @@
                             <li class="footer-item"><a class="footer-link" href="index.html">Home</a></li>
                             <li class="footer-item"><a class="footer-link" href="projects.html">CAD Portfolio</a></li>
                             <li class="footer-item"><a class="footer-link" href="code.html">Code Portfolio</a></li>
+                            <li class="footer-item"><a class="footer-link" href="art.html">Browse Art</a></li>
                             <li class="footer-item"><a class="footer-link" href="aboutme.html">About Me</a></li>
                             <li class="footer-item"><a class="footer-link" href="contact.html">Contact and Resume</a></li>
                         </ul>
                     </nav>
 
-                    <!-- GitHub and LinkedIn are placeholders. Email and Résumé go to the contact page (2.2), which keeps
+                    <!-- The owner's profiles on other sites. Email and Resume go to the contact page (2.2), which keeps
                          the address out of the HTML: a plain mailto: here would be scraped by spam bots -->
                     <ul class="footer-list">
-                        <li class="footer-item"><a class="footer-link" href="#">GitHub</a></li>
-                        <li class="footer-item"><a class="footer-link" href="#">LinkedIn</a></li>
+                        <li class="footer-item"><a class="footer-link" href="https://github.com/OopsieLazy">GitHub</a></li>
+                        <li class="footer-item"><a class="footer-link" href="https://makerworld.com/en/@Azuya_1500">MakerWorld</a></li>
                         <li class="footer-item"><a class="footer-link" href="contact.html#email">Email</a></li>
-                        <li class="footer-item"><a class="footer-link" href="contact.html#resume">Résumé</a></li>
+                        <li class="footer-item"><a class="footer-link" href="contact.html#resume">Resume</a></li>
                     </ul>
 
-                    <p class="footer-copy">&copy; 2026 Your Name</p>
+                    <p class="footer-copy">&copy; 2026 Zach Nott</p>
                 </div>
             </footer>
         </div>
