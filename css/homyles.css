@@ -5,11 +5,21 @@
    HERO: who, what, where next. One column on phones;
    from 64rem, text on the left and the featured card on the right
    ========================================================= */
+/* Where the hero starts (H7, owner: tighten the gap under the lantern, "use mathematics").
+   The lantern hangs --lantern-drop below the header. The gap under it is that length
+   divided by φ (the golden ratio), so lantern : gap = φ : 1. Lantern + gap together are
+   drop × φ, because 1 + 1/φ = φ. At 1440px: 78px lantern + 48px gap = 126px.
+   It's measured from the lantern, so it stays in proportion at every screen size.
+   The page's usual top padding is dropped here so this one number decides it */
+.thehomepage .site-main {
+  padding-top: 0;
+}
+
 .home-hero {
   display: grid;
   gap: var(--space-7);
-  align-items: center;
-  padding-block: var(--space-7);
+  align-items: start;                  /* text and card start on the same line, not centered */
+  padding-block: calc(var(--lantern-drop) * var(--golden)) var(--space-7);
 }
 
 @media (min-width: 64rem) {
@@ -18,13 +28,9 @@
   }
 }
 
+/* The look comes from .retro-label (styles.css) */
 .hero-label {
   margin: 0;
-  font-family: var(--font-mono);
-  font-size: var(--step--1);
-  color: var(--color-muted);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
 }
 
 .hero-name {
@@ -80,7 +86,7 @@
   /* An element can't query its OWN size: cqi used on .bp-card (its frame and grid)
      measures the nearest ANCESTOR container. So the slot is a container too */
   container-type: inline-size;
-  width: min(100%, 20rem);             /* full column on phones (its text scales with it), 20rem at most */
+  width: min(100%, 26rem);             /* full column on phones, 26rem at most: big enough that the card text reads at full size (H1) */
   justify-self: center;
 }
 
@@ -176,15 +182,10 @@
   margin-top: var(--space-5);
 }
 
-/* A real <h2> (screen readers jump between headings), styled as a small label */
+/* A real <h2> (screen readers jump between headings), styled as a small label
+   by .retro-label (styles.css): one class (0,1,0) beats the h2 element rule (0,0,1) */
 .catalog-heading {
   margin: 0;
-  font-family: var(--font-mono);
-  font-size: var(--step--1);
-  font-weight: 400;
-  color: var(--color-muted);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
 }
 
 /* list-style: none makes Safari drop the "list" meaning, so the HTML adds role="list" back */
