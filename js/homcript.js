@@ -7,16 +7,29 @@ const MAX_FEATURED = 3; // the stack's CSS has a place for 3 cards (data-pos 0, 
 
 /* ---------- Catalog: one tile per project ---------- */
 
-// Same markup the page had by hand in 2.0a, so css/homyles.css styles it with no changes
+// One retro box per project (R1b): a full-width row while there are few, a tile in the grid
+// from 6 (the CSS decides, not this script).
+// Only the NAME is a link. Its ::after stretches over the whole box (css/homyles.css), so the
+// box is clickable, but a screen reader hears a short link name ("Bridge Guitar") instead of
+// the whole description. The name is an <h3> under the "All projects" <h2>, so screen-reader
+// users can jump from project to project
 function buildTile(project) {
-    const link = make("a", "catalog-tile",
-        makeImage(project.image),
-        make("span", "tile-name", project.name),
-        // Skip missing parts instead of printing "undefined"
-        make("span", "tile-meta", [project.type, project.year].filter(Boolean).join(" · "))
-    );
+    const link = make("a", "", project.name);
     link.href = projectHref(project); // opens the project's entry on the CAD page
-    return make("li", "", link);
+    const more = make("span", "tile-more", "View project →");
+    more.setAttribute("aria-hidden", "true"); // decoration: the link already says where it goes
+    return make("li", "catalog-item",
+        make("article", "catalog-tile",
+            make("div", "tile-art", makeImage(project.image)),
+            make("div", "tile-body",
+                make("h3", "tile-name", link),
+                // joinMeta skips missing parts instead of printing "undefined"
+                make("p", "tile-meta", joinMeta([project.type, project.year])),
+                make("p", "tile-desc", project.description || ""),
+                more
+            )
+        )
+    );
 }
 
 function renderCatalog(projects) {
