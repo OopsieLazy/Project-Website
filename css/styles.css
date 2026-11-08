@@ -372,7 +372,10 @@ hr {
 /* =========================================================
    FOOTER: a full-width pine band with white text.
    The band is the <footer>; the content sits in .footer-inner.wrapper, so the
-   color reaches the screen edges while the text lines up with the page
+   color reaches the screen edges while the text lines up with the page.
+   One set of markup, two layouts (owner's pick, R1):
+   - Phones (option A): labelled groups on a grid, so each link has an obvious home
+   - From 40rem (option B): everything centered in rows, the labels hidden
    ========================================================= */
 .site-footer {
   background-color: var(--color-footer-bg);
@@ -380,24 +383,133 @@ hr {
   font-size: var(--step--1);
 }
 
-/* flex-wrap lets the three parts sit side by side, then wrap onto new lines
-   when there's no room, so no media query is needed */
+/* Phones: two columns. The name, the Pages group and the © line span both;
+   Elsewhere and Get in touch sit side by side underneath */
 .footer-inner {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--space-4) var(--space-6);   /* row gap, column gap */
-  padding-block: var(--space-6);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6) var(--space-5);   /* row gap, column gap */
+  align-items: start;
+  padding-block: var(--space-7) var(--space-5);
 }
 
-/* Same reset as .header-left-list: no bullets or indent */
+.footer-brand,
+.footer-nav,
+.footer-copy {
+  grid-column: 1 / -1;
+}
+
+/* display: contents removes this wrapper's own box, so its two groups become
+   grid items of .footer-inner. It only exists to group them for the wide layout */
+.footer-extras {
+  display: contents;
+}
+
+/* styles.css gives every <p> a reading width (65ch); the footer lays out its own lines */
+.footer-inner p {
+  max-width: none;
+  margin: 0;
+}
+
+.footer-name {
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+}
+
+.footer-tagline,
+.footer-copy {
+  opacity: 0.75;                        /* quieter than the links; white at 75% is still 4.5+ on pine */
+}
+
+/* The small group names (Pages, Elsewhere, Get in touch), same feel as .retro-label.
+   Two classes (0,2,0) beat ".footer-inner p" (0,1,1), so this margin wins the reset above */
+.footer-inner .footer-label {
+  margin-bottom: var(--space-3);
+}
+
+.footer-label {
+  font-family: var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+
+/* Same reset as .header-left-list: no bullets or indent. One link per line on phones */
 .footer-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2) var(--space-4);
-  list-style: none;
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
   padding: 0;
+  list-style: none;
+}
+
+/* Six page links in two columns, so the group isn't a long thin tower */
+.footer-pages {
+  grid-template-columns: 1fr 1fr;
+  column-gap: var(--space-5);
+}
+
+/* The hairline above the © line: the text color at 25%, so it follows the theme
+   instead of hard-coding a white */
+.footer-copy {
+  padding-top: var(--space-4);
+  border-top: 1px solid color-mix(in srgb, currentColor 25%, transparent);
+}
+
+/* Tablet and desktop (option B): one centered column of rows.
+   Name, then the page links, then the outside links in small caps, then the © line */
+@media (min-width: 40rem) {
+  .footer-inner {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: var(--space-5);
+    text-align: center;
+  }
+
+  /* The group names aren't needed when everything is one centered row, so they're
+     hidden the screen-reader-text way: screen readers still hear "Elsewhere" etc. */
+  .footer-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  /* Rows instead of columns: flex-wrap keeps them centered and lets them wrap */
+  .footer-list,
+  .footer-extras {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-2) var(--space-5);
+  }
+
+  /* Elsewhere and Get in touch become one small row, split by dots */
+  .footer-extras {
+    gap: var(--space-2) var(--space-4);
+    font-family: var(--font-mono);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .footer-extras .footer-list {
+    gap: var(--space-2) var(--space-4);
+  }
+
+  /* A dot before every link except the very first one. It's decoration from CSS,
+     so screen readers skip it (content: "·" / "" sets its spoken text to nothing) */
+  .footer-extras li + li::before,
+  .footer-extras .footer-group + .footer-group li:first-child::before {
+    content: "·" / "";
+    margin-right: var(--space-4);
+    opacity: 0.6;
+  }
+
+  .footer-copy {
+    justify-self: stretch;              /* the hairline runs the full width */
+  }
 }
 
 /* inherit = use the footer's white; underline only on hover keeps it quiet */
