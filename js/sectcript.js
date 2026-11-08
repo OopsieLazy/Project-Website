@@ -59,7 +59,8 @@ function buildEntry(project, index, id) {
     const writeup = [].concat(project.writeup ?? []).map((text) => make("p", "", text));
 
     const body = make("div", "cad-body",
-        make("p", "cad-kicker", [number, project.type, project.year, project.tool].filter(Boolean).join(" · ")),
+        // joinMeta (datacript.js): a "·" never starts a line
+        make("p", "cad-kicker", joinMeta([number, project.type, project.year, project.tool])),
         title,
         make("p", "", project.description || ""),
         ...writeup,

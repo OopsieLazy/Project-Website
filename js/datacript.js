@@ -36,6 +36,13 @@ function projectHref(project) {
     return project.id ? `projects.html#${encodeURIComponent(project.id)}` : "projects.html";
 }
 
+// Joins short facts with " · " (R1b). The space BEFORE each dot is a no-break space ( ),
+// so a dot stays at the end of its line and never starts the next one.
+// A part that already holds dots ("Instrument · Hardware") is split first, so its dots get the same treatment
+function joinMeta(parts) {
+    return parts.filter(Boolean).flatMap((part) => String(part).split(" · ")).join(" · ");
+}
+
 // "1" -> "01", so numbers line up like a printed set (card 01/03, section 01)
 const twoDigits = (n) => String(n).padStart(2, "0");
 
