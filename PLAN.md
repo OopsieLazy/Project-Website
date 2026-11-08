@@ -58,9 +58,9 @@ Each change still goes **works → right** (layout, keyboard, phones) **→ nice
 ## ▶ Where we left off (update at the end of every session)
 
 *Last session: 2026-11-08*
-- **Branch:** `feat/footer-home` (R1). The roadmap was rebuilt (owner): **Phase R, refinement**, page by page from Home down, comes before **Phase L, launch**. Phase 2 is collapsed, and its leftovers moved into R.
-- **Merged since last notes:** #22 CAD drawing sheets (counted toward R2), #23 R1a shell (roadmap rebuild, Sacramento logo, hidden Lab, real profiles, one spelling).
-- **This PR:** the CSS half of Home's first pass (H1 card floors, H7 φ spacing, S5 `.retro-label`), four crop marks on the CAD images, and the new footer (D28), see R1. **Next:** R1b home layout on a new branch. Orrery art (1.14b) runs alongside whenever the owner has time.
+- **Branch:** `feat/home-rows` (R1b). The roadmap was rebuilt (owner): **Phase R, refinement**, page by page from Home down, comes before **Phase L, launch**. Phase 2 is collapsed, and its leftovers moved into R.
+- **Merged since last notes:** #22 CAD drawing sheets (counted toward R2), #23 R1a shell (roadmap rebuild, Sacramento logo, hidden Lab, real profiles, one spelling), #24 footer + Home first pass CSS + four crop marks.
+- **This PR (R1b):** Home's projects as alternating retro-box rows, a tile grid from 6 (D29), and `joinMeta()` so a "·" never starts a line (Home and CAD page). R1's code is then done; only the owner's content is left. **Next:** R2 CAD Portfolio audit on a new branch. Orrery art (1.14b) runs alongside whenever the owner has time.
 - **Recruiting readiness** (measured 2026-11-07): layout, phones and accessibility are ready. Blocking: not hosted; résumé and email are placeholders; End Stop Cap and Latch Hinge have made-up stats; Art is 56 placeholders; 9–12 `#` links per page. Each R task lists its page's content.
 - **Owner habits:** end every PR with the full git command list (CLAUDE.md). After editing `contact.html` text, regenerate the contact-sheet PDF (README).
 - **Merged so far:** #1 public-repo hygiene, #2–#10 and #14–#15 Phase 1, #11–#13 Home, #16 CAD sections, #17 About, #18 Contact, #19 Code, #20 Art, #21 contact drag-out, #22 CAD drawing sheets.
@@ -144,9 +144,11 @@ Goal (owner, 2026-11-07): go through the site page by page, from Home down, refi
     - Phones (preview A): name, then labelled groups (**Pages** in two columns; **Elsewhere** and **Get in touch** side by side), © under a hairline.
     - From 40rem (preview B): everything centered in rows; Elsewhere + Get in touch become one small-caps row split by dots. The labels are hidden but still read aloud.
     - Faded text is white at 75%: 5.2 on pine, 6.2 on akabeni.
-  - [ ] **R1b Home layout:**
-    - Projects **stacked full width in alternating rows** (owner) with their description, switching to the catalog grid at 6+ projects (`:has(> li:nth-child(6))`).
-    - Separators never start a line.
+  - [x] **R1b Home layout** (owner's pick B "retro boxes", D29):
+    - Projects are **full-width boxes in alternating rows** (image | text, then text | image) with their description. From 6 projects they become the tile grid (`:has(> li:nth-child(6))`, no JS).
+    - Only the name (`<h3>`) is a link, stretched over the box with `::after`; the focus ring goes round the whole box (`:has(a:focus-visible)`).
+    - The offset shadow is sage: pale grey under a wide box looked like a stray underline (owner).
+    - `joinMeta()` (`datacript.js`) puts a no-break space before each "·", so a dot never starts a line. Home and the CAD page both use it; measured 0 at 320/375/768.
   - **Owner content:** re-export the renders square on one background (biggest visual win); real stats for End Stop Cap and Latch Hinge, or the cards are trimmed to what's true; `assets/docs/resume.pdf` (then the Resume buttons point straight at it).
 - [ ] **R2 CAD Portfolio** (`projects.html`)
   - Done early (owner, in R1a): crop marks on **all four corners** of each entry image. One `::before` paints eight solid-gradient bars.
@@ -322,6 +324,7 @@ Design doc first (art style, room ↔ section map, controls), then build in smal
 | D26 | Projects live once in `data/projects.json`; page scripts `fetch()` it and build the HTML with `createElement` + `textContent`. Derived values (card number, `v` badge, stars) are computed, not typed. The carousel moves over in 3.2 | One source of truth: a project typed in three places drifts apart. Building with `textContent` keeps it XSS-safe (D7). Trade-off: content needs JS (a `<noscript>` link covers it) and a local server (`file://` blocks `fetch`) |
 | D27 | Refinement (Phase R) before launch: page by page from Home down, five fixed steps per page, and nothing ships untouched (finish, fill or remove). A written launch bar opens Phase L. Phase 3 and 4 wait until after launch | Owner, 2026-11-07, with recruiting as the goal. Recruiters judge a dead link or a grey placeholder more harshly than a page that isn't there. One page at a time keeps each PR reviewable, the same steps each time make progress easy to see, and the launch bar gives the launch postponed on 2026-11-05 a finish line |
 | D28 | Footer: one set of markup with two layouts. Phones get labelled groups on a 2-column grid (preview A); from 40rem everything is centered rows with the labels visually hidden (preview B). `display: contents` on `.footer-extras` lets the same wrapper be two grid cells on phones and one dotted row on wider screens | Owner's pick after comparing previews A/B/C. Labels help on a narrow stacked phone footer, where links would otherwise look scattered; on wide screens one centered column matches the dazprojects reference. One markup means the six copied footers stay identical |
+| D29 | Home catalog: retro boxes in alternating full-width rows up to 5 projects, a tile grid from 6 (`:has(> li:nth-child(6))`). Each name is an `<h3>` link stretched over its box with `::after` | Owner's pick B after comparing A/B/C. Rows with descriptions read well while there are few projects; a grid keeps many from becoming a long scroll, and pure CSS means adding a project to the JSON is the only step. A stretched name link keeps the box clickable while screen readers hear a short link name, and `<h3>`s let them jump between projects |
 | D17 | Skeleton and layout are separate PRs; keep the `#page` wrapper; the width cap is a reusable `.wrapper` class; two `rem` breakpoints | Smaller reviews; respects the owner's structure; a class can be reused, and the carousel can skip it when it needs more width; breakpoints give more control than fluid sizing alone |
 
 ## Open questions
