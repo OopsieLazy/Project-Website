@@ -57,11 +57,11 @@ Each change still goes **works → right** (layout, keyboard, phones) **→ nice
 
 ## ▶ Where we left off (update at the end of every session)
 
-*Last session: 2026-11-07*
-- **Branch:** `feat/refine-home` (R1). This roadmap rebuild and these notes are its first commit. The roadmap was rebuilt (owner): **Phase R, refinement**, page by page from Home down, comes before **Phase L, launch**. Phase 2 is collapsed, and its leftovers moved into R.
-- **Merged since last notes:** #22 CAD drawing sheets (design pass item 1, now counted toward R2).
-- **This PR (R1a):** the shared shell, the Sacramento logo, Home's first pass and four crop marks on the CAD images, see R1. **Next:** the footer (owner picks A/B/C), then R1b home layout on a new branch. Orrery art (1.14b) runs alongside whenever the owner has time.
-- **Recruiting readiness** (measured 2026-11-07): layout, phones and accessibility are ready. Blocking: not hosted; résumé, email, GitHub and LinkedIn are placeholders; End Stop Cap and Latch Hinge have made-up stats; Art is 56 placeholders; 9–12 `#` links per page. Each R task lists its page's content.
+*Last session: 2026-11-08*
+- **Branch:** `feat/footer-home` (R1). The roadmap was rebuilt (owner): **Phase R, refinement**, page by page from Home down, comes before **Phase L, launch**. Phase 2 is collapsed, and its leftovers moved into R.
+- **Merged since last notes:** #22 CAD drawing sheets (counted toward R2), #23 R1a shell (roadmap rebuild, Sacramento logo, hidden Lab, real profiles, one spelling).
+- **This PR:** the CSS half of Home's first pass (H1 card floors, H7 φ spacing, S5 `.retro-label`), four crop marks on the CAD images, and the new footer (D28), see R1. **Next:** R1b home layout on a new branch. Orrery art (1.14b) runs alongside whenever the owner has time.
+- **Recruiting readiness** (measured 2026-11-07): layout, phones and accessibility are ready. Blocking: not hosted; résumé and email are placeholders; End Stop Cap and Latch Hinge have made-up stats; Art is 56 placeholders; 9–12 `#` links per page. Each R task lists its page's content.
 - **Owner habits:** end every PR with the full git command list (CLAUDE.md). After editing `contact.html` text, regenerate the contact-sheet PDF (README).
 - **Merged so far:** #1 public-repo hygiene, #2–#10 and #14–#15 Phase 1, #11–#13 Home, #16 CAD sections, #17 About, #18 Contact, #19 Code, #20 Art, #21 contact drag-out, #22 CAD drawing sheets.
 - **Design reference:** https://dazprojects.com/collections/all (white, hairlines, centered logo, catalog grid), with our own fonts (Cinzel, Instrument Sans). Reference photos live in the git-ignored `references/` folder. Delete the old backup bundle once happy.
@@ -140,7 +140,10 @@ Goal (owner, 2026-11-07): go through the site page by page, from Home down, refi
     - **H7:** the hero starts `--lantern-drop × φ` below the header (lantern : gap = φ : 1), not centered beside the card. 126px instead of 251px at 1440.
     - **H1:** card text stays readable. The slot is 26rem wide, and text sizes have `max()` floors (description 11px). Narrow cards drop the flavor line. Measured: no overflow on any card from 320 to 1440px, About card included.
     - **S5:** `.retro-label` in `styles.css` is the one shared label style. Home uses it now; other pages switch in their R tasks. **Bold band:** previewed; it cuts through the 70s stripes, so not recommended for now.
-  - [ ] **Footer** (owner: "organize into aesthetic groupings"): previews A columns / B centered / C two-tier. Owner picks.
+  - [x] **Footer** (owner: "organize into aesthetic groupings", D28): one set of markup, two layouts.
+    - Phones (preview A): name, then labelled groups (**Pages** in two columns; **Elsewhere** and **Get in touch** side by side), © under a hairline.
+    - From 40rem (preview B): everything centered in rows; Elsewhere + Get in touch become one small-caps row split by dots. The labels are hidden but still read aloud.
+    - Faded text is white at 75%: 5.2 on pine, 6.2 on akabeni.
   - [ ] **R1b Home layout:**
     - Projects **stacked full width in alternating rows** (owner) with their description, switching to the catalog grid at 6+ projects (`:has(> li:nth-child(6))`).
     - Separators never start a line.
@@ -318,6 +321,7 @@ Design doc first (art style, room ↔ section map, controls), then build in smal
 | D25 | Home: B split hero + catalog, Blueprint trading cards. The card's paper is a local `--card-paper: light-dark(pine, blueprint blue)`, so it matches the footer by day and is blue in both night themes. Catalog tiles get a retro hard border | Owner's picks after comparing previews. Pine by day ties the card to the footer and the primary button; blue reads as a real blueprint at night. One local variable keeps the choice in one place. Linework passes on both (6.9 / 9.1) |
 | D26 | Projects live once in `data/projects.json`; page scripts `fetch()` it and build the HTML with `createElement` + `textContent`. Derived values (card number, `v` badge, stars) are computed, not typed. The carousel moves over in 3.2 | One source of truth: a project typed in three places drifts apart. Building with `textContent` keeps it XSS-safe (D7). Trade-off: content needs JS (a `<noscript>` link covers it) and a local server (`file://` blocks `fetch`) |
 | D27 | Refinement (Phase R) before launch: page by page from Home down, five fixed steps per page, and nothing ships untouched (finish, fill or remove). A written launch bar opens Phase L. Phase 3 and 4 wait until after launch | Owner, 2026-11-07, with recruiting as the goal. Recruiters judge a dead link or a grey placeholder more harshly than a page that isn't there. One page at a time keeps each PR reviewable, the same steps each time make progress easy to see, and the launch bar gives the launch postponed on 2026-11-05 a finish line |
+| D28 | Footer: one set of markup with two layouts. Phones get labelled groups on a 2-column grid (preview A); from 40rem everything is centered rows with the labels visually hidden (preview B). `display: contents` on `.footer-extras` lets the same wrapper be two grid cells on phones and one dotted row on wider screens | Owner's pick after comparing previews A/B/C. Labels help on a narrow stacked phone footer, where links would otherwise look scattered; on wide screens one centered column matches the dazprojects reference. One markup means the six copied footers stay identical |
 | D17 | Skeleton and layout are separate PRs; keep the `#page` wrapper; the width cap is a reusable `.wrapper` class; two `rem` breakpoints | Smaller reviews; respects the owner's structure; a class can be reused, and the carousel can skip it when it needs more width; breakpoints give more control than fluid sizing alone |
 
 ## Open questions
