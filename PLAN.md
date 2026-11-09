@@ -58,9 +58,9 @@ Each change still goes **works → right** (layout, keyboard, phones) **→ nice
 ## ▶ Where we left off (update at the end of every session)
 
 *Last session: 2026-11-08*
-- **Branch:** `feat/home-rows` (R1b). The roadmap was rebuilt (owner): **Phase R, refinement**, page by page from Home down, comes before **Phase L, launch**. Phase 2 is collapsed, and its leftovers moved into R.
-- **Merged since last notes:** #22 CAD drawing sheets (counted toward R2), #23 R1a shell (roadmap rebuild, Sacramento logo, hidden Lab, real profiles, one spelling), #24 footer + Home first pass CSS + four crop marks.
-- **This PR (R1b):** Home's projects as alternating retro-box rows, a tile grid from 6 (D29), and `joinMeta()` so a "·" never starts a line (Home and CAD page). R1's code is then done; only the owner's content is left. **Next:** R2 CAD Portfolio audit on a new branch. Orrery art (1.14b) runs alongside whenever the owner has time.
+- **Branch:** `fix/contact-drag-png`. The roadmap was rebuilt (owner): **Phase R, refinement**, page by page from Home down, comes before **Phase L, launch**.
+- **Merged since last notes:** #24 footer, #25 R1b Home rows (D29).
+- **This PR:** the R2 plan (D30–D33), then the contact card drags out as a PNG picture of itself, and the real email; Contact and About filled from the owner's résumé; whole project boxes drag out; parked CAD blocks removed; one page-top gap on every page (D34); the public résumé is live on Contact and Home. The orrery design is settled (1.14b, preview F); the owner builds it next on `feat/orrery` (1.14d). **Next:** R2a gallery on a new branch, then R2b project pages, R2c kits. The owner is gathering photos and stats meanwhile, and re-exporting the public résumé.
 - **Recruiting readiness** (measured 2026-11-07): layout, phones and accessibility are ready. Blocking: not hosted; résumé and email are placeholders; End Stop Cap and Latch Hinge have made-up stats; Art is 56 placeholders; 9–12 `#` links per page. Each R task lists its page's content.
 - **Owner habits:** end every PR with the full git command list (CLAUDE.md). After editing `contact.html` text, regenerate the contact-sheet PDF (README).
 - **Merged so far:** #1 public-repo hygiene, #2–#10 and #14–#15 Phase 1, #11–#13 Home, #16 CAD sections, #17 About, #18 Contact, #19 Code, #20 Art, #21 contact drag-out, #22 CAD drawing sheets.
@@ -79,10 +79,10 @@ Done, closed 2026-11-04 (real-phone test and a Lighthouse accessibility run, bot
 **Parked from Phase 1:**
 
 **PR E2 · `feat/orrery-lamp`**: the theme picker becomes a pixel-art orrery (owner's pick, replaces the lantern; D23 keeps the logic). Sits in the gap between the page content and the stripes. **Art (1.14b, 1.14c) runs alongside any phase; the build (1.14d, 1.14e) comes after launch (Phase L).**
-- [ ] **1.14b** Art direction: concept sketch of the lamp, which body shows each theme (sun = Day, moon = night…), size (e.g. 48×48 px, shown at 2×), palette from the theme tokens. Owner approves before any sprite work.
-- [ ] **1.14c** Pixel sprites: Claude drafts a base sprite; the owner refines it in Pixelorama or Aseprite (owner-made art for the public repo). Export PNG or SVG, metadata stripped.
-- [ ] **1.14d** Build: swap the lantern `<svg>` and CSS section for the orrery in all 3 pages. Planets orbit in wrappers turned by `rotate` at different speeds; `image-rendering: pixelated`, integer scaling only, `steps()` for frame animation. On/off transition when the theme changes. `themcript.js` stays the same.
-- [ ] **1.14e** Check: reduced motion (planets stand still), keyboard and name tag, every theme, phone to desktop. Make sure it never covers page text (on phones it reaches into the column, so a page starting with a long line needs room, e.g. a float on the first heading).
+- [x] **1.14b** Art direction (owner, 2026-11-08, after previews A–F): a **flat, wide orbit band** like a slot reel, seen a little from above, **centred under the logo** inside `--page-top` (D34), no string. Sun and moon ride it; the band is lit near the sun and fades toward the moon; bodies shrink and dim at the back. Spin it by hand: drag (mouse, finger), a fling coasts and lands on the nearest theme with a small overshoot; tap, Enter or Space = next theme; ← → step one. The theme changes when it lands. Stops: Auto −90° (twilight), Day 0° (sun front), Moss 90° (dusk, kept until the owner decides), Lantern 180° (moon front). Reference: the scratch preview `orrery-preview-4.html` (sin/cos in JS, no CSS 3D, so pixel art stays crisp).
+- [ ] **1.14c** Sprites: the owner draws the sun and moon (pixel art, about 22 × 22, PNG or SVG, metadata stripped). Stand-in shapes until then.
+- [ ] **1.14d** Build (`feat/orrery`, **owner writes it**, dice 1): in all 6 pages swap the lantern `<svg>` inside the theme `<button>` for the orrery art (keep it a `<button>`: tap, Enter, Space = next theme come free); the THEME LANTERN CSS section becomes THEME ORRERY (centred: `left: 50%` + `translate`, 76 × 48px, `touch-action: none`, colours from role tokens); `themcript.js` part 2 draws and spins it (part 1, the no-flash theme, stays). Gotcha: a drag ends with a `click`, so ignore the click that follows a drag. Remove the lantern tokens and the CAD page's phone `h1` lantern gap.
+- [ ] **1.14e** Check: reduced motion (lands instantly), keyboard (Tab, Enter, arrows), touch (DevTools device mode), all 6 pages at 320–1440 in all three themes; it stays inside `--page-top`.
 
 **Polish** (done at the phase close): *(add refinements to finished features here)*
 - [x] Theme lantern ran 8 px into the "CAD's Creations" `<h1>` between ~330 and 340 px wide (measured by sweeping every page 300–640 px; only this page). Fixed in `feat/cad-restyle`: on phones that heading keeps a lantern-sized gap.
@@ -150,9 +150,14 @@ Goal (owner, 2026-11-07): go through the site page by page, from Home down, refi
     - The offset shadow is sage: pale grey under a wide box looked like a stray underline (owner).
     - `joinMeta()` (`datacript.js`) puts a no-break space before each "·", so a dot never starts a line. Home and the CAD page both use it; measured 0 at 320/375/768.
   - **Owner content:** re-export the renders square on one background (biggest visual win); real stats for End Stop Cap and Latch Hinge, or the cards are trimmed to what's true; `assets/docs/resume.pdf` (then the Resume buttons point straight at it).
-- [ ] **R2 CAD Portfolio** (`projects.html`)
+- [ ] **R2 CAD Portfolio** (`projects.html`). Planned 2026-11-08 (owner), one PR each:
+  - [x] **Contact card drags out as a PNG** (D30, `fix/contact-drag-png`). Sets up the picture method the kits reuse.
+  - [x] **Whole boxes drag out** (2026-11-08, owner): Home boxes, featured cards and CAD entries, through `dragOutProject()` in `datacript.js`. Inner images and links get `draggable = false`, so a drag that starts on them moves the whole box. Drops the cover image until R2c adds kits. Trade-off: text inside a draggable box can't be selected with the mouse.
+  - [ ] **R2a Gallery** (D33): `images[]` in `projects.json` (`src`, `alt`, `kind` "cad"/"photo", `caption`), one folder per project (`assets/images/<id>/`). One big image + thumbnails, each tagged CAD or Photo. `image` stays the cover for cards and boxes. The parked blocks are already gone.
+  - [ ] **R2b Project pages** (D31): `sheet.html?id=<id>` + `sheetyles.css` / `sheetcript.js`, filled from the JSON, Wikipedia-style like About: infobox, Contents, Background · Design · Iterations · Printing · Result, Downloads, References. Home boxes and CAD entries link to it. Unknown id → "Project not found".
+  - [ ] **R2c Kits** (D32): each project's box drags out as `<id>-kit.zip` (sheet PNG + PDF, manual, `files/`, `LICENSE.txt`), plus a "Download kit (.zip)" link for keyboards and other browsers. The drag code moves from `contcript.js` to `datacript.js`.
   - Done early (owner, in R1a): crop marks on **all four corners** of each entry image. One `::before` paints eight solid-gradient bars.
-  - **The owner's parked blocks** `.larger-projects` (4 placeholders, "This is a test caption") and `.item-image-block`: **build 3.10 (featured area) now, or remove them.** Owner's call at the audit.
+  - [x] **The owner's parked blocks** `.larger-projects` and `.item-image-block`: removed 2026-11-08 (find them with `git log -S larger-projects`), idea kept as 3.10 in Experiments (owner, 2026-11-08). The code stays in git history.
   - **Carousel** (owner's code, changed only on the owner's say):
     - 5 placeholder figures plus a "Coming soon".
     - Bridge Guitar and Latch Hinge have no `data-title`, so their popup is empty.
@@ -160,10 +165,8 @@ Goal (owner, 2026-11-07): go through the site page by page, from Home down, refi
   - **Content:**
     - The intro paragraph, and the tab title (still "Projects").
     - **Real stats and text for End Stop Cap and Latch Hinge** (made up 2026-11-05).
-  - **CAD files** (was 2.9), if ready:
-    - A `files` list per project, shown as download links with drag-out. The drag-out code moves from `contcript.js` to `datacript.js`.
-    - Metadata stripped.
-    - Mind repo size: Git LFS or release downloads for big files.
+  - **Owner content** (✱ blocks launch): ✱ real stats per project; ✱ one square render each (same angle, same background); photos (hero, in use, close-up, scale, iteration lineup), EXIF/GPS stripped; write-up notes (problem, what changed per version, print settings); files to share; MakerWorld links; references.
+  - **Kit rules:** metadata stripped (STEP headers can hold your user name and folder paths, 3MF holds slicer profiles); each kit under ~20 MB, since git keeps every version forever; bigger models link to MakerWorld instead.
 - [ ] **R3 Code Portfolio** (`code.html`)
   - Real projects in place of No. 002 and 003 (Source / Live are `#`).
   - The intro line.
@@ -174,18 +177,18 @@ Goal (owner, 2026-11-07): go through the site page by page, from Home down, refi
   - If the art isn't ready by launch, the page leaves the nav.
 - [ ] **R5 About Me** (`aboutme.html`)
   - The card photo.
-  - Real tools and years (Tool B–E are placeholders).
-  - City, Background and Education.
+  - [x] City, Background, Education and tools from the résumé (2026-11-08). **Owner to confirm the tool years** (6/6/5 are estimates from résumé dates) and the CAD-since year (2019, while university began 2020).
   - GitHub / LinkedIn.
 - [ ] **R6 Contact & Résumé** (`contact.html`). The style stays (owner, 2026-11-06).
-  - A real email alias: the `data-*` parts and the "[at]" text.
-  - Status and city.
-  - The résumé at `assets/docs/resume.pdf`, with no phone or home address and metadata stripped. Then set its `href` and add `download`.
+  - [x] The real email (owner, 2026-11-08, in `fix/contact-drag-png`).
+  - [x] City (from the résumé). Status still to confirm: internships, or design and fabrication roles?
+  - [x] The résumé (2026-11-08): `assets/docs/zachery-nott-resume.pdf`, a public copy rebuilt from the owner's master with no health detail, clickable links and clean metadata. The contact button downloads it (and drags out); the Home hero button opens it. **Owner:** make the same edits in the Google Doc master, so the next export matches.
   - GitHub / LinkedIn.
-  - Regenerate the contact-sheet PDF after.
+  - Regenerate the contact-sheet PNG and PDF after any text change (README).
 - [ ] **R7 How to add content** (was 2.8, README). How to add a project, a photo and an art piece, plus image size, naming and metadata rules. Written last, once the patterns are final.
 
-**Polish** (refinements to pages already done): *(add here)*
+**Polish** (refinements to pages already done):
+- [x] **Page-top gap** (2026-11-08, owner handed it back): every page's content starts `--page-top` below the header (D34): 60px on phones, 72 at 1280, 80 max. Measured on all six pages at 320–1440: identical, 0 lantern overlaps. The CAD page's phone-only `h1` lantern gap (`projyles.css`) is now redundant; remove it with the orrery (1.14d).
 
 ## Phase L: Launch
 
@@ -281,7 +284,7 @@ Design doc first (art style, room ↔ section map, controls), then build in smal
 - **How Blender's works.** The button is (as far as the page shows) a plain `<a href>` to the add-on's `.zip`, with extra query parameters: `?repository=https://lab.blender.org/&blender_version_min=5.1.0`. Browsers make every link draggable, and the drag carries the URL (`text/uri-list` / `text/plain`); no JS needed. Blender listens for URL drops: it reads `repository=` (first drop: "add this repository?"), then installs the `.zip` (second drop), and later checks that repository for updates. The magic is on Blender's side, not the web page's.
 - **Link onto the desktop: no, not by itself.** Dropping an ordinary link on the desktop makes a *shortcut* to the URL (`.url` on Windows, `.webloc` on Mac), not the file.
 - **The real file: `DownloadURL`** (Chrome and Edge only, non-standard). On `dragstart`: `event.dataTransfer.setData("DownloadURL", "application/pdf:resume.pdf:" + new URL(link.href, location.href))` (format `mime:filename:absolute-url`). Dropping on the desktop or a folder then downloads the actual file there. Firefox and Safari ignore it and fall back to a shortcut, so the link must still work as a normal click download (`download` attribute).
-- **Built on the contact page** (`feat/contact-drag-out`): the whole title-block card drags out as `contact-sheet.pdf`; the résumé button joins in once it points at a real PDF; a keyboard-only link does the same without dragging. **CAD files:** R2 (was 2.9). A dropped STL can then go into Blender as a file (Blender's URL drop is for add-ons only).
+- **Built on the contact page** (`feat/contact-drag-out`): the whole title-block card drags out (as a PNG since D30); the résumé button joins in once it points at a real PDF; a keyboard-only link saves the PDF without dragging. **Project kits:** R2c (D32).
 - **Security.** Only our own same-site files; build the URL from our JSON paths, never from visitor input; set the right MIME type; strip metadata from anything offered (D15).
 - **Testing.** The drag data is checked by script; the actual drop onto a desktop has to be tried by hand (a real mouse drag can't be automated headlessly).
 
@@ -325,6 +328,11 @@ Design doc first (art style, room ↔ section map, controls), then build in smal
 | D27 | Refinement (Phase R) before launch: page by page from Home down, five fixed steps per page, and nothing ships untouched (finish, fill or remove). A written launch bar opens Phase L. Phase 3 and 4 wait until after launch | Owner, 2026-11-07, with recruiting as the goal. Recruiters judge a dead link or a grey placeholder more harshly than a page that isn't there. One page at a time keeps each PR reviewable, the same steps each time make progress easy to see, and the launch bar gives the launch postponed on 2026-11-05 a finish line |
 | D28 | Footer: one set of markup with two layouts. Phones get labelled groups on a 2-column grid (preview A); from 40rem everything is centered rows with the labels visually hidden (preview B). `display: contents` on `.footer-extras` lets the same wrapper be two grid cells on phones and one dotted row on wider screens | Owner's pick after comparing previews A/B/C. Labels help on a narrow stacked phone footer, where links would otherwise look scattered; on wide screens one centered column matches the dazprojects reference. One markup means the six copied footers stay identical |
 | D29 | Home catalog: retro boxes in alternating full-width rows up to 5 projects, a tile grid from 6 (`:has(> li:nth-child(6))`). Each name is an `<h3>` link stretched over its box with `::after` | Owner's pick B after comparing A/B/C. Rows with descriptions read well while there are few projects; a grid keeps many from becoming a long scroll, and pure CSS means adding a project to the JSON is the only step. A stretched name link keeps the box clickable while screen readers hear a short link name, and `<h3>`s let them jump between projects |
+| D30 | The contact card drags out as `contact-sheet.png`, a 2× screenshot of the card as it looks by day. The keyboard link keeps the PDF | A picture gets a thumbnail on the desktop; a PDF shows whatever app opens PDFs (Chrome's icon here). PNG, not JPEG: JPEG blurs text and thin lines. The PDF keeps clickable links for anyone who wants them |
+| D31 | Project pages: one template, `sheet.html?id=<id>`, filled from `projects.json` | Each project is typed once and there's one more header copy, not one per project. The `id` only looks a project up and goes in with `textContent` (D7). Trade-off: shared links preview the site's title, not the project's; static pages can come later if that matters |
+| D32 | Project kits: one `.zip` per project, as the drag payload and a download link. Licence CC BY-NC 4.0, in the kit (code stays MIT, the rest all rights reserved) | `DownloadURL` carries one file per drag, so several files need an archive. A zip can't show a preview: the desktop draws its own icon per file type. CC BY-NC is the common MakerWorld licence: people may print and remix with credit, but not sell |
+| D33 | Several images per project in `images[]`, each tagged `cad` or `photo`, in `assets/images/<id>/` | "Modelled → printed and working" side by side is the strongest proof for a recruiter. A folder per project keeps dozens of photos findable; `image` stays the single cover |
+| D34 | One `--page-top` token (`clamp(3.75rem, 2.5rem + 2.5vw, 5rem)`) sets where every page's content starts; page files add no top space of their own. The header ornament must fit inside it | Owner's pick B after comparing previews: about the lantern's length, but as a design value of its own. Before, CAD sat at 64px and the rest at 112–130px because each page added its own margin. Reversing the dependency (the lamp fits the gap, not the gap the lamp) means the orrery can replace the lantern without moving any page |
 | D17 | Skeleton and layout are separate PRs; keep the `#page` wrapper; the width cap is a reusable `.wrapper` class; two `rem` breakpoints | Smaller reviews; respects the owner's structure; a class can be reused, and the carousel can skip it when it needs more width; breakpoints give more control than fluid sizing alone |
 
 ## Open questions
