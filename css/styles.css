@@ -47,7 +47,7 @@
    Contrast is noted as day / night against the page background
    ========================================================= */
 :root {
-  /* Three themes (D22): Day, Lantern (the default night) and Moss (opt-in night, below).
+  /* Two themes (D22): Day and Lantern (night). A third, Moss, was removed (D36).
      color-scheme tells the browser which themes we support; light-dark(day, night)
      then picks a value from the visitor's OS setting, so night = Lantern.
      Bonus: scrollbars and form controls turn dark at night for free */
@@ -66,7 +66,7 @@
   --color-beni: #B0204C;       /* beni (safflower) pink, decoration only */
   --color-chochin: #FF7A59;    /* chōchin, paper-lantern red-orange: Lantern's highlight */
   --color-akabeni: #7A2430;    /* akabeni, deep lantern red: Lantern's footer band */
-  --color-cinnamon: #F5C07B;   /* Cinnamon Buff (Sanzo Wada's color dictionary): Moss's highlight */
+  --color-cinnamon: #F5C07B;   /* Cinnamon Buff (Sanzo Wada's color dictionary): the theme drum's sun */
   --color-washi: #F4F1E8;      /* washi paper: the unlit theme lantern */
   --color-sumi: #1F1F1F;       /* sumi ink black: the lantern's lacquer caps */
   --color-blueprint: #1D3F7A;  /* blueprint paper: the trading cards (homyles.css) */
@@ -130,12 +130,10 @@
   --gutter: clamp(var(--space-4), 5vw, var(--space-7));  /* side padding of .wrapper: 16px on phones, up to 48px */
   --radius: 4px;           /* small, crisp corners to keep it minimal */
   --logo-size: var(--space-7);  /* header logo height, 48px; its width follows the logo file's shape */
-  --lantern-width: clamp(2rem, 3vw, 2.75rem);   /* the theme lantern (THEME LANTERN section) */
-  --lantern-drop: calc(var(--lantern-width) * 1.8);  /* how far it hangs: its art is 40 × 72, so height = 1.8 × width */
   --golden: 1.618;         /* φ, the golden ratio: used for spacing that should feel "just right" */
   /* Where every page's content starts below the header (owner's pick B, 2026-11-08):
      60px on phones, growing smoothly to 80px on wide screens. It's a design value of its own,
-     NOT measured from the lantern: whatever hangs from the header (lantern, later the orrery)
+     NOT measured from the lantern: whatever hangs from the header (the theme drum, D35)
      must fit inside it, so the ornament can change without moving any page */
   --page-top: clamp(3.75rem, 2.5rem + 2.5vw, 5rem);
 
@@ -162,28 +160,6 @@
    every light-dark() above pick the matching side */
 :root[data-theme="day"] { color-scheme: light; }
 :root[data-theme="lantern"] { color-scheme: dark; }
-
-/* Moss: the calm night, a forest after dark (sage scale + Cinnamon Buff, no glow).
-   It starts from the night side, then swaps only the colors that differ from Lantern.
-   Screens only: printing always uses Day (see PRINT just below) */
-@media screen {
-:root[data-theme="moss"] {
-  color-scheme: dark;
-  --color-bg: #1C211C;
-  --color-surface: #232A23;
-  --color-ink: #E6E8DF;                       /* 13.2 */
-  --color-muted: #9DBA9D;                     /* 7.7 */
-  --color-line: #404C40;
-  --color-accent: #B2D4B2;                    /* 10.1, 8.2 on the band */
-  --color-highlight: var(--color-cinnamon);
-  --color-header-bg: #2A322A;
-  --color-footer-bg: var(--color-pine);       /* white text 7.8 */
-  --color-active: var(--color-cinnamon);      /* 9.9 */
-  --color-active-menu: var(--color-cinnamon); /* 8.0 on the band */
-  --color-active-footer: var(--color-cinnamon);  /* 4.7 on pine */
-  --color-glow: transparent;
-}
-}
 
 /* PRINT (and "Save as PDF"): always the Day colours, whatever theme is picked.
    Dark pages waste ink and print badly. Forcing color-scheme: light makes every
@@ -550,7 +526,7 @@ hr {
 /* A full-width band (sand by day, navy at night) with a sage hairline below. The band is the <header>;
    the nav inside carries .wrapper, so the color reaches the screen edges */
 .site-header {
-  position: relative;                  /* the theme lantern hangs from this band (see THEME LANTERN) */
+  position: relative;                  /* the theme drum hangs from this band (see THEME DRUM) */
   padding-block: var(--space-4);
   background-color: var(--color-header-bg);
   border-bottom: 1px solid var(--color-sage);
@@ -820,108 +796,132 @@ hr {
 }
 
 /* =========================================================
-   THEME LANTERN: the theme picker (task 1.14, js/themcript.js).
-   A paper lantern hangs from the header band, just left of the stripes.
-   Each click moves to the next theme: Auto, Day, Lantern, Moss, then back to Auto.
-   The lantern shows the theme: half-lit (Auto), unlit paper (Day),
-   glowing red (Lantern), glowing green-gold (Moss).
-   All the art lives in the <svg> in the header and in this section,
-   so a new picker design only has to replace those two things
+   THEME DRUM: the theme picker (task 1.14, D35, js/themcript.js).
+   A ridged paper drum, centred under the logo, that turns like a volume knob.
+   The sun and moon are printed on it: Day = sun in front, Night = moon in front,
+   Auto = both showing, one each side. The script draws the ridges and moves
+   the sun and moon; every colour and size lives here
    ========================================================= */
 
-/* A plain button underneath: keyboard, screen readers and Enter/Space work for free.
-   Never set display here, or the hidden attribute stops working (no JS = no lantern) */
-.theme-lantern {
-  /* --lantern-width lives with the tokens at the top: the home hero measures from it too */
-  --lantern-paper: var(--color-washi);
-  --lantern-core: transparent;          /* the warm light inside */
-  --lantern-glow: transparent;          /* the light spilling onto the page */
+/* A plain button underneath: Enter, Space, click and screen readers work for free.
+   Never set display here, or the hidden attribute stops working (no JS = no drum) */
+.theme-drum {
+  --drum-paper: var(--color-washi);
+  --drum-ink: var(--color-sumi);
+  --drum-glow: light-dark(transparent, color-mix(in srgb, var(--color-chochin) 45%, transparent));
 
   position: absolute;
-  top: 100%;                            /* hang from the bottom edge of the header band */
-  /* in the gap between the page content and the stripes: edge gap + stripes + a small gap */
-  right: calc(var(--loop-inset) + var(--loop-width) + var(--space-2));
+  top: 100%;                            /* just under the header band... */
+  left: 50%;
+  translate: -50% 0;                    /* ...and centred under the logo */
   z-index: 5;                           /* above the page, below the Lab dropdown (10) */
-  width: var(--lantern-width);
-  padding: 0;
+  padding: var(--space-1) 0 0;          /* drum + label fit inside --page-top (D34): about 56px */
   border: 0;
+  border-radius: var(--radius);
   background: none;
   color: inherit;
-  cursor: pointer;
+  cursor: grab;
+  touch-action: none;                   /* a finger drag turns it instead of scrolling the page */
+  user-select: none;                    /* dragging doesn't select the label */
+  -webkit-user-select: none;            /* Safari still needs the prefix */
 }
 
-.lantern-art {
+.theme-drum:active {
+  cursor: grabbing;
+}
+
+.theme-drum:focus-visible {
+  outline: 2px solid var(--color-active);
+  outline-offset: 2px;
+}
+
+/* The drum: washi paper with rounded top and bottom edges (border-radius 50% across,
+   a few px down = the ellipse of a cylinder's rim) and a dark rim line on each */
+.drum {
+  position: relative;
+  display: block;
+  width: 9rem;                          /* 144px: the svg's viewBox is 144 x 40, so 1 unit = 1px */
+  height: 2.5rem;
+  border-radius: 50% / 0.4rem;
+  overflow: hidden;                     /* the sun and moon are cut off at the drum's edge */
+  background: var(--drum-paper);
+  box-shadow: 0 0 1rem var(--drum-glow);   /* at night it glows like a lit lantern */
+}
+
+/* The light on a round surface: bright in the middle, dark toward both sides.
+   It lies OVER the sun and moon, so they dim by themselves as they turn away */
+.drum::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg,
+    color-mix(in srgb, var(--drum-ink) 55%, transparent),
+    transparent 30%, transparent 70%,
+    color-mix(in srgb, var(--drum-ink) 55%, transparent));
+  box-shadow:
+    inset 0 2px 0 color-mix(in srgb, var(--drum-ink) 40%, transparent),    /* top rim */
+    inset 0 -2px 0 color-mix(in srgb, var(--drum-ink) 40%, transparent);   /* bottom rim */
+  pointer-events: none;
+}
+
+.drum-face {
   display: block;
   width: 100%;
-  height: auto;
-  overflow: visible;
-  transform-origin: top center;         /* it swings from the hook */
-  filter: drop-shadow(0 0 0.75rem var(--lantern-glow));
+  height: 100%;
 }
 
-/* SVG parts are styled with fill and stroke, the SVG versions of background and border */
-.lantern-paper { fill: var(--lantern-paper); }
-.lantern-core  { fill: var(--lantern-core); }
-.lantern-half  { fill: var(--color-chochin); display: none; }
-.lantern-cap   { fill: var(--color-sumi); }
-.lantern-ribs  { fill: none; stroke: var(--color-sumi); stroke-opacity: 0.25; }
-.lantern-string { stroke: var(--color-muted); stroke-width: 1.5; }
-.lantern-tassel { fill: var(--color-beni); }
-
-/* One look per theme. No data-theme on <html> = Auto: half paper, half lit */
-:root:not([data-theme]) .lantern-half { display: inline; }
-
-:root[data-theme="lantern"] .theme-lantern {
-  --lantern-paper: var(--color-chochin);
-  --lantern-core: var(--color-cinnamon);
-  --lantern-glow: var(--color-chochin);
+/* The ridges: thin grooves round the drum, like a thumbwheel's grip */
+.drum-ridges line {
+  stroke: var(--drum-ink);
+  stroke-width: 1;
 }
 
-:root[data-theme="moss"] .theme-lantern {
-  --lantern-paper: var(--color-sage);
-  --lantern-core: var(--color-cinnamon);
-  --lantern-glow: var(--color-cinnamon);
-}
+/* Stand-in art until the pixel sprites (1.14c). Decoration only: aria-hidden on the drum */
+.sun-rays    { fill: none; stroke: var(--color-chochin); stroke-width: 2; stroke-linecap: round; }
+.sun-disc    { fill: var(--color-cinnamon); stroke: var(--color-chochin); stroke-width: 1.2; }
+.moon-disc   { fill: var(--color-blueprint); stroke: var(--color-blueprint); stroke-width: 1; }
+.moon-crater { fill: color-mix(in srgb, var(--color-washi) 35%, var(--color-blueprint)); }
 
-/* The name tag: always in the button (so screen readers hear it),
-   only visible on hover or keyboard focus. opacity, not display: none,
-   because display: none would hide it from screen readers too */
+/* The name under the drum: small mono capitals like a drawing label.
+   "theme. Press for the next theme" is screen-reader-only text */
 .theme-tag {
-  position: absolute;
-  top: var(--space-5);
-  right: calc(100% + var(--space-2));   /* just left of the lantern */
-  padding: var(--space-1) var(--space-2);
-  border-radius: var(--radius);
-  background: var(--color-ink);         /* inverted colors: readable in every theme */
-  color: var(--color-bg);
-  font-size: var(--step--1);
+  display: block;
+  margin-top: 2px;
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  line-height: 1.2;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--color-muted);
   white-space: nowrap;
-  opacity: 0;
-  transition: opacity 150ms ease;
-  pointer-events: none;                 /* the tag never blocks a click on the page */
 }
 
-.theme-lantern:hover .theme-tag,
-.theme-lantern:focus-visible .theme-tag {
-  opacity: 1;
+/* =========================================================
+   NIGHT SKY: stars on the header band, at night only (owner, 2026-11-08).
+   Pure CSS: each layer is one tiny dot (a radial-gradient) repeated on its own
+   tile size. Odd, unrelated tile sizes stop the repeats from lining up into a grid.
+   Night = the Lantern theme, or Auto when the OS is dark
+   ========================================================= */
+:root {
+  --stars:
+    radial-gradient(circle at 19px 13px, var(--star) 0 1px, transparent 1.5px) 0 0 / 97px 61px,
+    radial-gradient(circle at 71px 41px, var(--star) 0 1px, transparent 1.5px) 0 0 / 131px 73px,
+    radial-gradient(circle at 37px 57px, var(--star-bright) 0 1.3px, transparent 2px) 0 0 / 211px 89px,
+    radial-gradient(circle at 11px 29px, var(--star-dim) 0 0.8px, transparent 1.3px) 0 0 / 163px 47px,
+    radial-gradient(circle at 120px 20px, var(--star-dim) 0 0.8px, transparent 1.3px) 0 0 / 277px 53px;
+  --star: color-mix(in srgb, var(--color-washi) 70%, transparent);
+  --star-bright: var(--color-washi);
+  --star-dim: color-mix(in srgb, var(--color-washi) 40%, transparent);
 }
 
-/* The tug: it drops a little as the cord is pulled, then sways back to rest */
-@keyframes lantern-tug {
-  0%   { transform: none; }
-  15%  { transform: translateY(6px); }
-  35%  { transform: rotate(7deg); }
-  55%  { transform: rotate(-5deg); }
-  75%  { transform: rotate(2.5deg); }
-  100% { transform: none; }
+:root[data-theme="lantern"] .site-header {
+  background: var(--stars), var(--color-header-bg);
 }
 
-.theme-lantern.is-tugged .lantern-art {
-  animation: lantern-tug 900ms ease-out;
-}
-
-/* Visitors who asked their OS for less motion: no sway, no fade */
-@media (prefers-reduced-motion: reduce) {
-  .theme-lantern.is-tugged .lantern-art { animation: none; }
-  .theme-tag { transition: none; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .site-header {
+    background: var(--stars), var(--color-header-bg);
+  }
 }
