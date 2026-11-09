@@ -471,12 +471,3 @@ will-change: transform;
 .cad-note {
   color: var(--color-muted);
 }
-
-/* Design pass: the theme lantern hangs into the top of the page. Between about 330 and 340px
-   wide this page's heading fits on one line and ran 8px into it (measured; every other
-   page's first heading sits lower and stays clear). On phones, keep a lantern-sized gap */
-@media (max-width: 40rem) {
-  .content-headers h1 {
-    padding-right: var(--space-7);
-  }
-}

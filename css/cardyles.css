@@ -26,8 +26,8 @@
    ========================================================= */
 .bp-card {
   /* The card's paper colour, set in ONE place (owner's pick, D25): pine like the footer by day,
-     blueprint blue at night. light-dark() follows color-scheme, so both night themes
-     (Lantern and Moss, which force "dark") get the blue */
+     blueprint blue at night. light-dark() follows color-scheme, so the night theme
+     (Lantern, which forces "dark") gets the blue */
   --card-paper: light-dark(var(--color-pine), var(--color-blueprint));
   container-type: inline-size;
   position: relative;

@@ -87,22 +87,30 @@
                         </div>
                     </div>
                 </nav>
-                <!-- Theme picker: a paper lantern hanging from the header band (js/themcript.js, task 1.14).
+                <!-- Theme picker: the thumbwheel (js/themcript.js, task 1.14, D35). A ridged paper drum that turns
+                     like a volume knob, with the sun and moon printed on it. Three click-stops: Day (sun in front),
+                     Auto (both, one each side), Night (moon in front).
+                     Tap, Enter or Space: next stop. Drag or flick: turn it. Left/Right arrows: one stop.
                      Hidden until the script runs; without JS the site just follows the OS.
-                     All the art is this <svg> plus the THEME LANTERN section of styles.css -->
-                <button id="theme-lantern" class="theme-lantern" type="button" hidden>
-                    <svg class="lantern-art" viewBox="0 0 40 72" width="40" height="72" aria-hidden="true" focusable="false">
-                        <line class="lantern-string" x1="20" y1="0" x2="20" y2="9"/>
-                        <ellipse class="lantern-paper" cx="20" cy="30" rx="16" ry="20"/>
-                        <path class="lantern-half" d="M20 10a16 20 0 0 1 0 40z"/>
-                        <ellipse class="lantern-core" cx="20" cy="28" rx="8" ry="11"/>
-                        <path class="lantern-ribs" d="M8.6 16h22.8M5.3 22h29.4M4 30h32M5.3 38h29.4M8.6 44h22.8"/>
-                        <rect class="lantern-cap" x="11" y="8" width="18" height="4" rx="1"/>
-                        <rect class="lantern-cap" x="11" y="48" width="18" height="4" rx="1"/>
-                        <line class="lantern-string" x1="20" y1="52" x2="20" y2="64"/>
-                        <rect class="lantern-tassel" x="18" y="63" width="4" height="9" rx="1"/>
-                    </svg>
-                    <span class="theme-tag"><span class="theme-kanji" lang="ja" aria-hidden="true">自動</span> <span class="theme-name">Auto</span><span class="screen-reader-text"> theme. Press for the next theme</span></span>
+                     The look is the THEME DRUM section of styles.css; the script draws the ridges and moves the sun and moon.
+                     Swap the sun and moon <svg> art for the pixel sprites later (each is drawn around 0,0) -->
+                <button id="theme-drum" class="theme-drum" type="button" hidden>
+                    <span class="drum" aria-hidden="true">
+                        <svg class="drum-face" viewBox="0 0 144 40" width="144" height="40" focusable="false">
+                            <g class="drum-ridges"></g>
+                            <g class="drum-body drum-sun">
+                                <path class="sun-rays" d="M0 -12v3M0 9v3M-12 0h3M9 0h3M-8.5 -8.5l2.1 2.1M6.4 6.4l2.1 2.1M-8.5 8.5l2.1 -2.1M6.4 -6.4l2.1 -2.1"/>
+                                <circle class="sun-disc" r="6.5"/>
+                            </g>
+                            <g class="drum-body drum-moon">
+                                <circle class="moon-disc" r="9"/>
+                                <circle class="moon-crater" cx="-2.8" cy="-2.8" r="2.2"/>
+                                <circle class="moon-crater" cx="3.2" cy="2.2" r="1.6"/>
+                                <circle class="moon-crater" cx="-1.6" cy="4.4" r="1.1"/>
+                            </g>
+                        </svg>
+                    </span>
+                    <span class="theme-tag"><span class="theme-name">Auto</span><span class="screen-reader-text"> theme. Press for the next theme</span></span>
                 </button>
             </header>
 
