@@ -70,13 +70,15 @@ function allowDragOut(element, href, mimeType) {
 }
 
 function setUpDragOut() {
-    // 1. The whole contact card drags out as its own PDF (owner's pick).
+    // 1. The whole contact card drags out as a PNG picture of itself (D30, owner's pick).
+    //    A picture gets a thumbnail on the desktop; a PDF only shows the PDF app's icon.
+    //    PNG, not JPEG: JPEG blurs text and thin lines, and this card is all text and lines.
     //    draggable is set here, not in the HTML, so without JS the card behaves like normal text
     const sheet = document.querySelector("#contact-sheet");
-    if (sheet && sheet.dataset.pdf) {
+    if (sheet && sheet.dataset.image) {
         sheet.draggable = true;
-        sheet.title = "Drag this card to your desktop to save it as a PDF";
-        allowDragOut(sheet, sheet.dataset.pdf, "application/pdf");
+        sheet.title = "Drag this card to your desktop to save it as an image";
+        allowDragOut(sheet, sheet.dataset.image, "image/png");
     }
 
     // 2. The resume button, once it points at a real PDF (it's "#" until you add one)
