@@ -5,21 +5,13 @@
    HERO: who, what, where next. One column on phones;
    from 64rem, text on the left and the featured card on the right
    ========================================================= */
-/* Where the hero starts (H7, owner: tighten the gap under the lantern, "use mathematics").
-   The lantern hangs --lantern-drop below the header. The gap under it is that length
-   divided by φ (the golden ratio), so lantern : gap = φ : 1. Lantern + gap together are
-   drop × φ, because 1 + 1/φ = φ. At 1440px: 78px lantern + 48px gap = 126px.
-   It's measured from the lantern, so it stays in proportion at every screen size.
-   The page's usual top padding is dropped here so this one number decides it */
-.thehomepage .site-main {
-  padding-top: 0;
-}
-
+/* The hero starts at --page-top like every other page (styles.css, owner 2026-11-08).
+   It used to start at lantern × φ (H7), which tied Home's layout to the lantern's size */
 .home-hero {
   display: grid;
   gap: var(--space-7);
   align-items: start;                  /* text and card start on the same line, not centered */
-  padding-block: calc(var(--lantern-drop) * var(--golden)) var(--space-7);
+  padding-bottom: var(--space-7);
 }
 
 @media (min-width: 64rem) {

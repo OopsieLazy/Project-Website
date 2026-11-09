@@ -2,7 +2,7 @@
    Shared header, tokens and footer live in styles.css */
 
 .code-head {
-  margin-block: var(--space-7) var(--space-6);
+  margin-block: 0 var(--space-6);   /* the top comes from --page-top (styles.css) */
 }
 
 .code-head h1 {

@@ -3,7 +3,7 @@
    straight museum label under each. Shared header, tokens and footer live in styles.css */
 
 .art-head {
-  margin-block: var(--space-7) var(--space-5);
+  margin-block: 0 var(--space-5);   /* the top comes from --page-top (styles.css) */
 }
 
 .art-head h1 {
