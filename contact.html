@@ -109,14 +109,15 @@
                      title block. One ruled box; each cell is a small label over its value.
                      Every text slot is marked CONTENT -->
                 <!-- Drag-out (Experiments, "Drag it out"): js/contcript.js makes this whole card draggable.
-                     Dropped on the desktop in Chrome or Edge, it saves data-pdf, a PDF of this card.
-                     After changing any text here, regenerate that PDF (README, "Contact sheet PDF") -->
-                <article class="title-block" id="contact-sheet" data-pdf="assets/docs/contact-sheet.pdf">
+                     Dropped on the desktop in Chrome or Edge, it saves data-image, a PNG picture of this card
+                     (D30: a picture shows a preview on the desktop). The keyboard link below keeps the PDF.
+                     After changing any text here, regenerate BOTH files (README, "Contact sheet files") -->
+                <article class="title-block" id="contact-sheet" data-image="assets/docs/contact-sheet.png">
                     <div class="tb-cell">
                         <!-- One h1 for the page: the label and the name read together, "Contact and Resume, Zach Nott" -->
                         <h1 class="tb-title"><span class="tb-label">Contact and Resume</span> Zach Nott</h1>
                         <!-- CONTENT: your field and where you're based -->
-                        <p class="tb-note">Mechanical design &amp; CAD · City, country</p>
+                        <p class="tb-note">Mechanical design &amp; CAD · Courtice, Ontario</p>
                         <!-- Keyboard users can't drag, so this link does the same job.
                              Hidden until it gets keyboard focus (contyles.css) -->
                         <a class="tb-sheet-link screen-reader-text" href="assets/docs/contact-sheet.pdf" download>Save this contact sheet as a PDF</a>
@@ -134,7 +135,7 @@
                              "[at]"/"[dot]", so cheap bots that read HTML but don't run JS can't harvest it whole.
                              js/contcript.js joins the parts into a real link and shows the Copy button -->
                         <p class="tb-email">
-                            <span id="email-address" data-user="you" data-domain="example" data-tld="com">you [at] example [dot] com</span>
+                            <span id="email-address" data-user="znott" data-domain="live" data-tld="com">znott [at] live [dot] com</span>
                             <button id="copy-email" class="copy-button" type="button" hidden>Copy</button>
                         </p>
                         <!-- aria-live: screen readers announce text that appears here ("Copied") -->
@@ -143,12 +144,13 @@
 
                     <div class="tb-cell" id="resume">
                         <h2 class="tb-label">Resume</h2>
-                        <!-- CONTENT: save the PDF as assets/docs/resume.pdf, then set href="assets/docs/resume.pdf"
-                             and add the download attribute. Before adding it: no phone number or home address
-                             (the repo and the site are public), and strip the PDF's metadata (author, software,
-                             file paths), the same idea as EXIF in photos -->
-                        <a class="tb-button" href="#">Download PDF</a>
-                        <p class="tb-note">Updated Month Year · 1 page</p>
+                        <!-- The PUBLIC copy of the resume: no phone number, no street address, no health details,
+                             and no hidden metadata (author, file paths). The private master stays off the repo.
+                             The file is named after you, so it's easy to find again in a recruiter's Downloads.
+                             download = save the file instead of opening it; js/contcript.js also lets it drag out.
+                             CONTENT: when you replace the file, update the date and page count below -->
+                        <a class="tb-button" href="assets/docs/zachery-nott-resume.pdf" download>Download PDF</a>
+                        <p class="tb-note">Updated November 2026 · 2 pages</p>
                     </div>
 
                     <div class="tb-cell tb-wide">

@@ -45,15 +45,26 @@ Add one object to `data/projects.json`: the home catalog builds its tile and the
 
 JSON is strict: double quotes only, a comma between items but **not after the last one**, and no comments. If the catalog goes blank, the browser console (F12) says why.
 
-## Contact sheet PDF
+## Contact sheet files
 
-`assets/docs/contact-sheet.pdf` is the contact page's title block, printed. Visitors can drag the card onto their desktop (Chrome and Edge) to save it. It is made from the page's print stylesheet, so **after changing any text on `contact.html`, make it again**. With the site served (`python -m http.server 8000`), in Git Bash:
+The contact page's title block exists twice as a file in `assets/docs/`, and **both must be made again after changing any text on `contact.html`**:
+
+- `contact-sheet.png`: a picture of the card exactly as it looks on screen (Day theme, 2× sharp). Dragging the card onto the desktop (Chrome and Edge) saves this one, because a picture shows a thumbnail there (D30).
+- `contact-sheet.pdf`: the card printed, with clickable links. The keyboard "Save" link gives this one.
+
+**The PNG**, with DevTools:
+1. Serve the site (`python -m http.server 8000`), open `contact.html` and set the lantern to **Day**.
+2. Press F12, then Ctrl+Shift+M (device toolbar). Choose *Responsive*, width **1280**, and set **DPR** to **2** (in the toolbar's ⋮ menu, "Add device pixel ratio" if it's hidden).
+3. In the Elements panel, right-click `<article … id="contact-sheet">` → **Capture node screenshot**.
+4. Save it over `assets/docs/contact-sheet.png`.
+
+**The PDF**, in Git Bash from the repo root (`pwd -W` gives Edge a full Windows path; a relative one can fail):
 
 ```
-"/c/Program Files (x86)/Microsoft/Edge/Application/msedge.exe" --headless=new --no-pdf-header-footer --print-to-pdf="assets/docs/contact-sheet.pdf" http://localhost:8000/contact.html
+"/c/Program Files (x86)/Microsoft/Edge/Application/msedge.exe" --headless=new --no-pdf-header-footer --print-to-pdf="$(pwd -W)/assets/docs/contact-sheet.pdf" http://localhost:8000/contact.html
 ```
 
-Or open the page, press Ctrl+P and choose "Save as PDF": the print stylesheet gives the same single sheet. The PDF holds your email as plain text, so use an alias address.
+Or open the page, press Ctrl+P and choose "Save as PDF": the print stylesheet gives the same single sheet. Both files show your email as plain text: bots that read files can pick it up from the PDF more easily than from the page.
 
 ## How this project is built
 
