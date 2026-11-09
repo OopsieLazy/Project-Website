@@ -73,6 +73,7 @@ function buildEntry(project, index, id) {
 
     // <article>: a self-contained piece that makes sense on its own, like a catalog entry
     const entry = make("article", "cad-entry", make("div", "cad-art", image), body);
+    dragOutProject(entry, project); // the whole entry drags out (datacript.js)
     if (id) {
         entry.id = id;
         entry.setAttribute("aria-labelledby", titleId); // the article is named by its heading

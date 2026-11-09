@@ -18,18 +18,18 @@ function buildTile(project) {
     link.href = projectHref(project); // opens the project's entry on the CAD page
     const more = make("span", "tile-more", "View project →");
     more.setAttribute("aria-hidden", "true"); // decoration: the link already says where it goes
-    return make("li", "catalog-item",
-        make("article", "catalog-tile",
-            make("div", "tile-art", makeImage(project.image)),
-            make("div", "tile-body",
-                make("h3", "tile-name", link),
-                // joinMeta skips missing parts instead of printing "undefined"
-                make("p", "tile-meta", joinMeta([project.type, project.year])),
-                make("p", "tile-desc", project.description || ""),
-                more
-            )
+    const tile = make("article", "catalog-tile",
+        make("div", "tile-art", makeImage(project.image)),
+        make("div", "tile-body",
+            make("h3", "tile-name", link),
+            // joinMeta skips missing parts instead of printing "undefined"
+            make("p", "tile-meta", joinMeta([project.type, project.year])),
+            make("p", "tile-desc", project.description || ""),
+            more
         )
     );
+    dragOutProject(tile, project); // the whole box drags out (datacript.js)
+    return make("li", "catalog-item", tile);
 }
 
 function renderCatalog(projects) {
@@ -93,6 +93,7 @@ function buildCard(project, index, total) {
     card.href = projectHref(project);
     card.setAttribute("aria-label", `${project.name}, featured project`);
     card.dataset.name = project.name;
+    dragOutProject(card, project); // the whole card drags out (datacript.js)
     return card;
 }
 

@@ -43,6 +43,40 @@ function joinMeta(parts) {
     return parts.filter(Boolean).flatMap((part) => String(part).split(" · ")).join(" · ");
 }
 
+/* ---------- Drag a project out (R2, D32) ----------
+   The whole box drags as one piece and drops a real file on the desktop (Chrome and Edge),
+   the same "DownloadURL" trick as the contact card (contcript.js, PLAN "Drag it out").
+   Until a project has a kit (R2c), it drops its cover image */
+
+// The file's type, from its extension. The drop needs it to name the file correctly
+const DRAG_TYPES = {
+    png: "image/png", jpg: "image/jpeg", jpeg: "image/jpeg", webp: "image/webp",
+    svg: "image/svg+xml", pdf: "application/pdf", zip: "application/zip"
+};
+
+function dragOutProject(element, project) {
+    const file = project.kit || project.image;
+    if (!file) return;
+    const url = new URL(file, location.href);   // DownloadURL needs a full address, not a relative path
+    const fileName = url.pathname.split("/").pop();
+    const type = DRAG_TYPES[fileName.split(".").pop().toLowerCase()] || "application/octet-stream";
+
+    element.draggable = true;
+    // Images and links drag THEMSELVES by default (the picture alone, or a shortcut to the page).
+    // Switched off, a drag that starts on them goes to the nearest draggable ancestor: the whole box.
+    // A click on the link still works; only dragging changes
+    element.querySelectorAll("img, a").forEach((child) => {
+        if (child !== element) child.draggable = false;
+    });
+    element.title = `Drag to your desktop to save ${fileName}`;
+
+    element.addEventListener("dragstart", (event) => {
+        event.dataTransfer.setData("DownloadURL", `${type}:${fileName}:${url.href}`);
+        event.dataTransfer.setData("text/uri-list", url.href);  // other browsers: dropping on a tab opens the file
+        event.dataTransfer.setData("text/plain", url.href);
+    });
+}
+
 // "1" -> "01", so numbers line up like a printed set (card 01/03, section 01)
 const twoDigits = (n) => String(n).padStart(2, "0");
 

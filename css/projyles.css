@@ -158,13 +158,6 @@ will-change: transform;
   transition: all 300ms;
 }
 
-.larger-projects {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
 /* =========================================================
    POPUP (task 1.16). projcript.js adds .is-open to #slideshow when a
    figure is picked and removes it on Close. Two layouts, chosen by the
