@@ -35,7 +35,7 @@ The museum is an *extra layer*: every page can also be reached through normal na
 
 ## Roadmap at a glance (rebuilt 2026-11-07, D27)
 
-The order we follow. Each step finishes before the next starts; only the orrery art runs alongside.
+The order we follow. Each step finishes before the next starts; only the drum's sprite art runs alongside.
 
 | Step | Phase | What it gets you | Status |
 |---|---|---|---|
@@ -45,7 +45,7 @@ The order we follow. Each step finishes before the next starts; only the orrery 
 | 4 | L: Launch | Live on GitHub Pages, ready to send to recruiters | next |
 | 5 | 3: Project displays | Film strip, spin reel, grid, display switcher | after launch |
 | 6 | 4: The museum | The walk-through signature feature | after launch |
-| ∥ | Orrery lamp (1.14b–e) | Art alongside any step; the build comes after launch | parked |
+| ∥ | Theme drum (1.14b–e) | Built 2026-11-08 (D35); only the sun and moon sprites (1.14c) remain | built |
 
 **Guardrail:** Phase R refines what exists; it doesn't add features. New ideas go into Experiments, undated. A Phase 3 or 4 item moves forward only when a page can't be finished without it (e.g. 3.10 for the CAD page) and the owner says so.
 
@@ -60,7 +60,7 @@ Each change still goes **works → right** (layout, keyboard, phones) **→ nice
 *Last session: 2026-11-08*
 - **Branch:** `fix/contact-drag-png`. The roadmap was rebuilt (owner): **Phase R, refinement**, page by page from Home down, comes before **Phase L, launch**.
 - **Merged since last notes:** #24 footer, #25 R1b Home rows (D29).
-- **This PR:** the R2 plan (D30–D33), then the contact card drags out as a PNG picture of itself, and the real email; Contact and About filled from the owner's résumé; whole project boxes drag out; parked CAD blocks removed; one page-top gap on every page (D34); the public résumé is live on Contact and Home. The orrery design is settled (1.14b, preview F); the owner builds it next on `feat/orrery` (1.14d). **Next:** R2a gallery on a new branch, then R2b project pages, R2c kits. The owner is gathering photos and stats meanwhile, and re-exporting the public résumé.
+- **This PR:** the R2 plan (D30–D33), then the contact card drags out as a PNG picture of itself, and the real email; Contact and About filled from the owner's résumé; whole project boxes drag out; parked CAD blocks removed; one page-top gap on every page (D34); the public résumé is live on Contact and Home. The thumbwheel replaced the lantern (D35, 1.14b–e), with stars in the header at night; it ships as PR 4 on `feat/orrery`, kept as `.git/orrery.patch` until PRs 1–3 are merged. Sprites (1.14c) wait for the owner. The Moss theme was removed (D36). **Next:** R2a gallery on a new branch, then R2b project pages, R2c kits. The owner is gathering photos and stats meanwhile, and re-exporting the public résumé.
 - **Recruiting readiness** (measured 2026-11-07): layout, phones and accessibility are ready. Blocking: not hosted; résumé and email are placeholders; End Stop Cap and Latch Hinge have made-up stats; Art is 56 placeholders; 9–12 `#` links per page. Each R task lists its page's content.
 - **Owner habits:** end every PR with the full git command list (CLAUDE.md). After editing `contact.html` text, regenerate the contact-sheet PDF (README).
 - **Merged so far:** #1 public-repo hygiene, #2–#10 and #14–#15 Phase 1, #11–#13 Home, #16 CAD sections, #17 About, #18 Contact, #19 Code, #20 Art, #21 contact drag-out, #22 CAD drawing sheets.
@@ -78,11 +78,11 @@ Done, closed 2026-11-04 (real-phone test and a Lighthouse accessibility run, bot
 
 **Parked from Phase 1:**
 
-**PR E2 · `feat/orrery-lamp`**: the theme picker becomes a pixel-art orrery (owner's pick, replaces the lantern; D23 keeps the logic). Sits in the gap between the page content and the stripes. **Art (1.14b, 1.14c) runs alongside any phase; the build (1.14d, 1.14e) comes after launch (Phase L).**
-- [x] **1.14b** Art direction (owner, 2026-11-08, after previews A–F): a **flat, wide orbit band** like a slot reel, seen a little from above, **centred under the logo** inside `--page-top` (D34), no string. Sun and moon ride it; the band is lit near the sun and fades toward the moon; bodies shrink and dim at the back. Spin it by hand: drag (mouse, finger), a fling coasts and lands on the nearest theme with a small overshoot; tap, Enter or Space = next theme; ← → step one. The theme changes when it lands. Stops: Auto −90° (twilight), Day 0° (sun front), Moss 90° (dusk, kept until the owner decides), Lantern 180° (moon front). Reference: the scratch preview `orrery-preview-4.html` (sin/cos in JS, no CSS 3D, so pixel art stays crisp).
-- [ ] **1.14c** Sprites: the owner draws the sun and moon (pixel art, about 22 × 22, PNG or SVG, metadata stripped). Stand-in shapes until then.
-- [ ] **1.14d** Build (`feat/orrery`, **owner writes it**, dice 1): in all 6 pages swap the lantern `<svg>` inside the theme `<button>` for the orrery art (keep it a `<button>`: tap, Enter, Space = next theme come free); the THEME LANTERN CSS section becomes THEME ORRERY (centred: `left: 50%` + `translate`, 76 × 48px, `touch-action: none`, colours from role tokens); `themcript.js` part 2 draws and spins it (part 1, the no-flash theme, stays). Gotcha: a drag ends with a `click`, so ignore the click that follows a drag. Remove the lantern tokens and the CAD page's phone `h1` lantern gap.
-- [ ] **1.14e** Check: reduced motion (lands instantly), keyboard (Tab, Enter, arrows), touch (DevTools device mode), all 6 pages at 320–1440 in all three themes; it stays inside `--page-top`.
+**PR 4 · `feat/orrery`**: the theme picker became a thumbwheel (it began as a pixel-art orrery; owner's picks, replaces the lantern, D35). Centred under the logo inside `--page-top`. Built ahead of launch on the owner's request; the sprites (1.14c) can follow any time.
+- [x] **1.14b** Art direction (owner, 2026-11-08, after previews A–F and two rounds on the site): a **thumbwheel**, a ridged washi drum 144px wide, centred under the logo, that turns like a volume knob. The sun and moon are printed on it a quarter turn apart: Day = sun in front, Night = moon in front, Auto = both showing, one each side. Labels Auto / Day / Night (no Japanese). At night the header band gets CSS stars and the drum glows.
+- [ ] **1.14c** Sprites: the owner draws the sun and moon (pixel art, about 22 × 22, PNG or SVG, metadata stripped). They replace the two `<g>` groups in the drum's `<svg>` (drawn around 0,0). Stand-in shapes until then.
+- [x] **1.14d** Built (`feat/orrery`, 2026-11-08; the owner handed it back after rolling a 1): the theme `<button>` in all 6 pages holds the drum `<svg>`; THEME DRUM and NIGHT SKY replace THEME LANTERN in `styles.css`; `themcript.js` part 2 draws the ridges and moves the sun and moon (part 1 unchanged). A knob with ends: stops at 0° / 45° / 90°, it resists past either end, a flick coasts at most one stop, a drag's trailing `click` is ignored, and Android phones get a small vibration per ridge (`navigator.vibrate`, skipped where it doesn't exist).
+- [x] **1.14e** Checked: 6 pages at 320/1440 (centred, ends 57px below the header, inside `--page-top`, no sideways scroll), Day / Night / Auto by day and by night, 13 scripted input steps (taps, drags, past the end, arrows at the end, Enter, reload) in normal and reduced motion, finger tap/drag (page doesn't scroll), validator 0 errors.
 
 **Polish** (done at the phase close): *(add refinements to finished features here)*
 - [x] Theme lantern ran 8 px into the "CAD's Creations" `<h1>` between ~330 and 340 px wide (measured by sweeping every page 300–640 px; only this page). Fixed in `feat/cad-restyle`: on phones that heading keeps a lantern-sized gap.
@@ -110,7 +110,7 @@ The reasons live in the merged PRs, D25–D26 and the code comments.
 Goal (owner, 2026-11-07): go through the site page by page, from Home down, refining HTML, CSS and graphics until each page looks like the portfolio the owner needs. **Nothing ships untouched:** every placeholder, `#` link, test caption, made-up fact and parked block is **finished, filled or removed**.
 
 **Every page goes through the same five steps:**
-1. **Audit** (Claude). Screenshots in Day, Lantern and Moss at 320 / 768 / 1440 px, plus a list of every leftover on the page. Nothing changes yet.
+1. **Audit** (Claude). Screenshots in Day and Lantern at 320 / 768 / 1440 px, plus a list of every leftover on the page. Nothing changes yet.
 2. **Owner's notes.** 3–5 things to change, and *finish / fill / remove* on each leftover.
 3. **Previews.** Lettered options for each look change; the owner picks.
 4. **Build.** Branch `feat/refine-<page>`, in PRs of 1–3 tasks (split a big page). Content the owner already has goes in now.
@@ -131,7 +131,7 @@ Goal (owner, 2026-11-07): go through the site page by page, from Home down, refi
   - [x] **Logo** (S1): **"ZN" in Sacramento** with a heavier stroke (owner, after trying blackletter) in place of `placeholder.svg`.
     - One file, `assets/images/logo.svg`, shown with a plain `<img>`: a custom logo later just replaces the file.
     - The letters are font outlines (OFL), made by a small fontTools script, so visitors download no font.
-    - The SVG's own `prefers-color-scheme` follows the theme picked on the site (checked in 7 OS × theme combinations). Moss shares Lantern's blue.
+    - The SVG's own `prefers-color-scheme` follows the theme picked on the site (checked in 7 OS × theme combinations).
     - CSS sizes it by height, so any shape fits.
     - **Centered in the burger layout too** (owner): the phone grid is `1fr auto 1fr`. Below 24rem the Menu button shows only ☰ (the word stays for screen readers), because a centered 128px logo and "☰ Menu" don't both fit.
     - Fixed along the way: the logo link had **no keyboard focus indicator** (since Phase 1). It's now `inline-block` with a ring, and the header geometry is unchanged.
@@ -333,6 +333,8 @@ Design doc first (art style, room ↔ section map, controls), then build in smal
 | D32 | Project kits: one `.zip` per project, as the drag payload and a download link. Licence CC BY-NC 4.0, in the kit (code stays MIT, the rest all rights reserved) | `DownloadURL` carries one file per drag, so several files need an archive. A zip can't show a preview: the desktop draws its own icon per file type. CC BY-NC is the common MakerWorld licence: people may print and remix with credit, but not sell |
 | D33 | Several images per project in `images[]`, each tagged `cad` or `photo`, in `assets/images/<id>/` | "Modelled → printed and working" side by side is the strongest proof for a recruiter. A folder per project keeps dozens of photos findable; `image` stays the single cover |
 | D34 | One `--page-top` token (`clamp(3.75rem, 2.5rem + 2.5vw, 5rem)`) sets where every page's content starts; page files add no top space of their own. The header ornament must fit inside it | Owner's pick B after comparing previews: about the lantern's length, but as a design value of its own. Before, CAD sat at 64px and the rest at 112–130px because each page added its own margin. Reversing the dependency (the lamp fits the gap, not the gap the lamp) means the orrery can replace the lantern without moving any page |
+| D35 | The theme picker is a thumbwheel centred under the logo: a ridged drum with the sun and moon printed on it, turned like a volume knob between two ends with three click-stops (Day, Auto, Night). A `<button>` (tap, Enter, Space = next stop) plus drag/flick (pointer events) and ← →; the theme changes when it lands. Labels Auto / Day / Night; the night theme's code name stays `lantern` | Owner's design after previews A–F (an orbit, then a windowed drum, then this). A knob with ends is easy to understand: you can't get lost spinning. A native button keeps keyboard and screen readers working for free. Keeping the code name `lantern` avoids renaming every CSS selector for a label change |
+| D36 | The Moss theme is removed: two themes (Day, Lantern) plus Auto. Its colour block is gone from `styles.css`; a visitor who had saved "moss" falls back to Auto, because `readSavedTheme()` only trusts known names | Owner, 2026-11-08. With the orrery holding only a sun and a moon, a third theme had no body of its own. Fewer themes also means half the contrast checks for every change. D22 and D23 stay as the history of why there were three |
 | D17 | Skeleton and layout are separate PRs; keep the `#page` wrapper; the width cap is a reusable `.wrapper` class; two `rem` breakpoints | Smaller reviews; respects the owner's structure; a class can be reused, and the carousel can skip it when it needs more width; breakpoints give more control than fluid sizing alone |
 
 ## Open questions
