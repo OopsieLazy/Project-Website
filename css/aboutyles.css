@@ -2,7 +2,7 @@
    Shared header, tokens and footer live in styles.css; the card lives in cardyles.css */
 
 .bio {
-  padding-block: var(--space-7);
+  padding-bottom: var(--space-7);   /* the top comes from --page-top (styles.css) */
 }
 
 /* Title over a hairline, like an encyclopedia article */
@@ -138,6 +138,12 @@
 /* A jump from the contents box stops a little above the heading */
 .bio-rest section {
   scroll-margin-top: var(--space-5);
+}
+
+/* The reset in styles.css zeroes every <p> margin. "p + p" only matches a paragraph
+   that follows another one, so the gap goes BETWEEN paragraphs, never above the first */
+.bio-rest section p + p {
+  margin-top: var(--space-3);
 }
 
 /* =========================================================

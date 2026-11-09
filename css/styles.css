@@ -133,6 +133,11 @@
   --lantern-width: clamp(2rem, 3vw, 2.75rem);   /* the theme lantern (THEME LANTERN section) */
   --lantern-drop: calc(var(--lantern-width) * 1.8);  /* how far it hangs: its art is 40 × 72, so height = 1.8 × width */
   --golden: 1.618;         /* φ, the golden ratio: used for spacing that should feel "just right" */
+  /* Where every page's content starts below the header (owner's pick B, 2026-11-08):
+     60px on phones, growing smoothly to 80px on wide screens. It's a design value of its own,
+     NOT measured from the lantern: whatever hangs from the header (lantern, later the orrery)
+     must fit inside it, so the ornament can change without moving any page */
+  --page-top: clamp(3.75rem, 2.5rem + 2.5vw, 5rem);
 
   /* 3D displays: the CAD carousel (projyles.css), later the spin reel (3.7).
      Ring tilt = the spinning-coin view: how far the ring tips toward you.
@@ -356,17 +361,20 @@ hr {
   min-height: 100dvh;              /* dvh = the visible height on phones, minus the browser's address bar */
 }
 
+/* The top is the same on every page (--page-top), so page files never add their own
+   space above their first element. Only the bottom steps up with the screen */
 .site-main {
   flex: 1;
-  padding-block: var(--space-6);   /* block = top and bottom */
+  padding-top: var(--page-top);
+  padding-bottom: var(--space-6);
 }
 
 @media (min-width: 40rem) {
-  .site-main { padding-block: var(--space-7); }
+  .site-main { padding-bottom: var(--space-7); }
 }
 
 @media (min-width: 64rem) {
-  .site-main { padding-block: var(--space-8); }
+  .site-main { padding-bottom: var(--space-8); }
 }
 
 /* =========================================================
