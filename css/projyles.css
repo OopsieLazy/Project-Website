@@ -402,10 +402,18 @@ will-change: transform;
   background-repeat: no-repeat;
 }
 
+/* The picture fills everything inside the dashed line (owner, 2026-11-09). The line sits
+   0.5rem in from the box's edge (outline-offset above), so 0.5rem of padding (plus 2px)
+   keeps the picture just inside it; the crop marks stay outside.
+   object-fit: cover scales evenly and trims the overflow: it can crop, never stretch */
+.cad-art {
+  padding: calc(0.5rem + 2px);         /* + 2px: a hairline gap, so the picture can never cover the line */
+}
+
 .cad-art img {
-  width: 80%;
-  height: 80%;
-  object-fit: contain;                 /* the whole render shows, never cropped */
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 /* =========================================================
