@@ -132,11 +132,22 @@
   --radius: 4px;           /* small, crisp corners to keep it minimal */
   --logo-size: var(--space-7);  /* header logo height, 48px; its width follows the logo file's shape */
   --golden: 1.618;         /* φ, the golden ratio: used for spacing that should feel "just right" */
+  /* The theme dimmer under the logo (THEME DIMMER below, D35, D38). Tune it here.
+     Owner, 2026-11-10: wider, and further from the header band */
+  --drum-width: max(11rem, 45vw);     /* how wide the drum is (was max(9rem, 34vw)) */
+  --drum-height: 2.5rem;              /* how tall (40px) */
+  --drum-gap: var(--space-4);         /* space between the header band and the drum (was 4px) */
+  --drum-tag-gap: 2px;                /* drum to its "Auto / Day / Night" label */
+  --drum-tag-size: 0.625rem;          /* the label's font size (10px) */
+  /* Everything that hangs below the header: gap + drum + label (its line is 1.2 × its size) */
+  --drum-stack: calc(var(--drum-gap) + var(--drum-height) + var(--drum-tag-gap) + var(--drum-tag-size) * 1.2);
+
   /* Where every page's content starts below the header (owner's pick B, 2026-11-08):
      60px on phones, growing smoothly to 80px on wide screens. It's a design value of its own,
-     NOT measured from the lantern: whatever hangs from the header (the theme drum, D35)
-     must fit inside it, so the ornament can change without moving any page */
-  --page-top: clamp(3.75rem, 2.5rem + 2.5vw, 5rem);
+     NOT measured from the lantern, and the drum must fit inside it (D34). The max() is a
+     guard: if the drum tokens above grow, the page moves down with them (drum + a 16px
+     breathing gap) instead of the drum running into the page title */
+  --page-top: max(clamp(3.75rem, 2.5rem + 2.5vw, 5rem), var(--drum-stack) + var(--space-4));
 
   /* 3D displays: the CAD carousel (projyles.css), later the spin reel (3.7).
      Ring tilt = the spinning-coin view: how far the ring tips toward you.
@@ -851,7 +862,7 @@ hr {
   left: 50%;
   translate: -50% 0;                    /* ...and centred under the logo */
   z-index: 5;                           /* above the page, below the Lab dropdown (10) */
-  padding: var(--space-1) 0 0;          /* drum + label fit inside --page-top (D34): about 56px */
+  padding: var(--drum-gap) 0 0;         /* the gap below the header band (token in :root) */
   border: 0;
   border-radius: var(--radius);
   background: none;
@@ -871,14 +882,14 @@ hr {
   outline-offset: 2px;
 }
 
-/* The drum: plain white (owner), at least a third of the screen wide. The script reads
+/* The drum: plain white (owner); its size is the --drum-* tokens in :root. The script reads
    its width and redraws the face to match, so it scales without stretching.
    Rounded top and bottom edges (border-radius 50% across, a few px down) read as a cylinder's rim */
 .drum {
   position: relative;
   display: block;
-  width: max(9rem, 34vw);
-  height: 2.5rem;
+  width: var(--drum-width);
+  height: var(--drum-height);
   border-radius: 50% / 0.4rem;
   overflow: hidden;                     /* the sun and moon are cut off at the drum's edge */
   background: var(--drum-surface);
@@ -924,9 +935,9 @@ hr {
    "theme. Press for the next theme" is screen-reader-only text */
 .theme-tag {
   display: block;
-  margin-top: 2px;
+  margin-top: var(--drum-tag-gap);
   font-family: var(--font-mono);
-  font-size: 0.625rem;
+  font-size: var(--drum-tag-size);
   line-height: 1.2;
   letter-spacing: 0.12em;
   text-transform: uppercase;
