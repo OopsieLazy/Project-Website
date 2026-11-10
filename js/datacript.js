@@ -10,7 +10,7 @@ const PROJECTS_URL = "data/projects.json";
 
 // Fetch the JSON and turn it into a JavaScript array.
 // `async` lets us write `await` instead of chaining .then() calls.
-async function loadProjects() {
+async function fetchProjects() {
     const response = await fetch(PROJECTS_URL);
     // fetch() only fails on network errors; a missing file (404) still "succeeds", so check it
     if (!response.ok) {
@@ -18,6 +18,15 @@ async function loadProjects() {
     }
     // .json() throws a SyntaxError if the file has a typo (missing comma, trailing comma, comment)
     return response.json();
+}
+
+// The CAD page asks twice (the carousel and the entries). Keeping the first PROMISE means
+// both get the same answer from one download. This is called memoizing: remember a result
+// instead of working it out again. ??= only assigns when the left side is still empty
+let projectsPromise = null;
+function loadProjects() {
+    projectsPromise ??= fetchProjects();
+    return projectsPromise;
 }
 
 // Small helper: make an element with a class and children.

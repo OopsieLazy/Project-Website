@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Projects</title>
+        <title>CAD Portfolio · Zach Nott</title>
         <link rel="stylesheet" href="css/styles.css">
         <script src="js/script.js" defer></script>
         <!-- No defer on purpose: it sets the saved theme before the page is drawn (no white flash) -->
@@ -125,35 +125,36 @@
                         </p>
 
                         <hr class="item-image-seperator is-stylized">
-                        <section id="slideshow">
-                          <!-- Pause/play for the spin (task 1.15c). Hidden until projcript.js shows it: without JS nothing spins -->
-                          <button type="button" class="spin-toggle" id="spin-toggle" hidden>Pause spin</button>
+                        <!-- The carousel as a drawing sheet (R2d): js/projcript.js builds one sheet per project
+                             from data/projects.json, so a new project only goes in the JSON.
+                             Hidden until the script has built it: without JS there's no empty frame -->
+                        <section id="slideshow" class="cad-sheet" aria-labelledby="ring-title" hidden>
+                          <!-- Title strip: what this sheet is, plus pause/play for the spin (task 1.15c).
+                               It comes first, so keyboard users reach Pause before the sheets -->
+                          <div class="ring-head">
+                            <h2 id="ring-title" class="cad-kicker">00 · Assembly view</h2>
+                            <button type="button" class="sheet-button" id="spin-toggle">Pause spin</button>
+                          </div>
                           <div class="entire-content">
-                            <div class="content-carrousel" id="carousel-c">
-                                    <figure class="shadow" data-title="Coming soon" data-description="Another project is on its way."><button type="button" class="figure-button"><img src="assets/images/placeholder.svg" alt="Placeholder image"></button></figure>
-                                    <figure class="shadow" data-title="End Stop Cap" data-description="Geetech end stop cap for 3D printer."><button type="button" class="figure-button"><img src="assets/images/geetech-end-stop-cap-v4.png" alt="End stop cap for a Geetech 3D printer, CAD render"></button></figure>
-                                    <figure class="shadow"><button type="button" class="figure-button"><img src="assets/images/bridge-guitar-v8.png" alt="Bridge guitar, CAD render"></button></figure>
-                                    <figure class="shadow"><button type="button" class="figure-button"><img src="assets/images/latch-hinge-v1.png" alt="Latch hinge, CAD render"></button></figure>
-                                    <figure class="shadow"><button type="button" class="figure-button"><img src="assets/images/placeholder.svg" alt="Placeholder image"></button></figure>
-                                    <figure class="shadow"><button type="button" class="figure-button"><img src="assets/images/placeholder.svg" alt="Placeholder image"></button></figure>
-                                    <figure class="shadow"><button type="button" class="figure-button"><img src="assets/images/placeholder.svg" alt="Placeholder image"></button></figure>
-                                    <figure class="shadow"><button type="button" class="figure-button"><img src="assets/images/placeholder.svg" alt="Placeholder image"></button></figure>
-                                    <figure class="shadow"><button type="button" class="figure-button"><img src="assets/images/placeholder.svg" alt="Placeholder image"></button></figure>
-                                </div>
+                            <div class="content-carrousel" id="carousel-c"></div>
+                          </div>
+
+                          <!-- The popup: a light summary of the picked project, filled by projcript.js.
+                               The picture is already on the front sheet and the stats are in the full drawing below,
+                               so it keeps to the name, the facts line, one sentence and the link (owner, 2026-11-10).
+                               The title has tabindex="-1" so the script can move focus to it when it opens -->
+                          <aside class="sidebar-dwg-details" id="selected-sidebar" aria-labelledby="popup-title">
+                            <div class="information-popup">
+                              <div class="popup-head">
+                                <p class="cad-kicker" id="popup-kicker"></p>
+                                <button type="button" class="sheet-button" id="close-sidebar">Close</button>
+                              </div>
+                              <h2 id="popup-title" class="cad-title" tabindex="-1"></h2>
+                              <p class="cad-label" id="popup-meta"></p>
+                              <p id="popup-desc"></p>
+                              <a class="cad-back" id="popup-link" href="#cad-sections">Full drawing ↓</a>
                             </div>
-
-                            <aside class="sidebar-dwg-details" id="selected-sidebar">
-                                <div class="information-popup">
-                                    <button id="close-sidebar">Close</button>
-                                    <h2 id="popup-title"></h2>
-                                    <figure class="popup-image-frame">
-                                        <img id="popup-image" src="assets/images/placeholder.svg" alt="Project Preview">
-                                    </figure>
-                                    <p id="popup-desc"></p>
-                                </div>
-
-                            </aside>
-
+                          </aside>
                         </section>
 
                         <hr class="item-image-seperator is-stylized">
@@ -226,6 +227,3 @@
     </body>
 
 </html>
-
-
-<!-- Needs Ideation: what i want to show, projects, about me, styling, cv download, and etc -->

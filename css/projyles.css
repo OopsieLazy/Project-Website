@@ -7,17 +7,21 @@ html {
   overflow-anchor: none;
 }
 
+/* =========================================================
+   THE CAROUSEL AS A DRAWING SHEET (R2d). The same frame as the entries
+   below (.cad-sheet shares their rule, see THE SHEET), a ruled title
+   strip, and a ring of small sheets that projcript.js builds from
+   data/projects.json. Every line uses --color-accent, so it follows
+   the theme like the entries do
+   ========================================================= */
 #slideshow {
   position: relative;
-  margin: 0 auto;
-  padding-top: 50px;
-  /* --figure-size is set by projcript.js to fit the screen (190px on desktop).
-     The height follows it: 190 × 3.16 ≈ the original 600px, smaller on phones.
-     min-height, not height: on phones the popup opens inside and needs room to grow */
-  min-height: calc(var(--figure-size, 190px) * 3.16);
-  width: 100%;
-  box-sizing: border-box;
-  /* A column: the ring centered, and on phones the popup above it (see POPUP) */
+  /* Room between the frame lines and what's inside. projcript.js fits the ring to the
+     width INSIDE this padding, so it's real breathing room on phones too. Fixed, not vw:
+     the wide layout below starts at a 62rem CONTENT width, and wider padding at 1440px
+     pushed the sheet under it (the popup jumped above the ring) */
+  padding: var(--space-6) var(--space-5);
+  /* A column: title strip, then (on phones) the popup, then the ring */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -26,57 +30,84 @@ html {
   container-type: inline-size;
 }
 
-/* Pause/play (task 1.15c). It comes first in the slideshow, so keyboard users reach it
-   before the 9 figures. order: -2 keeps it above the phone popup (order: -1).
-   No display rule here on purpose: it would override the hidden attribute */
-.spin-toggle {
-  order: -2;
-  margin-bottom: var(--space-4);
-  padding: var(--space-1) var(--space-4);
-  border: 1px solid var(--color-line);
-  border-radius: 999px;                /* pill */
-  background: none;
+/* The hidden attribute must win over display: flex above (otherwise the empty frame shows) */
+#slideshow[hidden] {
+  display: none;
+}
+
+/* Title strip: "DWG 00 · Assembly view" on the left, the spin button on the right,
+   ruled off underneath like the title of a drawing */
+.ring-head {
+  order: -2;                           /* always first, above the phone popup (order: -1) */
+  align-self: stretch;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--color-accent);
+}
+
+/* Small square buttons in the drawing's mono lettering: Pause spin and Close */
+.sheet-button {
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--color-accent);
+  border-radius: 0;
+  background: var(--color-bg);
   color: var(--color-accent);
+  font-family: var(--font-mono);
   font-size: var(--step--1);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   cursor: pointer;
 }
 
-.spin-toggle:hover {
-  border-color: var(--color-highlight);
+.sheet-button:hover {
+  background: var(--color-surface);
 }
 
+/* The ring's box. The figures inside are absolutely positioned (so this box would be
+   0px tall without a height). --ring-pad is the space above the ring for the back sheets,
+   which the tilt lifts above the front ones. All sizes follow --figure-size, which
+   projcript.js sets to fit the screen (at most 190px) */
 .entire-content {
-  grid-column: 1;
-  justify-self: center;
+  --ring-pad: 0.12;   /* small since the ring is pushed back: the back sheets barely rise above the front */
   width: var(--figure-size, 190px);
   perspective: var(--ring-perspective);   /* design token in styles.css (the original 1000px) */
-  /* Where the camera stands (task 1.15g): level with the ring's centre, 0.42 padding + half a figure.
-     The default is the middle of this box, which is taller than the ring, so the camera sat below it.
-     A big desktop ring then looked up from below, and that cancelled most of --ring-tilt (flat) */
-  perspective-origin: 50% calc(var(--figure-size, 190px) * 0.92);
+  /* Where the camera stands (task 1.15g): level with the ring's centre (the padding + half a
+     sheet). The default is the middle of this box; a camera below the ring looked up at it
+     and cancelled most of --ring-tilt */
+  perspective-origin: 50% calc(var(--figure-size, 190px) * (var(--ring-pad) + 0.575));   /* 0.575 = half of a 1.15-tall sheet */
   position: relative;
-  padding-top: calc(var(--figure-size, 190px) * 0.42);   /* 80px on desktop */
-  /* The figures are absolutely positioned, so this box would otherwise be ~0 tall
-     and the popup on phones would push the next section into the ring.
-     50px slideshow padding + 190 × 2.9 ≈ the original 600px on desktop */
-  height: calc(var(--figure-size, 190px) * 2.9);
+  margin-top: var(--space-5);
+  padding-top: calc(var(--figure-size, 190px) * var(--ring-pad));
+  /* Measured: the pushed-back ring is about 1.35–1.5 sheets tall (more on phones, where the
+     perspective is stronger), plus the padding above */
+  height: calc(var(--figure-size, 190px) * 1.54);
   box-sizing: border-box;
 }
 
 .content-carrousel {
   width: 100%;
   position: absolute;
-  float: right;
-  /* animation: rotar 15s infinite linear; */
   transform-style: preserve-3d;
+  /* Smooth spin: tells the browser this transform changes all the time, so it keeps the ring
+     as ready-drawn layers on the graphics card instead of redrawing the sheets now and then
+     as their size on screen changes (each redraw was a small hitch). The front sheet is
+     drawn at 1× (pushed back, below), so the ready-drawn layers stay sharp */
+  will-change: transform;
   /* The spinning-coin view (task 1.15f): projcript.js only sets --spin (the turn), CSS adds the tilt.
      Read right to left: rotateY spins the ring, then rotateX tips the whole ring toward you,
      so it shows as an ellipse and the back figures peek out above the front ones */
-  /* --ring-tilt is a design token in styles.css (3D displays): change the tilt there */
-  transform: rotateX(var(--ring-tilt)) rotateY(var(--spin, 0deg));
+  /* --ring-tilt is a design token in styles.css (3D displays): change the tilt there.
+     translateZ (applied last) pushes the whole ring back by its radius (projcript.js sets
+     --ring-radius), so the front sheet sits at the screen's depth and shows at its true size.
+     Closer than that, it was enlarged about 1.3×, and an enlarged 3D layer looks hazy */
+  transform: translateZ(calc(-1 * var(--ring-radius, 0px))) rotateX(var(--ring-tilt)) rotateY(var(--spin, 0deg));
   /* Tilt around the ring's own middle (task 1.15g). This box holds only absolutely positioned
      figures, so it is 0px tall and "50%" would be its top edge: use half a figure instead */
-  transform-origin: 50% calc(var(--figure-size, 190px) * 0.5);
+  transform-origin: 50% calc(var(--figure-size, 190px) * 0.575);
 }
 
 /* The spin is JS (requestAnimationFrame), so the hover pause lives in projcript.js (task 1.15b) */
@@ -84,113 +115,135 @@ html {
   cursor: pointer;
 }
 
-.content-carrousel figure {
-  width: var(--figure-size, 190px);
-  height: var(--figure-size, 190px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
+/* One small sheet. The figure is the PAPER: background and border, seen from both sides.
+   preserve-3d lets the button inside keep its own front and back (below). No overflow: hidden
+   here on purpose: it would flatten the figure and the back would show the picture mirrored.
+   projcript.js sets each figure's place on the ring (rotateY + translateZ) */
+.ring-figure {
   position: absolute;
+  width: var(--figure-size, 190px);
+  /* A little taller than wide: the label gets its own strip, so the picture area stays
+     square. In a square sheet the label ate the picture's height, and object-fit: cover
+     cropped the top and bottom off each render (it looked squashed on phones) */
+  height: calc(var(--figure-size, 190px) * 1.15);
+  margin: 0;                           /* browsers give <figure> a 40px side margin */
+  transform-style: preserve-3d;
+  background: var(--color-bg);
+  border: 1px solid var(--color-accent);
+  box-sizing: border-box;
 }
 
-/* Each figure holds a real <button> (task 1.15d), so Tab, Enter and Space work for free.
-   Strip the button's default look so only the image shows */
+/* The printed side: the render and its label. backface-visibility: hidden makes it vanish
+   when the sheet faces away, so the back of the ring shows blank paper, not mirror writing.
+   translateZ(1px) lifts it just off the paper, so the two never flicker into each other */
 .figure-button {
+  display: flex;
+  flex-direction: column;
+  gap: 4%;
   width: 100%;
   height: 100%;
-  padding: 0;
+  padding: 6%;
   border: 0;
   background: none;
-  color: inherit;
+  color: var(--color-accent);
   cursor: pointer;
+  backface-visibility: hidden;
+  transform: translateZ(1px);
 }
 
-/* The figure's overflow: hidden would cut off the shared focus ring, which sits just
-   OUTSIDE the edge (outline-offset: 2px in styles.css). A negative offset draws it inside */
+/* The figure's border sits right at the edge, so the shared focus ring is drawn inside it */
 .figure-button:focus-visible {
-  outline-offset: -2px;
+  outline-offset: -4px;
 }
 
-.content-carrousel figure:nth-child(1) {
-  transform: rotateY(0deg) translateZ(300px); 
-} .content-carrousel figure:nth-child(2) {
-  transform: rotateY(40deg) translateZ(300px); 
-} .content-carrousel figure:nth-child(3) {
-  transform: rotateY(80deg) translateZ(300px); 
-} .content-carrousel figure:nth-child(4) {
-  transform: rotateY(120deg) translateZ(300px); 
-} .content-carrousel figure:nth-child(5) {
-  transform: rotateY(160deg) translateZ(300px); 
-} .content-carrousel figure:nth-child(6) {
-  transform: rotateY(200deg) translateZ(300px); 
-} .content-carrousel figure:nth-child(7) {
-  transform: rotateY(240deg) translateZ(300px); 
-} .content-carrousel figure:nth-child(8) {
-  transform: rotateY(280deg) translateZ(300px); 
-} .content-carrousel figure:nth-child(9) {
-  transform: rotateY(320deg) translateZ(300px); 
-} .content-carrousel figure:nth-child(10) {
-  transform: rotateY(360deg) translateZ(300px); 
-} 
-
-.content-carrousel figure:nth-child(2) img {
-will-change: transform;
-}
-.content-carrousel figure:nth-child(4) img {
-  transform: scale(2.4);
-}
-.content-carrousel figure:nth-child(2) img,
-.content-carrousel figure:nth-child(3) img {
-  transform: scale(1.4);
+/* The viewport: a dashed frame with crop marks, like the entries (.cad-art; the crop
+   marks are shared in CAD SECTIONS). The picture fills it, cropped evenly, never stretched */
+.ring-art {
+  position: relative;
+  flex: 1;
+  min-height: 0;                       /* lets the flex item shrink below the picture's own size */
+  padding: 3px;                        /* a hairline gap, so the picture never covers the dashes */
+  outline: 1px dashed var(--color-muted);
+  outline-offset: -1px;
 }
 
-.content-carrousel img {
-  image-rendering: auto;
-  transition: all 300ms;
+/* The window the picture shows through: inside the 3px gap, so inside the dashed line.
+   overflow: hidden trims the hover zoom to it (the zoom used to spill past the line) */
+.ring-window {
+  display: block;
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  overflow: hidden;
 }
 
-.content-carrousel img:hover {
-  transform: scale(1.2);
-  transition: all 300ms;
+.ring-art img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 300ms ease;
+}
+
+/* A gentle zoom on hover or keyboard focus (was scale(1.2) with "transition: all") */
+.figure-button:hover .ring-art img,
+.figure-button:focus-visible .ring-art img {
+  transform: scale(1.05);
+}
+
+/* "DWG 01 Bridge Guitar" under the picture, in the drawing's lettering */
+.ring-label {
+  overflow: hidden;
+  font-family: var(--font-mono);
+  font-size: max(0.6rem, calc(var(--figure-size, 190px) * 0.06));
+  letter-spacing: 0.06em;
+  text-align: left;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.ring-num::before {
+  content: "DWG ";
+}
+
+/* Small sheets (phones): only the number fits. projcript.js sets .is-compact */
+.is-compact .ring-name {
+  display: none;
 }
 
 /* =========================================================
-   POPUP (task 1.16). projcript.js adds .is-open to #slideshow when a
-   figure is picked and removes it on Close. Two layouts, chosen by the
-   slideshow's own width (container query):
-   - narrow (phones, tablets): the popup grows open ABOVE the ring and
-     fades in, which slides the stopped ring smoothly down
-   - wide: the popup fades in beside the ring, and the ring glides left
+   POPUP (task 1.16, restyled as a title block in R2e). projcript.js
+   fills it from the picked project and adds .is-open to #slideshow.
+   Two layouts, chosen by the slideshow's own width (container query):
+   - narrow (phones, tablets): the popup opens ABOVE the ring
+   - wide: it slides in beside the ring, and the ring glides left
    Closed = invisible AND unreachable (visibility: hidden), so Tab and
    screen readers skip it
    ========================================================= */
 .sidebar-dwg-details {
-  --popup-speed: 400ms;
-  grid-column: 2;
-  justify-self: end;
+  --popup-speed: 350ms;
+  --popup-ease: cubic-bezier(0.22, 1, 0.36, 1);   /* ease-out: quick start, soft landing */
   order: -1;                           /* phones: above the ring, though it comes after it in the HTML */
-  width: 100%;
-  max-width: 30rem;
-  /* Height can't animate to "auto", but a grid row can go from 0fr (nothing)
-     to 1fr (its content's height). The child below hides what doesn't fit yet */
+  align-self: stretch;
+  /* Phones: the popup pushes the ring down, so its HEIGHT has to change. Height can't
+     animate to "auto", but a grid row can go from 0fr (nothing) to 1fr (its content's height).
+     This is the one place a layout property animates: an overlay would cover the ring */
   display: grid;
   grid-template-rows: 0fr;
   opacity: 0;
   visibility: hidden;
   /* Closing: fade and shrink first, THEN hide (visibility waits for the animation) */
-  transition: grid-template-rows var(--popup-speed) ease, opacity var(--popup-speed) ease,
+  transition: grid-template-rows var(--popup-speed) var(--popup-ease),
+              opacity var(--popup-speed) var(--popup-ease),
               visibility 0s linear var(--popup-speed);
-  font-family: Georgia, 'Times New Roman', serif;
 }
 
 .information-popup {
   min-height: 0;                       /* lets the 0fr row really shrink to nothing */
   overflow: hidden;
-  padding: 0 10px;
+  /* The content drops in a little while the row opens: transform only, so it's cheap */
+  transform: translateY(-0.75rem);
+  transition: transform var(--popup-speed) var(--popup-ease);
 }
 
 #slideshow.is-open .sidebar-dwg-details {
@@ -198,35 +251,92 @@ will-change: transform;
   opacity: 1;
   visibility: visible;
   /* Opening: become visible right away (no delay), then grow and fade in */
-  transition: grid-template-rows var(--popup-speed) ease, opacity var(--popup-speed) ease,
+  transition: grid-template-rows var(--popup-speed) var(--popup-ease),
+              opacity var(--popup-speed) var(--popup-ease),
               visibility 0s;
+}
+
+#slideshow.is-open .information-popup {
+  transform: none;
+}
+
+/* The title block's own frame, inside the popup. The header strip runs edge to edge;
+   everything else keeps a margin. The id makes this rule outrank .cad-title's margin */
+.information-popup {
+  margin-top: var(--space-4);
+  border: 1px solid var(--color-accent);
+}
+
+#selected-sidebar .information-popup > :not(.popup-head) {
+  margin-inline: var(--space-3);
+}
+
+.popup-head {
+  display: flex;
+  gap: var(--space-2);
+  justify-content: space-between;
+  align-items: center;
+  margin: 0;
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 1px solid var(--color-accent);
+}
+
+#popup-title {
+  margin-block: var(--space-3) var(--space-1);
+  font-size: var(--step-1);
+}
+
+#popup-meta {
+  margin-bottom: var(--space-3);
+}
+
+/* Script focus only (tabindex="-1"): no ring, it's a heading, not a control */
+#popup-title:focus {
+  outline: none;
+}
+
+#popup-desc {
+  margin-block: 0 var(--space-3);
+}
+
+#popup-link {
+  display: inline-block;
+  margin-bottom: var(--space-3);
 }
 
 /* The ring glides when the layout around it changes */
 .entire-content {
-  transition: transform var(--popup-speed, 400ms) ease;
-}
-
-#popup-image {
-  width: 100%;
-  max-width: 300px;
-  height: auto;
-  aspect-ratio: 1;                     /* stays square at any width */
-  display: block;
-  margin: 0 auto;
+  transition: transform var(--popup-speed, 350ms) var(--popup-ease, ease);
 }
 
 /* Wide slideshow: popup beside the ring, as the owner designed it.
-   62rem = the 190px ring scaled to 0.8 (~632px) + the 20rem popup + a gap */
+   62rem = the ring scaled to 0.8 + the 20rem popup + a gap */
 @container (min-width: 62rem) {
   .sidebar-dwg-details {
     position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
+    right: clamp(var(--space-3), 4vw, var(--space-5));
+    top: calc(var(--space-5) * 2 + 2rem);   /* just under the title strip */
     width: 20rem;
-    padding: 20px 10px 20px 30px;
-    border-left: 1px solid var(--color-line);
+    /* Beside the ring nothing needs to move, so the row stays open and only
+       transform + opacity animate: the browser can do those without new layout */
+    grid-template-rows: 1fr;
+    transform: translateX(var(--space-5));
+    transition: transform var(--popup-speed) var(--popup-ease),
+                opacity var(--popup-speed) var(--popup-ease),
+                visibility 0s linear var(--popup-speed);
+  }
+
+  #slideshow.is-open .sidebar-dwg-details {
+    transform: none;
+    transition: transform var(--popup-speed) var(--popup-ease),
+                opacity var(--popup-speed) var(--popup-ease),
+                visibility 0s;
+  }
+
+  .information-popup {
+    margin-top: 0;
+    transform: none;
+    background: var(--color-bg);
   }
 
   /* Move the ring to the middle of the space left of the popup:
@@ -240,31 +350,11 @@ will-change: transform;
 @media (prefers-reduced-motion: reduce) {
   .sidebar-dwg-details,
   #slideshow.is-open .sidebar-dwg-details,
-  .entire-content {
+  .information-popup,
+  .entire-content,
+  .ring-art img {
     transition: none;
   }
-}
-
-#popup-title {
-  font-size: 20px;
-  font-weight: 600;
-  margin: 12px 0 6px;
-}
-
-#popup-desc {
-  font-size: 14px;
-  line-height: 1.5;
-  font-style: italic;
-  color: var(--color-muted);
-}
-
-#close-sidebar {
-  float: right;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 13px;
-  text-decoration: underline;
 }
 
 /* =========================================================
@@ -304,7 +394,9 @@ will-change: transform;
    neighbouring rules so lines never double up */
 .cad-index {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(14rem, 100%), 1fr));
+  /* auto-fit, not auto-fill: empty columns collapse, so 3 projects share the whole row
+     instead of leaving an empty ruled cell at the end */
+  grid-template-columns: repeat(auto-fit, minmax(min(14rem, 100%), 1fr));
   margin: var(--space-4) 0 var(--space-6);
   padding: 0;
   list-style: none;
@@ -336,14 +428,10 @@ will-change: transform;
    bottom are two thin repeating gradients: a 1px line every 12.5%
    (8 zones), only 0.6rem tall, painted in the margin between the lines
    ========================================================= */
+/* The frame alone, shared by the carousel (.cad-sheet, R2d) and every entry */
+.cad-sheet,
 .cad-entry {
   --sheet-inset: 0.6rem;               /* gap between the two frame lines */
-
-  display: grid;
-  gap: var(--space-5);
-  margin-bottom: var(--space-6);
-  /* Side padding shrinks on phones so the 2 × 2 title block keeps room for "ITERATIONS" at 320px */
-  padding: var(--space-6) clamp(var(--space-3), 4vw, var(--space-5)) var(--space-5);
   border: 2px solid var(--color-accent);
   outline: 1px solid var(--color-accent);
   outline-offset: calc(-1 * var(--sheet-inset));
@@ -352,6 +440,14 @@ will-change: transform;
       top / 100% var(--sheet-inset) no-repeat,
     repeating-linear-gradient(90deg, var(--color-accent) 0 1px, transparent 1px 12.5%)
       bottom / 100% var(--sheet-inset) no-repeat;
+}
+
+.cad-entry {
+  display: grid;
+  gap: var(--space-5);
+  margin-bottom: var(--space-6);
+  /* Side padding shrinks on phones so the 2 × 2 title block keeps room for "ITERATIONS" at 320px */
+  padding: var(--space-6) clamp(var(--space-3), 4vw, var(--space-5)) var(--space-5);
   /* A jump to #bridge-guitar stops a little above the sheet, not flush with the screen edge */
   scroll-margin-top: var(--space-5);
 }
@@ -381,8 +477,10 @@ will-change: transform;
 /* Crop marks on all four corners (owner, R1). Borders can only draw one L per box,
    so one layer paints eight short bars instead: linear-gradient(color 0 0) is a solid
    block of color, and each one is placed (top left…) and sized (--mark × --weight).
-   Each corner is two bars: one lying flat, one standing up */
-.cad-art::before {
+   Each corner is two bars: one lying flat, one standing up.
+   The carousel's small sheets (.ring-art) share them, with shorter arms (below) */
+.cad-art::before,
+.ring-art::before {
   --mark: 1rem;                         /* arm length */
   --weight: 2px;                        /* line thickness */
   --ink: linear-gradient(var(--color-accent) 0 0);
@@ -400,6 +498,12 @@ will-change: transform;
     var(--ink) bottom right / var(--mark) var(--weight),
     var(--ink) bottom right / var(--weight) var(--mark);
   background-repeat: no-repeat;
+  z-index: 1;                           /* above the picture */
+}
+
+.ring-art::before {
+  --mark: 0.5rem;
+  --weight: 1px;
 }
 
 /* The picture fills everything inside the dashed line (owner, 2026-11-09). The line sits

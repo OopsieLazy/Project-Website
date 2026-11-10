@@ -57,15 +57,16 @@ Each change still goes **works → right** (layout, keyboard, phones) **→ nice
 
 ## ▶ Where we left off (update at the end of every session)
 
-*Last session: 2026-11-09*
-- **Branch:** `feat/frames-dimmer` (renamed from `feat/frames-stripe-slider`; owner, 2026-11-09: collect 3–4 commits per PR before merging). Phase R (refinement) still comes before Phase L (launch).
-- **Merged since last notes:** #26 public résumé + contact PNG drag + real email, #27 whole project boxes drag out + parked CAD blocks removed, #28 About from the résumé + one page-top gap (D34), #29 thumbwheel theme picker + night stars, Moss removed (D35, D36).
-- **Merged:** #30 R2a gallery. **This branch:** pictures fill their dashed frames and stay just inside the line (Home's top line was hidden at some widths); the theme thumbwheel became a smooth dimmer (D38).
-- **Design (owner, 2026-11-09):** brightness option C (D37), driven by the thumbwheel as a dimmer (D38). The stripe slider (mock-up D) was turned down; only its inverted night colours were kept, now blended into the stripes.
-- **Next:** R2b project pages, then R2c kits. The owner gathers photos, renders and real stats meanwhile.
-- **Recruiting readiness:** résumé and real email are live. Blocking: not hosted; End Stop Cap and Latch Hinge stats are made up; Art is 56 placeholders; several `#` links per page. Each R task lists its page's content.
+*Last session: 2026-11-10*
+- **Branch:** `feat/refine-cad` (R2 carousel and popup). Phase R (refinement) still comes before Phase L (launch). Collect 3–4 commits per PR (owner, 2026-11-09).
+- **Merged:** #30 R2a gallery, #31 pictures fill their frames + the thumbwheel dimmer (D37, D38).
+- **Audit 2026-11-10:** validator 0 errors, all 6 pages load with no JS errors or sideways scroll at 320/1440. The theme picker is **frozen** (only the 1.14c sprites remain): it took 6 of 24 commits since 11-07 while the launch blockers didn't move.
+- **Built 2026-11-10 (uncommitted):** R2d carousel from the JSON as a ring of drawing sheets, R2e popup as a title block (D39), plus G1, G3, G4. Owner kept B (6 sheets, repeated). Then, on the owner's notes: more room between the ring and the frame on phones, sheets 1.15× tall so renders aren't cropped, Home's link now "View Projects"; the popup became a light summary, closing recentres on the carousel, and the ring is pushed back so the front sheet isn't enlarged (the "hazy" look; couldn't be reproduced headless, **owner to confirm on a real screen**). The spin stopped and started on its own (worse on phones): it now runs as a browser animation instead of a JavaScript frame loop (`will-change: transform` for smoothness). The hover pause is mouse-only and only on a sheet's picture; the zoom is clipped inside the dashed line. The theme wheel is wider with a 16px gap below the header, all its sizes are `--drum-*` tokens in `:root`, and `--page-top` now has a guard so the page always clears the wheel (amends D34: still a design value, but never smaller than the wheel needs; 86px today). The owner exempted this PR from the one-sitting size rule (UI first).
+- **Next:** owner reviews and commits; then R2b project pages. R2c kits may move after launch (owner to decide).
+- **Polish rule (owner, 2026-11-10):** each polish item gets a done definition first and at most two preview rounds.
+- **Recruiting readiness:** résumé and real email are live. Blocking: not hosted; End Stop Cap and Latch Hinge stats are made up; Art is 56 placeholders. Each R task lists its page's content.
 - **Owner habits:** end every PR with the full git command list (CLAUDE.md). After editing `contact.html` text, regenerate the contact-sheet PDF (README).
-- **Merged so far:** #1 public-repo hygiene, #2–#10 and #14–#15 Phase 1, #11–#13 Home, #16 CAD sections, #17 About, #18 Contact, #19 Code, #20 Art, #21 contact drag-out, #22 CAD drawing sheets, #23–#25 R1, #26–#29 R2 prep, résumé, page-top and the thumbwheel.
+- **Merged so far:** #1 hygiene, #2–#10 and #14–#15 Phase 1, #11–#21 Phase 2, #22 CAD sheets, #23–#25 R1, #26–#31 R2 prep, résumé, page-top, thumbwheel, gallery.
 - **Design reference:** https://dazprojects.com/collections/all (white, hairlines, centered logo, catalog grid), with our own fonts (Cinzel, Instrument Sans). Reference photos live in the git-ignored `references/` folder. Delete the old backup bundle once happy.
 
 ## Phase 0: Foundation cleanup ✅
@@ -80,11 +81,8 @@ Done, closed 2026-11-04 (real-phone test and a Lighthouse accessibility run, bot
 
 **Parked from Phase 1:**
 
-**PR 4 · `feat/orrery`**: the theme picker became a thumbwheel (it began as a pixel-art orrery; owner's picks, replaces the lantern, D35). Centred under the logo inside `--page-top`. Built ahead of launch on the owner's request; the sprites (1.14c) can follow any time.
-- [x] **1.14b** Art direction (owner, 2026-11-08, after previews A–F and two rounds on the site): a **thumbwheel**, a ridged washi drum 144px wide, centred under the logo, that turns like a volume knob. The sun and moon are printed on it a quarter turn apart: Day = sun in front, Night = moon in front, Auto = both showing, one each side. Labels Auto / Day / Night (no Japanese). At night the header band gets CSS stars and the drum glows.
-- [ ] **1.14c** Sprites: the owner draws the sun and moon (pixel art, about 22 × 22, PNG or SVG, metadata stripped). They replace the two `<g>` groups in the drum's `<svg>` (drawn around 0,0). Stand-in shapes until then.
-- [x] **1.14d** Built (`feat/orrery`, 2026-11-08; the owner handed it back after rolling a 1): the theme `<button>` in all 6 pages holds the drum `<svg>`; THEME DRUM and NIGHT SKY replace THEME LANTERN in `styles.css`; `themcript.js` part 2 draws the ridges and moves the sun and moon (part 1 unchanged). A knob with ends: stops at 0° / 45° / 90°, it resists past either end, a flick coasts at most one stop, a drag's trailing `click` is ignored, and Android phones get a small vibration per ridge (`navigator.vibrate`, skipped where it doesn't exist).
-- [x] **1.14e** Checked: 6 pages at 320/1440 (centred, ends 57px below the header, inside `--page-top`, no sideways scroll), Day / Night / Auto by day and by night, 13 scripted input steps (taps, drags, past the end, arrows at the end, Enter, reload) in normal and reduced motion, finger tap/drag (page doesn't scroll), validator 0 errors.
+**Theme thumbwheel ✅ (frozen 2026-11-10).** 1.14b–e done in #29 and #31: a ridged drum under the logo that works as a smooth dimmer. The why is in D35–D38 and the comments in `themcript.js` and the THEME DIMMER section of `styles.css`.
+- [ ] **1.14c** Sprites: the owner draws the sun and moon (pixel art, about 22 × 22, PNG or SVG, metadata stripped). They replace the two `<g>` groups in the drum's `<svg>` (drawn around 0,0). Stand-in shapes until then. **The only theme work left before launch.**
 
 **Polish** (done at the phase close): *(add refinements to finished features here)*
 - [x] Theme lantern ran 8 px into the "CAD's Creations" `<h1>` between ~330 and 340 px wide (measured by sweeping every page 300–640 px; only this page). Fixed in `feat/cad-restyle`: on phones that heading keeps a lantern-sized gap.
@@ -138,7 +136,7 @@ Goal (owner, 2026-11-07): go through the site page by page, from Home down, refi
     - **Centered in the burger layout too** (owner): the phone grid is `1fr auto 1fr`. Below 24rem the Menu button shows only ☰ (the word stays for screen readers), because a centered 128px logo and "☰ Menu" don't both fit.
     - Fixed along the way: the logo link had **no keyboard focus indicator** (since Phase 1). It's now `inline-block` with a ring, and the header geometry is unchanged.
   - [x] **Home, first pass** (owner: "make your recommended changes"):
-    - **H4:** "Open the carousel →" became "See all CAD projects →".
+    - **H4:** "Open the carousel →" became "See all CAD projects →", then "View Projects" (owner, 2026-11-10).
     - **H7:** the hero starts `--lantern-drop × φ` below the header (lantern : gap = φ : 1), not centered beside the card. 126px instead of 251px at 1440.
     - **H1:** card text stays readable. The slot is 26rem wide, and text sizes have `max()` floors (description 11px). Narrow cards drop the flavor line. Measured: no overflow on any card from 320 to 1440px, About card included.
     - **S5:** `.retro-label` in `styles.css` is the one shared label style. Home uses it now; other pages switch in their R tasks. **Bold band:** previewed; it cuts through the 70s stripes, so not recommended for now.
@@ -161,14 +159,22 @@ Goal (owner, 2026-11-07): go through the site page by page, from Home down, refi
   - [ ] **R2c Kits** (D32): each project's box drags out as `<id>-kit.zip` (sheet PNG + PDF, manual, `files/`, `LICENSE.txt`), plus a "Download kit (.zip)" link for keyboards and other browsers. The drag code moves from `contcript.js` to `datacript.js`.
   - Done early (owner, in R1a): crop marks on **all four corners** of each entry image. One `::before` paints eight solid-gradient bars.
   - [x] **The owner's parked blocks** `.larger-projects` and `.item-image-block`: removed 2026-11-08 (find them with `git log -S larger-projects`), idea kept as 3.10 in Experiments (owner, 2026-11-08). The code stays in git history.
-  - **Carousel** (owner's code, changed only on the owner's say):
-    - 5 placeholder figures plus a "Coming soon".
-    - Bridge Guitar and Latch Hinge have no `data-title`, so their popup is empty.
-    - Option: pull 3.2 forward, so the figures come from `projects.json`.
-  - **Content:**
-    - The intro paragraph, and the tab title (still "Projects").
-    - **Real stats and text for End Stop Cap and Latch Hinge** (made up 2026-11-05).
-  - **Owner content** (✱ blocks launch): ✱ real stats per project; ✱ one square render each (same angle, same background); photos (hero, in use, close-up, scale, iteration lineup), EXIF/GPS stripped; write-up notes (problem, what changed per version, print settings); files to share; MakerWorld links; references.
+  - **Audit 2026-11-10** (Day and Night, 320 / 768 / 1440). Owner marks each *finish / fill / remove*. The owner opened the carousel and popup to changes (2026-11-10):
+    - [x] **R2d Carousel look** (built 2026-11-10, D39; owner: "similar graphics/HUD as the projects below"). The ring is a sheet framed like the entries; each project is a small sheet with a crop-marked viewport and a DWG label; backs show blank paper; the phone fit math went from 68px to 104px sheets. Audit items, all fixed:
+      - C1 6 of 9 figures are placeholders (one says "Coming soon"). Option: pull 3.2 forward so the ring shows only the real projects from `projects.json` (also fixes C2, and the titles stop living in two places).
+      - C2 Bridge Guitar and Latch Hinge have no `data-title`, so their popup is only a picture.
+      - C3 The back of the ring shows mirrored "Placeholder" text (`backface-visibility` is visible).
+      - C4 Two looks mixed: grey render squares next to beige grid cards.
+      - C5 Image zoom is tied to position (`nth-child(2–4)` scale 1.4 / 2.4): reorder or add a figure and the wrong picture zooms.
+      - C6 About 150px empty above the ring and 200px below at 1440; Play spin floats alone at the top.
+      - C7 At 320 the figures are 68px wide, too small to recognise a part.
+    - [x] **R2e Popup** (built 2026-11-10; owner: "light summary, not the whole card"): DWG number, Close, title, type · year · tool, one sentence and "Full drawing ↓". The picture is on the front sheet and the stats in the full entry. Close and Escape glide the carousel back into view (on phones it used to land on "All projects"). Audit items, all fixed:
+      - P1 Hard-coded Georgia and px sizes (20 / 14 / 13) instead of tokens; Close is a browser-default underlined serif.
+      - P2 The slide animates `grid-template-rows`, which recalculates the layout every frame; `transition: all` on the figure images. Aim: `transform` + `opacity` only.
+      - P3 Shows a title and one line, with no link to the project's full entry (or its R2b page later).
+      - P4 Opening it doesn't move focus or tell a screen reader anything changed.
+    - **Page:** ~~G1 tab title "Projects"~~ → "CAD Portfolio · Zach Nott". G2 the intro is 14 lines on a phone (**owner's text**). ~~G3 empty 4th index cell~~ (`auto-fit`). ~~G4 leftover comment after `</html>`~~.
+  - **Owner content** (✱ blocks launch): ✱ real stats for End Stop Cap and Latch Hinge (made up 2026-11-05); ✱ the intro paragraph and tab title; ✱ one square render each (same angle, same background); photos (hero, in use, close-up, scale, iteration lineup), EXIF/GPS stripped; write-up notes (problem, what changed per version, print settings); files to share; MakerWorld links; references.
   - **Kit rules:** metadata stripped (STEP headers can hold your user name and folder paths, 3MF holds slicer profiles); each kit under ~20 MB, since git keeps every version forever; bigger models link to MakerWorld instead.
 - [ ] **R3 Code Portfolio** (`code.html`)
   - Real projects in place of No. 002 and 003 (Source / Live are `#`).
@@ -191,7 +197,8 @@ Goal (owner, 2026-11-07): go through the site page by page, from Home down, refi
 - [ ] **R7 How to add content** (was 2.8, README). How to add a project, a photo and an art piece, plus image size, naming and metadata rules. Written last, once the patterns are final.
 
 **Polish** (refinements to pages already done):
-- [x] **Page-top gap** (2026-11-08, owner handed it back): every page's content starts `--page-top` below the header (D34): 60px on phones, 72 at 1280, 80 max. Measured on all six pages at 320–1440: identical, 0 lantern overlaps. The CAD page's phone-only `h1` lantern gap (`projyles.css`) is now redundant; remove it with the orrery (1.14d).
+- [x] **Page-top gap** (2026-11-08, owner handed it back): every page's content starts `--page-top` below the header (D34): 60px on phones, 72 at 1280, 80 max. Measured on all six pages at 320–1440: identical, 0 lantern overlaps.
+- [ ] **CSS tidy** (code only, no visual change; one `chore:` PR before launch): hard-coded fonts and px sizes that a token covers → tokens, `transition: all` → named properties. Each page's own leftovers stay in its R task.
 
 ## Phase L: Launch
 
@@ -226,7 +233,7 @@ Pattern: each display is a self-contained JS file that sets itself up on any con
 <div data-display="slideshow"> <figure ...>...</figure> </div>
 ```
 - [ ] **3.1 Display loader.** A small script that finds `[data-display]` elements and calls the matching module.
-- [ ] **3.2 Register the carousel.** Wrap the existing `projcript.js` logic as the first display, with minimal edits. Its figures come from `projects.json` (D26).
+- [ ] **3.2 Register the carousel.** Wrap the existing `projcript.js` logic as the first display, with minimal edits. ~~Its figures come from `projects.json`~~: done early in R2d (D39).
 - ~~**3.3 Slideshow** and **3.4 Lightbox**~~: cut (2026-11-05). The popup and the grid already cover them.
 - [ ] **3.3b Grid display: the streamlined version** (dazprojects pattern). The fast, plain, accessible way in, and the default for `prefers-reduced-motion`. Classic catalog grid: each project is an image on a pale tile, then its title and one short line of info (tools, year). CSS grid `repeat(auto-fill, minmax(…, 1fr))`: about 5 columns on desktop, 2 on phones, no media queries. Optional: a density toggle (big/small tiles) like daz's two icons. Each card is a real link (to the write-up from 2.5).
 - [ ] **3.5 Doc: "How to add a display"** in README.
@@ -340,6 +347,7 @@ Design doc first (art style, room ↔ section map, controls), then build in smal
 | D36 | The Moss theme is removed: two themes (Day, Lantern) plus Auto. Its colour block is gone from `styles.css`; a visitor who had saved "moss" falls back to Auto, because `readSavedTheme()` only trusts known names | Owner, 2026-11-08. With the orrery holding only a sun and a moon, a third theme had no body of its own. Fewer themes also means half the contrast checks for every change. D22 and D23 stay as the history of why there were three |
 | D37 | Brightness slider, option C: only decoration blends with the slider (stars, stripes, sun and moon, footer); the page and the header switch between Day and Night at the halfway point with a short crossfade | Owner's pick after mock-ups A–C with live contrast numbers. Blending everything drops text to 1.1:1 halfway; a safe blend can only dim the day page 12% before grey text fails. The header holds the menu links, so it switches with the page. Every word stays at 4.5:1 or more |
 | D38 | The thumbwheel is a smooth dimmer: its position is `--dim` (0 Day to 1 Night) on `<html>`. The stripes (toward their inverted colours, mixed `in oklch`), the stars, the footer and the white drum (at least a third of the screen wide) follow it; the page and header switch at halfway (D37). Tap: Auto, Day, Night; drag: any level; arrows: a tenth. Saved as `theme` plus `theme-level` | Owner's pick after mock-ups C and D: keep the wheel, not a stripe slider, but make it a real dimmer with interpolated colours. One CSS variable keeps every blend in the stylesheet; the script only sets a number. OKLCH keeps the stripes colourful halfway (sRGB went grey). The CSSOM `style.setProperty` stays allowed under a strict CSP |
+| D39 | The CAD carousel reads `projects.json` (3.2's data half, pulled forward) and is drawn as a drawing sheet like the entries: framed ring, small sheets with crop-marked viewports and DWG labels, blank paper backs, a light summary popup; the ring is pushed back by its radius so the front sheet shows at true size. Under 6 projects the list repeats (copies `aria-hidden`, out of the Tab order) | Owner, 2026-11-10: the carousel should match the projects below. One source of truth ends the placeholders and empty popups. Preview A (3 sheets) became a prism showing one sheet at a time and overflowed on phones; B keeps a ring (owner's pick). Frame and crop marks are shared selectors, not copies, so the two can't drift |
 | D17 | Skeleton and layout are separate PRs; keep the `#page` wrapper; the width cap is a reusable `.wrapper` class; two `rem` breakpoints | Smaller reviews; respects the owner's structure; a class can be reused, and the carousel can skip it when it needs more width; breakpoints give more control than fluid sizing alone |
 
 ## Open questions
