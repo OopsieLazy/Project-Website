@@ -4,6 +4,9 @@
     "name": "Bridge Guitar",
     "image": "assets/images/bridge-guitar-v8.png",
     "alt": "Bridge guitar, CAD render",
+    "images": [
+      {"src": "assets/images/bridge-guitar-v8.png", "alt": "Bridge guitar, CAD render", "kind": "cad", "caption": "Version 8, CAD render"}
+    ],
     "type": "Instrument · Hardware",
     "year": 2025,
     "tool": "F360",
@@ -17,6 +20,9 @@
     "name": "End Stop Cap",
     "image": "assets/images/geetech-end-stop-cap-v4.png",
     "alt": "End stop cap for a Geetech 3D printer, CAD render",
+    "images": [
+      {"src": "assets/images/geetech-end-stop-cap-v4.png", "alt": "End stop cap for a Geetech 3D printer, CAD render", "kind": "cad", "caption": "Version 4, CAD render"}
+    ],
     "type": "Part · 3D print",
     "year": 2024,
     "tool": "F360",
@@ -30,6 +36,9 @@
     "name": "Latch Hinge",
     "image": "assets/images/latch-hinge-v1.png",
     "alt": "Latch hinge, CAD render",
+    "images": [
+      {"src": "assets/images/latch-hinge-v1.png", "alt": "Latch hinge, CAD render", "kind": "cad", "caption": "Version 1, CAD render"}
+    ],
     "type": "Mechanism · Print-in-place",
     "year": 2024,
     "tool": "F360",

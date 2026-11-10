@@ -44,13 +44,67 @@ function buildStats(stats = {}) {
     return list;
 }
 
+/* ---------- Gallery (R2a, D33): one big picture, thumbnails to switch ---------- */
+
+const KIND_LABEL = { cad: "CAD", photo: "Photo" };   // the tag in the picture's corner
+
+// The project's pictures. "images" is a list of { src, alt, kind, caption }.
+// A project with only the older single "image" still works: it becomes a one-picture list
+function projectImages(project) {
+    const list = Array.isArray(project.images) && project.images.length
+        ? project.images
+        : [{ src: project.image, alt: project.alt || "", kind: "cad" }];
+    return list.filter((picture) => picture && picture.src);
+}
+
+function buildGallery(project) {
+    const pictures = projectImages(project);
+    // Here the picture IS the content, so it gets real alt text (from the JSON)
+    const main = makeImage(pictures[0].src, pictures[0].alt || "");
+    main.loading = "lazy";   // below the fold: the browser fetches it only when it's close to the screen
+    const tag = make("span", "cad-tag");
+    const caption = make("figcaption", "cad-caption");
+    // <figure> + <figcaption>: the caption is tied to the picture for screen readers
+    const figure = make("figure", "cad-figure", make("div", "cad-art", main, tag), caption);
+
+    const buttons = [];
+    function show(i) {
+        const picture = pictures[i];
+        main.src = picture.src;
+        main.alt = picture.alt || "";
+        tag.textContent = KIND_LABEL[picture.kind] || "";
+        tag.hidden = !KIND_LABEL[picture.kind];
+        caption.textContent = picture.caption || "";
+        caption.hidden = !picture.caption;
+        // aria-pressed tells screen readers which thumbnail is the one showing
+        buttons.forEach((button, k) => button.setAttribute("aria-pressed", String(k === i)));
+    }
+
+    // Thumbnails only when there is something to switch to
+    if (pictures.length > 1) {
+        const thumbs = make("ul", "cad-thumbs");
+        pictures.forEach((picture, i) => {
+            const thumb = makeImage(picture.src);   // alt="" here: the button's name says what it shows
+            thumb.loading = "lazy";
+            const button = make("button", "cad-thumb", thumb);
+            button.type = "button";
+            button.setAttribute("aria-label",
+                `Show picture ${i + 1} of ${pictures.length}: ${picture.alt || KIND_LABEL[picture.kind] || ""}`);
+            button.addEventListener("click", () => show(i));
+            buttons.push(button);
+            thumbs.append(make("li", "", button));
+        });
+        figure.append(thumbs);
+    }
+
+    show(0);
+    return figure;
+}
+
 // One entry: square image box on the left, text on the right (layout C, owner's pick)
 function buildEntry(project, index, id) {
     const number = twoDigits(index + 1);
     const titleId = id ? `${id}-title` : "";
-
-    const image = makeImage(project.image, project.alt || ""); // here the image IS the content, so it gets real alt text
-    image.loading = "lazy"; // below the fold: the browser fetches it only when it's close to the screen
 
     const title = make("h3", "cad-title", project.name);
     if (titleId) title.id = titleId;
@@ -72,7 +126,7 @@ function buildEntry(project, index, id) {
     body.append(back);
 
     // <article>: a self-contained piece that makes sense on its own, like a catalog entry
-    const entry = make("article", "cad-entry", make("div", "cad-art", image), body);
+    const entry = make("article", "cad-entry", buildGallery(project), body);
     dragOutProject(entry, project); // the whole entry drags out (datacript.js)
     if (id) {
         entry.id = id;
