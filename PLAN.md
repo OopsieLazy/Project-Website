@@ -57,13 +57,15 @@ Each change still goes **works → right** (layout, keyboard, phones) **→ nice
 
 ## ▶ Where we left off (update at the end of every session)
 
-*Last session: 2026-11-08*
-- **Branch:** `fix/contact-drag-png`. The roadmap was rebuilt (owner): **Phase R, refinement**, page by page from Home down, comes before **Phase L, launch**.
-- **Merged since last notes:** #24 footer, #25 R1b Home rows (D29).
-- **This PR:** the R2 plan (D30–D33), then the contact card drags out as a PNG picture of itself, and the real email; Contact and About filled from the owner's résumé; whole project boxes drag out; parked CAD blocks removed; one page-top gap on every page (D34); the public résumé is live on Contact and Home. The thumbwheel replaced the lantern (D35, 1.14b–e), with stars in the header at night; it ships as PR 4 on `feat/orrery`, kept as `.git/orrery.patch` until PRs 1–3 are merged. Sprites (1.14c) wait for the owner. The Moss theme was removed (D36). **Next:** R2a gallery on a new branch, then R2b project pages, R2c kits. The owner is gathering photos and stats meanwhile, and re-exporting the public résumé.
-- **Recruiting readiness** (measured 2026-11-07): layout, phones and accessibility are ready. Blocking: not hosted; résumé and email are placeholders; End Stop Cap and Latch Hinge have made-up stats; Art is 56 placeholders; 9–12 `#` links per page. Each R task lists its page's content.
+*Last session: 2026-11-09*
+- **Branch:** `feat/project-images`. Phase R (refinement, page by page) still comes before Phase L (launch).
+- **Merged since last notes:** #26 public résumé + contact PNG drag + real email, #27 whole project boxes drag out + parked CAD blocks removed, #28 About from the résumé + one page-top gap (D34), #29 thumbwheel theme picker + night stars, Moss removed (D35, D36).
+- **This PR:** R2a gallery (Claude), plus images filling the dashed frames on Home and the CAD page (owner writes it, dice 1).
+- **Design in progress (owner, 2026-11-09):** a continuous brightness slider (the page dims between Day and Night) and the 70s stripes as the slider itself. Mock-ups first; nothing built yet.
+- **Next:** R2b project pages, then R2c kits. The owner gathers photos, renders and real stats meanwhile.
+- **Recruiting readiness:** résumé and real email are live. Blocking: not hosted; End Stop Cap and Latch Hinge stats are made up; Art is 56 placeholders; several `#` links per page. Each R task lists its page's content.
 - **Owner habits:** end every PR with the full git command list (CLAUDE.md). After editing `contact.html` text, regenerate the contact-sheet PDF (README).
-- **Merged so far:** #1 public-repo hygiene, #2–#10 and #14–#15 Phase 1, #11–#13 Home, #16 CAD sections, #17 About, #18 Contact, #19 Code, #20 Art, #21 contact drag-out, #22 CAD drawing sheets.
+- **Merged so far:** #1 public-repo hygiene, #2–#10 and #14–#15 Phase 1, #11–#13 Home, #16 CAD sections, #17 About, #18 Contact, #19 Code, #20 Art, #21 contact drag-out, #22 CAD drawing sheets, #23–#25 R1, #26–#29 R2 prep, résumé, page-top and the thumbwheel.
 - **Design reference:** https://dazprojects.com/collections/all (white, hairlines, centered logo, catalog grid), with our own fonts (Cinzel, Instrument Sans). Reference photos live in the git-ignored `references/` folder. Delete the old backup bundle once happy.
 
 ## Phase 0: Foundation cleanup ✅
@@ -153,7 +155,7 @@ Goal (owner, 2026-11-07): go through the site page by page, from Home down, refi
 - [ ] **R2 CAD Portfolio** (`projects.html`). Planned 2026-11-08 (owner), one PR each:
   - [x] **Contact card drags out as a PNG** (D30, `fix/contact-drag-png`). Sets up the picture method the kits reuse.
   - [x] **Whole boxes drag out** (2026-11-08, owner): Home boxes, featured cards and CAD entries, through `dragOutProject()` in `datacript.js`. Inner images and links get `draggable = false`, so a drag that starts on them moves the whole box. Drops the cover image until R2c adds kits. Trade-off: text inside a draggable box can't be selected with the mouse.
-  - [ ] **R2a Gallery** (D33): `images[]` in `projects.json` (`src`, `alt`, `kind` "cad"/"photo", `caption`), one folder per project (`assets/images/<id>/`). One big image + thumbnails, each tagged CAD or Photo. `image` stays the cover for cards and boxes. The parked blocks are already gone.
+  - [x] **R2a Gallery** (D33, built 2026-11-09 in `feat/project-images`): `images[]` in `projects.json` (`src`, `alt`, `kind` "cad"/"photo", `caption`); sectcript's `buildGallery()` shows one big picture with its CAD/Photo tag and caption, plus 48px thumbnail buttons (`aria-pressed`) once there are two or more. `image` stays the cover for cards and boxes; a project without `images` falls back to it. New photos go in `assets/images/<id>/`.
   - [ ] **R2b Project pages** (D31): `sheet.html?id=<id>` + `sheetyles.css` / `sheetcript.js`, filled from the JSON, Wikipedia-style like About: infobox, Contents, Background · Design · Iterations · Printing · Result, Downloads, References. Home boxes and CAD entries link to it. Unknown id → "Project not found".
   - [ ] **R2c Kits** (D32): each project's box drags out as `<id>-kit.zip` (sheet PNG + PDF, manual, `files/`, `LICENSE.txt`), plus a "Download kit (.zip)" link for keyboards and other browsers. The drag code moves from `contcript.js` to `datacript.js`.
   - Done early (owner, in R1a): crop marks on **all four corners** of each entry image. One `::before` paints eight solid-gradient bars.
