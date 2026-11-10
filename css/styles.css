@@ -68,7 +68,8 @@
   --color-akabeni: #7A2430;    /* akabeni, deep lantern red: Lantern's footer band */
   --color-cinnamon: #F5C07B;   /* Cinnamon Buff (Sanzo Wada's color dictionary): the theme drum's sun */
   --color-washi: #F4F1E8;      /* washi paper: the unlit theme lantern */
-  --color-sumi: #1F1F1F;       /* sumi ink black: the lantern's lacquer caps */
+  --color-sumi: #1F1F1F;       /* sumi ink black: shadows and lines on the theme dimmer */
+  --color-paper: #FFFFFF;      /* plain white: the theme dimmer's surface by day */
   --color-blueprint: #1D3F7A;  /* blueprint paper: the trading cards (homyles.css) */
   --color-blueprint-ink: #EAF2FF; /* blueprint linework and text: 9.1:1 on blueprint */
 
@@ -82,7 +83,7 @@
   --color-accent: light-dark(var(--color-pine), #8FD3E8);              /* links, headings: 7.8 / 11.0 */
   --color-highlight: light-dark(var(--color-jade), var(--color-chochin)); /* underlines and markers: 4.05 (not small text) / 7.1 */
   --color-header-bg: light-dark(var(--color-sand-tint), #1A242A);      /* header band; accent text on it: 6.0 / 9.5 */
-  --color-footer-bg: light-dark(var(--color-pine), var(--color-akabeni));
+  --color-footer-bg: color-mix(in srgb, var(--color-pine), var(--color-akabeni) calc(var(--dim) * 100%));   /* follows the dimmer (D38); white text passes all the way */
   --color-on-footer: #FFFFFF;            /* footer text: 7.8 / 9.9 */
 
   /* The active (hovered or focused) word: only color + fake bold change (D20) */
@@ -526,7 +527,7 @@ hr {
 /* A full-width band (sand by day, navy at night) with a sage hairline below. The band is the <header>;
    the nav inside carries .wrapper, so the color reaches the screen edges */
 .site-header {
-  position: relative;                  /* the theme drum hangs from this band (see THEME DRUM) */
+  position: relative;                  /* the theme dimmer hangs from this band (see THEME DIMMER) */
   padding-block: var(--space-4);
   background-color: var(--color-header-bg);
   border-bottom: 1px solid var(--color-sage);
@@ -763,22 +764,33 @@ hr {
    The stripes scale with the screen (thin on phones), and the main content
    gets extra right padding so text never runs under them.
    To restyle: change --stripe (thickness) or the five colors below.
-   They use palette colors, not roles, so the stripes look the same day and night
+   By day they are the palette colors; turning the theme dimmer toward Night blends each
+   one toward its inverted colour (--stripe-1 to --stripe-5 below, D38)
    ========================================================= */
 :root {
   --stripe: clamp(0.25rem, 0.9vw, 0.75rem);   /* one stripe: 4px on phones, up to 12px */
   --loop-width: calc(5 * var(--stripe));
   --loop-inset: clamp(var(--space-2), 2vw, var(--space-6));   /* gap from the window edge: 8px on phones, up to 32px */
+
+  /* Each stripe blends toward its inverted colour (255 minus each channel) as the dimmer
+     turns toward Night (D38): blue becomes gold, jade mauve, sage violet, sand navy, beni mint.
+     "in oklch" blends around the colour wheel, so the middle stays colourful; plain srgb
+     would pass through muddy grey, because a colour and its inverse meet in the grey middle */
+  --stripe-1: color-mix(in oklch, var(--color-gunjo), #C4A45A calc(var(--dim) * 100%));
+  --stripe-2: color-mix(in oklch, var(--color-jade), #A67882 calc(var(--dim) * 100%));
+  --stripe-3: color-mix(in oklch, var(--color-sage), #6F6178 calc(var(--dim) * 100%));
+  --stripe-4: color-mix(in oklch, var(--color-sand), #2F3F5F calc(var(--dim) * 100%));
+  --stripe-5: color-mix(in oklch, var(--color-beni), #4FDFB3 calc(var(--dim) * 100%));
 }
 
 /* Hard color stops (each color starts where the last one ends) make solid stripes, not a blend */
 .site {
   background-image: linear-gradient(to right,
-    var(--color-gunjo)     0%  20%,
-    var(--color-jade)      20% 40%,
-    var(--color-sage)      40% 60%,
-    var(--color-sand)      60% 80%,
-    var(--color-beni)      80% 100%);
+    var(--stripe-1) 0%  20%,
+    var(--stripe-2) 20% 40%,
+    var(--stripe-3) 40% 60%,
+    var(--stripe-4) 60% 80%,
+    var(--stripe-5) 80% 100%);
   background-size: var(--loop-width) 100%;
   background-position: right var(--loop-inset) top;   /* "right 8px" = 8px in from the right edge */
   background-repeat: no-repeat;
@@ -796,19 +808,43 @@ hr {
 }
 
 /* =========================================================
-   THEME DRUM: the theme picker (task 1.14, D35, js/themcript.js).
-   A ridged paper drum, centred under the logo, that turns like a volume knob.
-   The sun and moon are printed on it: Day = sun in front, Night = moon in front,
-   Auto = both showing, one each side. The script draws the ridges and moves
-   the sun and moon; every colour and size lives here
+   THEME DIMMER: the theme picker (task 1.14, D35, D38, js/themcript.js).
+   A white drum centred under the logo, at least a third of the screen wide,
+   with the sun and moon printed on it. It turns smoothly like a dimmer:
+   its position is --dim, from 0 (full Day) to 1 (full Night).
+   What follows --dim smoothly: the drum itself, the 70s stripes (toward
+   their inverted colours), the stars in the header and the footer.
+   What switches at halfway (D37): the page and the header, so every word
+   stays readable. The script only sets --dim and data-theme
    ========================================================= */
 
+/* --dim without the script, or in Auto: 0 by day, 1 when the OS is dark.
+   An old saved Day or Night (before the dimmer) also gets its end.
+   The script writes an exact level on <html> (style="--dim: 0.42"), which beats these */
+:root { --dim: 0; }
+@media (prefers-color-scheme: dark) { :root { --dim: 1; } }
+:root[data-theme="day"] { --dim: 0; }
+:root[data-theme="lantern"] { --dim: 1; }
+
+/* Paper doesn't print dark: always the Day level on paper. !important is needed
+   here (only here) because the script's level is written on <html> itself */
+@media print { :root { --dim: 0 !important; } }
+
+/* The page and header switch at halfway with a short crossfade instead of a jump */
+@media (prefers-reduced-motion: no-preference) {
+  body,
+  .site-header {
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+}
+
 /* A plain button underneath: Enter, Space, click and screen readers work for free.
-   Never set display here, or the hidden attribute stops working (no JS = no drum) */
+   Never set display here, or the hidden attribute stops working (no JS = no dimmer) */
 .theme-drum {
-  --drum-paper: var(--color-washi);
-  --drum-ink: var(--color-sumi);
-  --drum-glow: light-dark(transparent, color-mix(in srgb, var(--color-chochin) 45%, transparent));
+  /* "* 100%" turns the 0-1 level into the percentage color-mix() wants */
+  --drum-surface: color-mix(in srgb, var(--color-paper), var(--color-sumi) calc(var(--dim) * 80%));
+  --drum-line: color-mix(in srgb, var(--color-sumi), var(--color-washi) calc(var(--dim) * 100%));
+  --drum-glow: color-mix(in srgb, transparent, var(--color-chochin) calc(var(--dim) * 45%));
 
   position: absolute;
   top: 100%;                            /* just under the header band... */
@@ -835,20 +871,21 @@ hr {
   outline-offset: 2px;
 }
 
-/* The drum: washi paper with rounded top and bottom edges (border-radius 50% across,
-   a few px down = the ellipse of a cylinder's rim) and a dark rim line on each */
+/* The drum: plain white (owner), at least a third of the screen wide. The script reads
+   its width and redraws the face to match, so it scales without stretching.
+   Rounded top and bottom edges (border-radius 50% across, a few px down) read as a cylinder's rim */
 .drum {
   position: relative;
   display: block;
-  width: 9rem;                          /* 144px: the svg's viewBox is 144 x 40, so 1 unit = 1px */
+  width: max(9rem, 34vw);
   height: 2.5rem;
   border-radius: 50% / 0.4rem;
   overflow: hidden;                     /* the sun and moon are cut off at the drum's edge */
-  background: var(--drum-paper);
-  box-shadow: 0 0 1rem var(--drum-glow);   /* at night it glows like a lit lantern */
+  background: var(--drum-surface);
+  box-shadow: 0 0 1rem var(--drum-glow);   /* glows a little as it dims, like a lamp */
 }
 
-/* The light on a round surface: bright in the middle, dark toward both sides.
+/* Light on a round surface: a soft shade at both ends and a thin rim top and bottom.
    It lies OVER the sun and moon, so they dim by themselves as they turn away */
 .drum::after {
   content: "";
@@ -856,12 +893,12 @@ hr {
   inset: 0;
   border-radius: inherit;
   background: linear-gradient(90deg,
-    color-mix(in srgb, var(--drum-ink) 55%, transparent),
-    transparent 30%, transparent 70%,
-    color-mix(in srgb, var(--drum-ink) 55%, transparent));
+    color-mix(in srgb, var(--color-sumi) 30%, transparent),
+    transparent 15%, transparent 85%,
+    color-mix(in srgb, var(--color-sumi) 30%, transparent));
   box-shadow:
-    inset 0 2px 0 color-mix(in srgb, var(--drum-ink) 40%, transparent),    /* top rim */
-    inset 0 -2px 0 color-mix(in srgb, var(--drum-ink) 40%, transparent);   /* bottom rim */
+    inset 0 1px 0 color-mix(in srgb, var(--color-sumi) 30%, transparent),
+    inset 0 -1px 0 color-mix(in srgb, var(--color-sumi) 30%, transparent);
   pointer-events: none;
 }
 
@@ -871,17 +908,17 @@ hr {
   height: 100%;
 }
 
-/* The ridges: thin grooves round the drum, like a thumbwheel's grip */
+/* The ridges: faint grooves that show the drum turning */
 .drum-ridges line {
-  stroke: var(--drum-ink);
+  stroke: var(--drum-line);
   stroke-width: 1;
 }
 
 /* Stand-in art until the pixel sprites (1.14c). Decoration only: aria-hidden on the drum */
 .sun-rays    { fill: none; stroke: var(--color-chochin); stroke-width: 2; stroke-linecap: round; }
 .sun-disc    { fill: var(--color-cinnamon); stroke: var(--color-chochin); stroke-width: 1.2; }
-.moon-disc   { fill: var(--color-blueprint); stroke: var(--color-blueprint); stroke-width: 1; }
-.moon-crater { fill: color-mix(in srgb, var(--color-washi) 35%, var(--color-blueprint)); }
+.moon-disc   { fill: var(--color-washi); stroke: var(--color-muted); stroke-width: 1; }
+.moon-crater { fill: var(--color-sand-tint); }
 
 /* The name under the drum: small mono capitals like a drawing label.
    "theme. Press for the next theme" is screen-reader-only text */
@@ -899,10 +936,10 @@ hr {
 }
 
 /* =========================================================
-   NIGHT SKY: stars on the header band, at night only (owner, 2026-11-08).
+   NIGHT SKY: stars on the header band (owner, 2026-11-08), fading in with
+   the dimmer: none until a third of the way, all of them at Night.
    Pure CSS: each layer is one tiny dot (a radial-gradient) repeated on its own
-   tile size. Odd, unrelated tile sizes stop the repeats from lining up into a grid.
-   Night = the Lantern theme, or Auto when the OS is dark
+   tile size. Odd, unrelated tile sizes stop the repeats from lining up into a grid
    ========================================================= */
 :root {
   --stars:
@@ -916,12 +953,18 @@ hr {
   --star-dim: color-mix(in srgb, var(--color-washi) 40%, transparent);
 }
 
-:root[data-theme="lantern"] .site-header {
-  background: var(--stars), var(--color-header-bg);
+/* isolation: isolate makes the header its own layer stack, so the stars (z-index -1)
+   sit above the header's colour but below its links and logo */
+.site-header {
+  isolation: isolate;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme]) .site-header {
-    background: var(--stars), var(--color-header-bg);
-  }
+.site-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--stars);
+  opacity: clamp(0, calc((var(--dim) - 0.35) / 0.65), 1);
+  pointer-events: none;
 }
