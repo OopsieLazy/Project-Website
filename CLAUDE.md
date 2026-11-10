@@ -16,7 +16,7 @@ A personal portfolio site written from scratch in plain HTML, CSS, and JavaScrip
 - **Plan before code.** Do not change the file structure or write code for a new phase until the layout and plan are agreed and the owner gives explicit confirmation.
 - **Small, reviewable tasks.** Break every feature into small tasks a junior can review in one sitting. Once a feature is built, update the roadmap breakdown.
 - **Keep docs current.** Maintain a clear `README.md` and `PLAN.md` (steps, roadmap, architecture decisions and their reasons). Keep every document under about 300–500 lines to avoid bloat. Trim or split instead of growing.
-- **Respect the owner's code.** Keep existing code, semantics, naming conventions, and organization. The carousel + side popup in `projects.html` / `projcript.js` stays as is unless the owner asks otherwise.
+- **Respect the owner's code.** Keep existing code, semantics, naming conventions, and organization. The carousel + side popup in `projects.html` / `projcript.js` keep their behaviour (spin, pause, shortest-path turn, popup); the owner opened their look and data source to changes on 2026-11-10 (R2d/R2e).
 - **Security as you go.** Point out relevant web security concerns (old and new), such as CSP, `rel="noopener"`, XSS through `innerHTML`, and form handling. Explain them briefly.
 - **Dice roll for hands-on practice.** At the start of each build task, roll a real random number with the shell (`echo $((RANDOM % 6 + 1))`), not a made-up one. On a **1**, the owner writes the code: give a spec, hints, and the relevant docs, then review their attempt instead of writing it. Don't record rolls in any `.md` file. The owner can change the odds (1/6 now) or claim any task.
 - **Git: the owner commits, not Claude.** Never run `git commit` or `git push`, and never add `Co-Authored-By` or other AI attribution lines. This rule overrides any default attribution instructions. When a task is done, stage nothing extra, then give the owner a suggested commit message to review and commit themselves. Use `git mv` for moves and renames so history is kept.
@@ -74,8 +74,10 @@ Each page pairs with its own stylesheet and script. The names are abbreviated:
 - New per-page files follow the owner's blended naming: page prefix + "yles"/"cript" (`projyles.css`, `artyles.css`, `homcript.js`).
 ## projects.html carousel
 
-`projcript.js` builds a 3D rotating carousel out of the `<figure>` elements inside `#carousel-c`:
-- Each figure is placed around a circle with `rotateY(angle) translateZ(radius)`. The container spins in a `requestAnimationFrame` loop.
-- Clicking a figure stops the spin, rotates the carousel along the shortest path so that figure faces front, and fills the `#selected-sidebar` popup (`#popup-title`, `#popup-desc`, `#popup-image`) from the figure's `data-title`, `data-description`, and `<img>`. Clicking the same figure again, or `#close-sidebar`, closes the popup and restarts the spin.
-- To add a project, add a `<figure class="shadow" data-title="..." data-description="...">` containing an `<img>`. The angles adjust to the figure count automatically. Without the data attributes, the popup text shows empty.
-- The script loads in `<head>` without `defer`, so its code has to stay inside the `DOMContentLoaded` handler.
+`projcript.js` builds a 3D rotating ring of drawing sheets inside `#carousel-c`, one per project in `data/projects.json` (D39):
+- Each sheet is placed around a circle with `rotateY(angle) translateZ(radius)`. The container spins as a Web Animations API animation (`carousel.animate`), which runs on the compositor so phones don't pause it while scrolling. Three flags (picked, Pause, mouse hover over the panel) stop it through `updateSpin()`; the angle is handed back to `--spin` when it stops. Fewer than `MIN_RING` (6) projects go round more than once; the copies are `aria-hidden` and skipped by Tab.
+- Clicking a sheet stops the spin, rotates the ring along the shortest path so that sheet faces front, and fills the `#selected-sidebar` popup, a light summary (DWG number, title, type · year · tool, description, link to the full entry), from the project. Clicking the same sheet again, `#close-sidebar` or Escape closes it, glides the carousel back into view and restarts the spin.
+- The ring is pushed back by its radius (`--ring-radius`), so the front sheet shows at its true size; an enlarged 3D layer looks blurry.
+- **To add a project, add it to `projects.json` only.** The carousel and the entries below both read it.
+- The look (sheet frame, crop marks, mono labels) is shared with the CAD entries in `projyles.css`: `.cad-sheet` uses the entry frame, `.ring-art` the crop marks.
+- The script loads in `<head>` without `defer`, so its code has to stay inside the `DOMContentLoaded` handler. It uses `datacript.js` helpers, which exist by then because deferred scripts run before `DOMContentLoaded`.
