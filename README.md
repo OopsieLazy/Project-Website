@@ -43,6 +43,7 @@ Add one object to `data/projects.json`: the home catalog builds its tile and the
 - Optional: `tool`, `description`, `flavor`, `stats` (`iterations`, `parts`, `printHours`, `difficulty` 1–5)
 - Optional: `writeup`, the longer story on the CAD page, as a list of paragraphs: `"writeup": ["First paragraph.", "Second paragraph."]`
 - Optional: `images`, the pictures in the CAD page's gallery (D33). Each one is `{ "src", "alt", "kind", "caption" }`, where `kind` is `"cad"` or `"photo"` (it sets the tag in the corner). The first one shows first; thumbnails appear once there are two or more. `image` stays the single cover used on Home and the cards. New photos go in a folder per project: `assets/images/<id>/`.
+- Picture sizes: the frames are 4:3 (Home rows) and square (Home grid, CAD page, thumbnails), and pictures fill them with `object-fit: cover`, which crops evenly and never stretches. So export every render and photo **square, 1600 × 1600 px**, with the part centred inside the middle 75% (a 4:3 crop trims 12.5% off the top and bottom). Renders as PNG, ideally with a transparent background; photos as JPEG at about 80% quality, with location data stripped.
 
 JSON is strict: double quotes only, a comma between items but **not after the last one**, and no comments. If the catalog goes blank, the browser console (F12) says why.
 

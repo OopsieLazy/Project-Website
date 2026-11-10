@@ -65,7 +65,7 @@ Each page pairs with its own stylesheet and script. The names are abbreviated:
 
 `js/datacript.js` holds the shared JSON helpers (`loadProjects`, `make`, `makeImage`, `projectHref`) and must load **before** the page script that uses them (both `defer`, so HTML order is run order).
 
-`styles.css`, `js/script.js` (header toggles, loaded with `defer`) and `js/themcript.js` (theme lantern, loaded **without** `defer` so the saved theme applies before the first paint) are shared by every page except `thelab.html`.
+`styles.css`, `js/script.js` (header toggles, loaded with `defer`) and `js/themcript.js` (the theme dimmer, D38, loaded **without** `defer` so the saved theme and level apply before the first paint) are shared by every page except `thelab.html`.
 
 - **The header and nav are copied by hand into every page**: the left link list, the center logo, and the right "The Laboratory" mega menu. There are no includes, so a nav change has to be made in each page.
 - Nav links to pages that don't exist yet are `href="#"` placeholders. Real pages will replace them.
