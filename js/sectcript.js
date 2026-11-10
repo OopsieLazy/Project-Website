@@ -2,7 +2,7 @@
 // plus a row of jump links (the index). Each entry has the project's JSON id, so
 // projects.html#bridge-guitar opens straight at that project (the home page links here).
 // Loaded with `defer` after js/datacript.js (loadProjects, make, makeImage, twoDigits).
-// The carousel (projcript.js) is separate and doesn't change; it moves to the JSON in 3.2.
+// The carousel above (projcript.js) reads the same JSON; its DWG numbers match these entries.
 
 // Ids become part of a URL, so only plain lowercase-kebab-case is allowed (bridge-guitar)
 const SAFE_ID = /^[a-z0-9]+(-[a-z0-9]+)*$/;
