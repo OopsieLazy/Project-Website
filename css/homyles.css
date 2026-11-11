@@ -91,13 +91,19 @@
    ========================================================= */
 .featured-slot {
   --stack-width: 80%;                  /* the front card's width; the rest is room for the back cards to peek */
+  /* Room above the stack for the back cards' tips. translate and rotate don't take up layout
+     space, so without this the tips poke above the hero, into the gap --page-top keeps for the
+     theme wheel (they nearly touched it at 1920px+, where the wheel is wide enough to reach them).
+     Measured: card 2 (translate -12%, rotate 8deg) rises ~19% of the slot's width. If you change
+     the data-pos values below, change this too. % margins are % of the slot's WIDTH, like the rise */
+  --stack-rise: 20%;
 }
 
 .card-stack {
   container-type: inline-size;         /* the cards' cqi now measure the card, not the whole slot */
   display: grid;
   width: var(--stack-width);
-  margin-top: 12%;                     /* room above for the peeking corners */
+  margin-top: var(--stack-rise);
 }
 
 .card-stack > .bp-card {
