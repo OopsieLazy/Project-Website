@@ -34,42 +34,30 @@
   --code-featured-min: 19rem;          /* featured cards: narrowest width before the row drops a column */
   --code-featured-gap: var(--space-6);
   --code-card-min: 15rem;              /* flip cards: narrowest width (4 across at 1440, 2 on tablets, 1 on phones) */
-  --code-card-gap: var(--space-5);
+  --code-card-gap: var(--space-4);
 
   /* The catalog card: everything is placed on the ruled lines.
-     Ruled lines sit at --ic-top + n × --ic-line (n = 0, 1, 2 …); the red rule is line n = 1 */
+     Ruled lines sit at --ic-top + n × --ic-line (n = 0, 1, 2 …) */
   --ic-line: 1.55rem;                  /* one ruled line = one line of text */
   --ic-top: var(--space-5);            /* top padding = where ruled line 0 sits */
   --ic-pad-x: var(--space-5);          /* left and right padding */
   --ic-pad-bottom: var(--space-7);     /* bottom padding: room for the punched hole */
-  --ic-ruled-ink: 18%;                 /* strength of the blue ruled lines */
-  --ic-red-ink: 60%;                   /* strength of the red header rule */
-  --ic-red-width: 2px;
+  --ic-ruled-ink: 8%;                  /* strength of the blue ruled lines: faint, so they guide, not decorate */
   --ic-hole: 1.1rem;                   /* the punched hole's size */
   --ic-title-tracking: 0.06em;         /* letter spacing of the typed titles */
   --ic-chip-radius: 3px;
 
-  /* Real paper (owner's pick A): card stock, grain, soft shadows, a slight tilt */
+  /* Quiet paper (sleek pass, owner's pick B, 2026-11-11): cream card stock with one soft
+     shadow. The grain, tilt and red header rule of the first paper look (pick A) were removed;
+     they're in git history (commit 3c710ff) if you ever want them back */
   --paper-radius: 3px;                 /* card stock has softly rounded corners */
-  /* Paper grain: an SVG noise filter (feTurbulence) as a tiny tiling picture, made faint and warm
-     by feColorMatrix (its last row sets the opacity: .09). Inline as a data: URL, so no extra file.
-     CSP note for L2: data: images need img-src 'self' data: */
-  --paper-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .28 0 0 0 0 .18 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  /* Paper on a desk casts three shadows at once: a tight contact line, a short soft one, and a
-     wide faint one. Layering them is what makes it read as a real object, not a flat box */
+  /* Two shadows: a tight contact line under the edge, and one soft spread below */
   --paper-shadow:
-    0 1px 1px rgb(0 0 0 / 0.12),
-    0 3px 6px rgb(0 0 0 / 0.10),
-    0 14px 22px -10px rgb(0 0 0 / 0.35);
-  --paper-shadow-lift:                 /* picked up a little (hover): the shadows spread */
-    0 2px 2px rgb(0 0 0 / 0.12),
-    0 8px 14px rgb(0 0 0 / 0.12),
-    0 22px 30px -12px rgb(0 0 0 / 0.38);
-  --paper-tilt-1: -0.7deg;             /* each card lies a little crooked; four angles in turn. */
-  --paper-tilt-2: 0.5deg;              /* Set all four to 0deg for straight rows */
-  --paper-tilt-3: -0.3deg;
-  --paper-tilt-4: 0.8deg;
-  --paper-settle: 300ms;               /* how fast a card straightens when opened */
+    0 1px 2px rgb(0 0 0 / 0.08),
+    0 6px 14px -6px rgb(0 0 0 / 0.14);
+  --paper-shadow-lift:                 /* picked up a little (hover): the shadow spreads */
+    0 2px 4px rgb(0 0 0 / 0.10),
+    0 12px 22px -8px rgb(0 0 0 / 0.18);
 
   /* Status dots (colours: --color-status-* in styles.css) */
   --status-dot: 0.8rem;
@@ -153,7 +141,6 @@
    ========================================================= */
 .index-card {
   --ic-ruled: color-mix(in srgb, var(--color-gunjo) var(--ic-ruled-ink), transparent);
-  --ic-rule-red: color-mix(in srgb, var(--color-beni) var(--ic-red-ink), transparent);
 
   color-scheme: light;
   /* Text colour is INHERITED from the page, already worked out (light grey at night).
@@ -163,29 +150,15 @@
   padding: var(--ic-top) var(--ic-pad-x) var(--ic-pad-bottom);
   border-radius: var(--paper-radius);  /* no border: real card stock has an edge, not an outline */
   background-color: var(--color-cardstock);
-  /* Two layers, top one first: the grain, then the ruled lines.
-     The ruled lines are a gradient whose pattern is EXACTLY one --ic-line tall, with the 1px
+  /* The ruled lines: a gradient whose pattern is EXACTLY one --ic-line tall, with the 1px
      line at its start. (The pattern repeats every "last stop": ending at --ic-line + 1px
      would make each repeat 1px too tall, and the lines would drift off the text.)
-     Their position puts line 0 at the top padding edge, where the text starts */
-  background-image:
-    var(--paper-grain),
-    repeating-linear-gradient(var(--ic-ruled) 0 1px, transparent 1px var(--ic-line));
-  background-position: 0 0, 0 var(--ic-top);
+     background-position puts line 0 at the top padding edge, where the text starts */
+  background-image: repeating-linear-gradient(var(--ic-ruled) 0 1px, transparent 1px var(--ic-line));
+  background-position: 0 var(--ic-top);
   box-shadow: var(--paper-shadow);
   font-family: var(--font-mono);
   font-size: var(--step--1);
-}
-
-/* The red header rule, drawn exactly over ruled line 1. Half its extra thickness
-   (red minus the 1px blue line) goes above, so the red centres over the blue */
-.index-card::before {
-  content: "";
-  position: absolute;
-  top: calc(var(--ic-top) + var(--ic-line) - (var(--ic-red-width) - 1px) / 2);
-  left: 0;
-  right: 0;
-  border-top: var(--ic-red-width) solid var(--ic-rule-red);
 }
 
 /* The punched hole: a circle filled with the PAGE colour (--page-color, worked out on the
@@ -208,7 +181,7 @@
   margin: 0;
 }
 
-/* Number left, status dot right, filling the band between ruled line 0 and the red rule.
+/* Number left, status dot right, filling the band between ruled lines 0 and 1.
    Exactly one line tall + align-items: center = the dot sits in the middle of the band */
 .ic-meta {
   display: flex;
@@ -223,7 +196,7 @@
   white-space: nowrap;
 }
 
-/* Typed title: the mono font in capitals. One empty band under the red rule, then the
+/* Typed title: the mono font in capitals. One empty band under the number, then the
    title fills exactly one band, so the description below starts on the grid too */
 .ic-title {
   margin: var(--ic-line) 0 0;
@@ -342,18 +315,6 @@
    ========================================================= */
 .flip-item {
   perspective: var(--flip-depth);      /* the 3D "camera": makes the turn look deep, not flat */
-  transition: rotate var(--paper-settle) ease;
-}
-
-/* Cards set down a little crooked, four angles in turn (tokens at the top).
-   rotate is its own property, separate from the flip's transform, so they never clash */
-.flip-item:nth-child(4n + 1) { rotate: var(--paper-tilt-1); }
-.flip-item:nth-child(4n + 2) { rotate: var(--paper-tilt-2); }
-.flip-item:nth-child(4n + 3) { rotate: var(--paper-tilt-3); }
-.flip-item:nth-child(4n + 4) { rotate: var(--paper-tilt-4); }
-
-.flip-item.is-open {
-  rotate: 0deg;                        /* an open card is picked up and squared to read */
 }
 
 .flip-inner {
@@ -470,6 +431,20 @@
   color: var(--color-active);
 }
 
+/* Quiet: where a mouse can hover, the hint only shows on hover or keyboard focus.
+   (hover: hover) is false on touch screens, which have no hover, so phones always see it */
+@media (hover: hover) {
+  .flip-hint {
+    opacity: 0;
+    transition: opacity 150ms ease;
+  }
+
+  .flip-front:hover .flip-hint,
+  .flip-front:has(.flip-open:focus-visible) .flip-hint {
+    opacity: 1;
+  }
+}
+
 /* The back's title gets focus when the card opens (so a screen reader reads it);
    it isn't a control, so it needs no ring */
 .flip-back .ic-title:focus {
@@ -497,9 +472,9 @@
 
 /* Reduced motion: the card swaps faces with no turn and no hover lift */
 @media (prefers-reduced-motion: reduce) {
-  .flip-item,
   .flip-inner,
-  .flip-front {
+  .flip-front,
+  .flip-hint {
     transition: none;
   }
 
