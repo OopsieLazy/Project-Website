@@ -7,25 +7,21 @@ const MAX_FEATURED = 3; // the stack's CSS has a place for 3 cards (data-pos 0, 
 
 /* ---------- Catalog: one tile per project ---------- */
 
-// One retro box per project (R1b): a full-width row while there are few, a tile in the grid
-// from 6 (the CSS decides, not this script).
-// Only the NAME is a link. Its ::after stretches over the whole box (css/homyles.css), so the
-// box is clickable, but a screen reader hears a short link name ("Bridge Guitar") instead of
-// the whole description. The name is an <h3> under the "All projects" <h2>, so screen-reader
-// users can jump from project to project
+// One tile per project (sleek pass, 2026-11-11): picture, name, one meta line, like dazprojects.
+// The description lives on the CAD entry the tile links to, so it isn't repeated here.
+// Only the NAME is a link. Its ::after stretches over the whole tile (css/homyles.css), so the
+// tile is clickable, but a screen reader hears a short link name ("Bridge Guitar").
+// The name is an <h3> under the "All projects" <h2>, so screen-reader users can jump
+// from project to project
 function buildTile(project) {
     const link = make("a", "", project.name);
     link.href = projectHref(project); // opens the project's entry on the CAD page
-    const more = make("span", "tile-more", "View project →");
-    more.setAttribute("aria-hidden", "true"); // decoration: the link already says where it goes
     const tile = make("article", "catalog-tile",
         make("div", "tile-art", makeImage(project.image)),
         make("div", "tile-body",
             make("h3", "tile-name", link),
             // joinMeta skips missing parts instead of printing "undefined"
-            make("p", "tile-meta", joinMeta([project.type, project.year])),
-            make("p", "tile-desc", project.description || ""),
-            more
+            make("p", "tile-meta", joinMeta([project.type, project.year]))
         )
     );
     dragOutProject(tile, project); // the whole box drags out (datacript.js)
