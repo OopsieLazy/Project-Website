@@ -162,10 +162,28 @@
 }
 
 /* =========================================================
-   CATALOG: every project, built by js/homcript.js from data/projects.json.
-   Up to 5 projects: full-width rows that alternate sides (easy to read).
-   6 or more: a grid of small tiles (scrolling past many rows gets long)
+   CATALOG (sleek pass, owner's pick C, 2026-11-11): every project as a tile, like
+   dazprojects. A picture on a pale square, the name, one meta line. Nothing around
+   each tile: no border, frame or shadow; the space between them does the separating.
+   Built by js/homcript.js from data/projects.json
    ========================================================= */
+
+/* Home's own tokens. --content-max (styles.css) is the page width; Home's <main> is
+   allowed wider so the tiles have room. Only <main>: the header keeps the site width,
+   so the nav doesn't shift when you move between pages */
+.thehomepage {
+  --home-content-max: 86rem;           /* site default is 72rem */
+  --tile-min: 15rem;                   /* narrowest tile on a wide screen (about 5 across at 1440) */
+  --tile-min-phone: 45%;               /* phones: 2 tiles per row */
+  --tile-gap-row: var(--space-6);      /* space between rows (room for the name) */
+  --tile-gap-col: var(--space-4);      /* space between tiles in a row */
+  --tile-zoom: 1.04;                   /* picture zoom on hover */
+}
+
+.thehomepage .site-main {
+  --content-max: var(--home-content-max);   /* .wrapper's max-width reads this */
+}
+
 .home-catalog {
   padding-bottom: var(--space-7);
   border-top: 1px solid var(--color-line);
@@ -186,99 +204,70 @@
   margin: 0;
 }
 
-/* list-style: none makes Safari drop the "list" meaning, so the HTML adds role="list" back */
+/* auto-FIT, not auto-fill: empty columns collapse, so 3 projects stretch across the
+   whole row instead of leaving it half empty. min(--tile-min, 45%) keeps 2 per row on
+   phones. list-style: none makes Safari drop the "list" meaning, so the HTML adds role="list" */
 .catalog-grid {
   display: grid;
-  gap: var(--space-5);
+  grid-template-columns: repeat(auto-fit, minmax(min(var(--tile-min), var(--tile-min-phone)), 1fr));
+  gap: var(--tile-gap-row) var(--tile-gap-col);
   margin: var(--space-4) 0 0;
   padding: 0;
   list-style: none;
 }
 
-/* ---------- ROWS (R1b, owner's pick B "retro boxes") ----------
-   Few projects: one full-width box each, image and text side by side.
-   Retro touch: a hard border with an offset shadow, like an early-web box.
-   The shadow is sage (a decoration-only palette color): pale grey under a wide box
-   looked like a stray underline, a colored offset reads as meant */
 .catalog-tile {
   position: relative;                  /* the stretched link's ::after fills this box */
-  display: grid;
-  gap: var(--space-4);
-  align-items: center;
-  height: 100%;                        /* grid mode: tiles in a row match heights */
-  padding: var(--space-3);
-  border: 2px solid var(--color-ink);
-  background: var(--color-bg);
-  box-shadow: 4px 4px 0 var(--color-sage);
 }
 
-.catalog-tile:hover {
-  border-color: var(--color-highlight);
-}
-
-/* From 48rem: image | text, and every second row flips to text | image.
-   grid-template-areas names the cells, so flipping is just swapping two names.
-   The HTML order never changes (image first), so screen readers and Tab stay the same */
-@media (min-width: 48rem) {
-  .catalog-tile {
-    grid-template-columns: 2fr 3fr;
-    grid-template-areas: "art body";
-    gap: var(--space-6);
-  }
-
-  .catalog-item:nth-child(even) .catalog-tile {
-    grid-template-columns: 3fr 2fr;
-    grid-template-areas: "body art";
-  }
-
-  .tile-art  { grid-area: art; }
-  .tile-body { grid-area: body; }
-}
-
-/* The image sits in a dashed "viewport", like the drawing sheets on the CAD page */
+/* The picture on a pale square. overflow: hidden keeps the hover zoom inside the square */
 .tile-art {
-  display: grid;
-  place-items: center;
-  aspect-ratio: 4 / 3;
-  outline: 1px dashed var(--color-ink);
-  outline-offset: -1px;
-  /* The picture stays INSIDE the dashed line (owner, 2026-11-09). The line takes the box's
-     outer 1px; 2px of padding leaves a hairline gap, so even when the box lands between
-     pixel rows (some widths, browser zoom) the picture can't paint over the line */
-  padding: 2px;
+  aspect-ratio: 1;
+  overflow: hidden;
   background: var(--color-surface);
 }
 
-/* The picture fills the whole frame (owner, 2026-11-09). object-fit: cover scales it EVENLY
-   until it fills the box and trims what spills over, so it can crop but never stretch.
-   The dashed line is an outline, and outlines paint on top of the content, so it stays visible */
+/* object-fit: cover scales the picture EVENLY until it fills the square and trims what
+   spills over, so it can crop but never stretch (owner, 2026-11-09) */
 .tile-art img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: scale 300ms ease;
+}
+
+.catalog-tile:hover .tile-art img {
+  scale: var(--tile-zoom);
 }
 
 .tile-body {
-  padding: var(--space-2);
+  padding-top: var(--space-3);
 }
 
 .tile-name,
-.tile-meta,
-.tile-desc {
+.tile-meta {
   margin: 0;
 }
 
+/* The name in the body font (one font for names, like daz); Cinzel stays for page titles */
 .tile-name {
-  font-size: var(--step-2);
+  font-family: var(--font-body);
+  font-size: var(--step-1);
+  font-weight: 600;
 }
 
 .tile-name a {
+  color: var(--color-ink);
   text-decoration: none;
 }
 
+.catalog-tile:hover .tile-name a {
+  text-decoration: underline;
+  text-decoration-color: var(--color-highlight);
+}
+
 /* The stretched link: an empty ::after, absolutely placed over the whole .catalog-tile
-   (the nearest positioned ancestor), so a click anywhere on the box follows the link.
-   Trade-off: the description can't be selected with the mouse */
+   (the nearest positioned ancestor), so a click anywhere on the tile follows the link */
 .tile-name a::after {
   content: "";
   position: absolute;
@@ -287,7 +276,7 @@
 
 /* Same look as .retro-label (styles.css) */
 .tile-meta {
-  margin-top: var(--space-2);
+  margin-top: var(--space-1);
   font-family: var(--font-mono);
   font-size: var(--step--1);
   color: var(--color-muted);
@@ -295,61 +284,17 @@
   text-transform: uppercase;
 }
 
-.tile-desc {
-  margin-top: var(--space-3);
-}
-
-.tile-more {
-  display: inline-block;
-  margin-top: var(--space-4);
-  color: var(--color-accent);
-  font-size: var(--step--1);
-}
-
-.catalog-tile:hover .tile-more {
-  text-decoration: underline;
-}
-
-/* Keyboard focus lands on the small name link, but the ring goes round the whole box.
+/* Keyboard focus lands on the small name link, but the ring goes round the whole tile.
    :has() lets a parent react to something inside it */
 .catalog-tile:has(a:focus-visible) {
   outline: 2px solid var(--color-accent);
   outline-offset: 3px;
 }
 
-/* ---------- GRID (6+ projects) ----------
-   :has(> li:nth-child(6)) = "a list that has a 6th item". No JS: adding a sixth project
-   to data/projects.json is enough to switch. auto-fill + minmax makes as many columns as
-   fit; min(11rem, 45%) keeps 2 per row on phones. Each box becomes a small tile:
-   image on top, name and meta below, no description */
-.catalog-grid:has(> li:nth-child(6)) {
-  grid-template-columns: repeat(auto-fill, minmax(min(11rem, 45%), 1fr));
-  gap: var(--space-4);
-}
-
-/* (0,3,1) beats the alternating-row rule (0,3,0), so the flip is undone here too */
-.catalog-grid:has(> li:nth-child(6)) .catalog-tile {
-  grid-template-columns: 1fr;
-  grid-template-areas: "art" "body";
-  gap: var(--space-2);
-  align-items: start;
-  padding: var(--space-2);
-}
-
-.catalog-grid:has(> li:nth-child(6)) .tile-art {
-  aspect-ratio: 1;
-}
-
-.catalog-grid:has(> li:nth-child(6)) .tile-body {
-  padding: 0;
-}
-
-.catalog-grid:has(> li:nth-child(6)) .tile-name {
-  font-size: var(--step-0);
-}
-
-.catalog-grid:has(> li:nth-child(6)) :is(.tile-desc, .tile-more) {
-  display: none;
+@media (prefers-reduced-motion: reduce) {
+  .tile-art img {
+    transition: none;
+  }
 }
 
 /* Shown instead of the tiles when there's no JS (<noscript>) or the JSON fails to load */

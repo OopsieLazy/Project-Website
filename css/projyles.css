@@ -363,7 +363,7 @@ html {
    one .cad-entry per project; this file only dresses them.
    Each project looks like an engineering drawing: a ruled double frame
    with zone ticks, a dashed viewport with crop marks round the render,
-   a DWG number, and the stats as a title-block table.
+   a DWG number, and the stats on one quiet line.
    All lines use --color-accent, so the sheet follows the theme: pine
    lines on white by day, pale blue lines at night, like a blueprint
    ========================================================= */
@@ -383,43 +383,9 @@ html {
   text-transform: uppercase;
 }
 
-/* "DWG" is added by CSS, so the JSON and the jump-link text stay plain numbers */
-.cad-kicker::before,
-.cad-index a::before {
+/* "DWG" is added by CSS, so the JSON stays a plain number */
+.cad-kicker::before {
   content: "DWG ";
-}
-
-/* The index as a drawing's sheet list: a ruled box of cells.
-   Each cell draws its right and bottom rule; the -1px margins overlap
-   neighbouring rules so lines never double up */
-.cad-index {
-  display: grid;
-  /* auto-fit, not auto-fill: empty columns collapse, so 3 projects share the whole row
-     instead of leaving an empty ruled cell at the end */
-  grid-template-columns: repeat(auto-fit, minmax(min(14rem, 100%), 1fr));
-  margin: var(--space-4) 0 var(--space-6);
-  padding: 0;
-  list-style: none;
-  border: 2px solid var(--color-accent);
-  font-family: var(--font-mono);
-  font-size: var(--step--1);
-}
-
-.cad-index li {
-  margin: 0 -1px -1px 0;
-  border-right: 1px solid var(--color-accent);
-  border-bottom: 1px solid var(--color-accent);
-}
-
-.cad-index a {
-  display: block;
-  padding: var(--space-2) var(--space-3);
-  text-decoration: none;
-}
-
-.cad-index a:hover,
-.cad-index a:focus-visible {
-  text-decoration: underline;
 }
 
 /* =========================================================
@@ -599,51 +565,46 @@ html {
 }
 
 /* =========================================================
-   THE TITLE BLOCK: the stats as a ruled table.
-   gap: 1px over an accent-coloured background, with each cell painted
-   in the page colour, draws every inner rule at once, whatever the
-   number of columns: 4 across on wider screens, 2 × 2 on phones
+   THE STATS: one quiet line (sleek pass, owner's pick B, 2026-11-11):
+   "8 iterations · 5 parts · 6 h print · ★★★★☆ difficulty".
+   Was a ruled 4-cell table; one line reads faster and weighs less.
    ========================================================= */
 .cad-stats {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1px;
-  margin: var(--space-4) 0;
-  border: 1px solid var(--color-accent);
-  background: var(--color-accent);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-2);
+  margin: var(--space-3) 0;
   font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--color-muted);
 }
 
-/* 4 across only when the TEXT COLUMN is wide enough, not the screen: beside the
-   viewport the column stays narrow until well past tablet width. A container query
-   asks the column itself (the same idea as the slideshow's container query above).
-   26rem ≈ four cells that fit "ITERATIONS" */
-.cad-body {
-  container-type: inline-size;
-}
-
-@container (min-width: 26rem) {
-  .cad-stats {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-}
-
+/* Each stat is a <div> holding <dt> (label) then <dd> (value): a <dl> must list the label
+   first, and screen readers read it in that order ("Iterations, 8").
+   row-reverse SHOWS the value first ("8 iterations"), without changing the HTML order */
 .cad-stats div {
-  padding: var(--space-1) var(--space-2);
-  background: var(--color-bg);
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: baseline;
+  gap: 0.35em;
+}
+
+/* A middle dot AFTER each stat but the last, never before one: when the line wraps on a
+   phone, a dot can end a line but never start the next (same rule as joinMeta, R1b).
+   In a row-reverse row the lowest order sits furthest right, so order: -1 = the end */
+.cad-stats div:not(:last-child)::after {
+  content: "·";
+  order: -1;
+  margin-left: var(--space-1);
 }
 
 .cad-stats dt {
-  font-size: var(--step--2);
-  color: var(--color-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+  text-transform: lowercase;
 }
 
 .cad-stats dd {
   margin: 0;
-  font-size: var(--step-0);
-  color: var(--color-ink);
+  color: var(--color-ink);             /* the number is the part you look for */
 }
 
 .cad-back {

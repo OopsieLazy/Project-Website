@@ -1,5 +1,6 @@
-// CAD page sections (task 2.5): one entry per project from data/projects.json (D26),
-// plus a row of jump links (the index). Each entry has the project's JSON id, so
+// CAD page sections (task 2.5): one entry per project from data/projects.json (D26).
+// (The row of jump links above them was removed in the sleek pass, 2026-11-11: it repeated
+// the carousel and the entries' own titles.) Each entry has the project's JSON id, so
 // projects.html#bridge-guitar opens straight at that project (the home page links here).
 // Loaded with `defer` after js/datacript.js (loadProjects, make, makeImage, twoDigits).
 // The carousel above (projcript.js) reads the same JSON; its DWG numbers match these entries.
@@ -29,8 +30,10 @@ function buildStats(stats = {}) {
         if (value === undefined || value === null) return;
         list.append(make("div", "", make("dt", "", label), make("dd", "", value)));
     };
-    add("Iterations", stats.iterations);
-    add("Parts", stats.parts);
+    // The stats read as a sentence now ("1 iteration · 2 parts"), so the label follows the number
+    const word = (n, one, many) => (n === 1 ? one : many);
+    add(word(stats.iterations, "Iteration", "Iterations"), stats.iterations);
+    add(word(stats.parts, "Part", "Parts"), stats.parts);
     add("Print", stats.printHours != null ? `${stats.printHours} h` : null);
     if (stats.difficulty != null) {
         const level = Math.min(5, Math.max(0, stats.difficulty)); // keep it within 0–5
@@ -135,12 +138,6 @@ function buildEntry(project, index, id) {
     return entry;
 }
 
-function buildIndexLink(project, index, id) {
-    const link = make("a", "", `${twoDigits(index + 1)} ${project.name}`);
-    link.href = `#${id}`;
-    return make("li", "", link);
-}
-
 // The browser jumps to #bridge-guitar while the page loads, but the entry doesn't exist
 // until the JSON arrives, so there's nothing to jump to. Once it's built, jump ourselves
 function scrollToHash() {
@@ -152,9 +149,8 @@ function scrollToHash() {
 }
 
 async function initSections() {
-    const index = document.querySelector("#cad-index");
     const entries = document.querySelector("#cad-entries");
-    if (!index || !entries) return;
+    if (!entries) return;
 
     let projects;
     try {
@@ -169,7 +165,6 @@ async function initSections() {
         // Check the id BEFORE adding the entry: once it's on the page, it would clash with itself
         const id = usableId(project.id) ? project.id : "";
         entries.append(buildEntry(project, i, id));
-        if (id) index.append(buildIndexLink(project, i, id));
     });
 
     scrollToHash();

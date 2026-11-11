@@ -24,7 +24,7 @@ Use a local server rather than double-clicking the file, because JS modules (Pha
 | `code.html` + `css/codyles.css` + `js/codcript.js` | Code Portfolio: every project a library catalog card, built from `data/code.json` (add one entry to add a project; `"featured": true` puts it in the top row, `"handWritten": true` stamps it, `"source": null` marks a private repo). All the page's sizes are tokens at the top of `codyles.css` |
 | `contact.html` + `css/contyles.css` + `js/contcript.js` | Contact & Résumé as a drawing title block: email with a Copy button, résumé PDF download |
 | `aboutme.html` + `css/aboutyles.css` | About page, laid out like an encyclopedia biography (fill in the `<!-- CONTENT -->` slots) |
-| `index.html` + `css/homyles.css` + `js/homcript.js` | Home page: hero, featured Blueprint card, project catalog |
+| `index.html` + `css/homyles.css` + `js/homcript.js` | Home page: hero, featured Blueprint card, project catalog as picture tiles (Home's `<main>` is wider: `--home-content-max`) |
 | `data/projects.json` | Every project, written once. The home catalog and the CAD page entries are built from it |
 | `js/datacript.js` | Shared helpers that load the JSON and build elements safely (home and CAD page) |
 | `projects.html` + `css/projyles.css` + `js/projcript.js` + `js/sectcript.js` | CAD portfolio: the 3D carousel and side popup, then one entry per project (`projects.html#<id>`) |

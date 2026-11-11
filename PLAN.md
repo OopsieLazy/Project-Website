@@ -57,12 +57,11 @@ Each change still goes **works → right** (layout, keyboard, phones) **→ nice
 
 ## ▶ Where we left off (update at the end of every session)
 
-*Last session: 2026-11-10 (second)*
-- **Branch:** `feat/refine-code` (R3 Code page + the CSS tidy). Phase R (refinement) still comes before Phase L (launch). Collect 3–4 commits per PR (owner, 2026-11-09).
-- **Merged:** #32 R2d carousel as drawing sheets from the JSON, R2e light popup (D39), the wider theme wheel. The "hazy" front sheet is fixed in code; **owner to confirm on a real screen**.
-- **Moved (owner, 2026-11-10):** R2b project pages and R2c kits go after launch. They are new features, and each CAD entry already works as the project's write-up (`projects.html#id`). R2 is done once its owner content (✱ below) is in.
-- **Built on this branch (uncommitted until the owner reviews):** R3 audit; "you are here" nav marker; Home stack clears the wheel; `--step--2`; the Code catalog (K6–K10, D40): 28 projects in `data/code.json`, 6 featured, all flip cards on cream card stock. Dice rolls are paused at the owner's request (2026-11-10) until they say to roll.
-- **Next:** owner reviews the card text in `data/code.json`, then commits, pushes and opens the PR. Then the **Sleek pass** (`feat/sleek-catalogs`, picks recorded under Polish), then R4 Browse Art (audit first).
+*Last session: 2026-11-11*
+- **Branch:** `feat/sleek-catalogs` (the Sleek pass). Phase R (refinement) still comes before Phase L (launch). Collect 3–4 commits per PR (owner, 2026-11-09). Dice rolls are paused at the owner's request (2026-11-10) until they say to roll.
+- **Merged:** #33 R3 Code catalog (D40), the "you are here" nav marker, `--step--2`, Home stack fix.
+- **Built 2026-11-11 (uncommitted):** the Sleek pass, owner's picks after the dazprojects comparison: Home tiles (C), Code quiet paper (B), CAD tidy (B). Tested in Day and Night at 320 / 360 / 800 / 1000 / 1440, no JS errors, validator 0.
+- **Next:** owner commits and opens the PR. Then R4 Browse Art (audit first). `data/code.json` is still Claude's wording, with no `handWritten` set: owner to review when ready.
 - **Polish rule (owner, 2026-11-10):** each polish item gets a done definition first and at most two preview rounds.
 - **Recruiting readiness:** résumé and real email are live. Blocking: not hosted; End Stop Cap and Latch Hinge stats are made up; Art is 56 placeholders. Each R task lists its page's content.
 - **Owner habits:** end every PR with the full git command list (CLAUDE.md). After editing `contact.html` text, regenerate the contact-sheet PDF (README).
@@ -182,10 +181,10 @@ Goal (owner, 2026-11-07): go through the site page by page, from Home down, refi
 **Polish** (refinements to pages already done):
 - [x] **Page-top gap** (2026-11-08, owner handed it back): every page's content starts `--page-top` below the header (D34): 60px on phones, 72 at 1280, 80 max. Measured on all six pages at 320–1440: identical, 0 lantern overlaps.
 - [x] **CSS tidy** (2026-11-10, `feat/refine-code`). Checked 2026-11-10: no `transition: all` or stray font families are left; the only gap is 4 font sizes below the type scale, which `--step--2` covers (R3). Art's frame colours and the card's blueprint whites stay as local, named values (materials, not roles).
-- [ ] **Sleek pass** (owner, 2026-11-10, after comparing with dazprojects; mock-ups A/B/C per page). Branch `feat/sleek-catalogs`, after `feat/refine-code` merges. What makes daz sleek: one picture style, nothing around each item, one font, a tight even grid.
+- [x] **Sleek pass** (owner, 2026-11-10, after comparing with dazprojects; mock-ups A/B/C per page). Built 2026-11-11 in `feat/sleek-catalogs`. What makes daz sleek: one picture style, nothing around each item, one font, a tight even grid.
   - **Home catalog: C.** Tiles (picture on a pale square, name, one meta line; no border, dashed frame or shadow), names in Instrument Sans, and a wider catalog on Home only (Code and CAD keep today's width). 3 tiles stretch to fill the row.
   - **Code: B "quiet paper".** Tilt tokens to 0, no grain, no red rule, one soft shadow, fainter ruled lines, the "Flip" hint only on hover. Mono titles stay.
-  - **CAD: B "tidy".** Remove the repeated name row (`#cad-index`); stats as one line ("8 iterations · 5 parts · 6 h print · ★★★★"). Cinzel titles stay.
+  - **CAD: B "tidy".** Remove the repeated name row (`#cad-index`); stats as one line ("8 iterations · 5 parts · 6 h print · ★★★★"). Built with the dot after each stat, so a wrapped line never starts with one, and singular labels ("1 part"). Cinzel titles stay.
   - Biggest win is content, not CSS: renders in one style (same angle, background, square) and app screenshots for the Code cards.
 
 ## Phase L: Launch
@@ -201,7 +200,7 @@ Goal (owner, 2026-11-07): go through the site page by page, from Home down, refi
   - Open Graph preview tags.
   - `.nojekyll`.
 - [ ] **L2** `feat/csp-404` (was 5.2):
-  - A CSP via `<meta>`, because GitHub Pages can't set headers. Allow `img-src 'self' data:` (the Code cards' paper grain is a data: SVG).
+  - A CSP via `<meta>`, because GitHub Pages can't set headers.
   - `rel="noopener noreferrer"` on external links.
   - An `innerHTML` audit.
   - A plain `404.html` with the site header (4.2 dresses it up later).
