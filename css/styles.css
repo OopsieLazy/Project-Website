@@ -72,6 +72,9 @@
   --color-paper: #FFFFFF;      /* plain white: the theme dimmer's surface by day */
   --color-blueprint: #1D3F7A;  /* blueprint paper: the trading cards (homyles.css) */
   --color-blueprint-ink: #EAF2FF; /* blueprint linework and text: 9.1:1 on blueprint */
+  --color-tokiwa: #007B43;     /* tokiwa, evergreen: the "live" status dot by day */
+  --color-yamabuki-deep: #A86F00; /* deep yamabuki gold: "in progress" by day (brighter yellows fail on pale paper) */
+  --color-cardstock: #FBF7EC;  /* cream index-card stock: the Code page cards, the same in both themes (ink 12.3, muted 5.4, amber 4.0) */
 
   /* Roles: what each color is FOR. light-dark(Day, Lantern).
      Lantern = a rainy Japanese street at night: wet-asphalt blue-black, rain-light links, red lanterns */
@@ -85,6 +88,12 @@
   --color-header-bg: light-dark(var(--color-sand-tint), #1A242A);      /* header band; accent text on it: 6.0 / 9.5 */
   --color-footer-bg: color-mix(in srgb, var(--color-pine), var(--color-akabeni) calc(var(--dim) * 100%));   /* follows the dimmer (D38); white text passes all the way */
   --color-on-footer: #FFFFFF;            /* footer text: 7.8 / 9.9 */
+
+  /* Project status dots (Code page, R3). Graphics need 3:1 (WCAG 1.4.11); numbers are on --color-surface.
+     Each status also has its own SHAPE (filled, half, ring), so colour is never the only clue */
+  --color-status-live: light-dark(var(--color-tokiwa), #6CC48A);              /* green: 4.9 / 7.5 */
+  --color-status-wip: light-dark(var(--color-yamabuki-deep), var(--color-cinnamon)); /* amber: 3.9 / 9.6 */
+  --color-status-archived: var(--color-muted);                                 /* grey ring: 5.3 / 6.7 */
 
   /* The active (hovered or focused) word: only color + fake bold change (D20) */
   --color-active: light-dark(var(--color-gunjo), var(--color-chochin));            /* most links: 6.5 / 7.1 */
@@ -108,6 +117,7 @@
 
   /* Fluid type scale: clamp(min, preferred, max) grows smoothly with screen width,
      so no media queries are needed just to resize text */
+  --step--2: clamp(0.72rem, 0.7rem + 0.1vw, 0.78rem);   /* chips, tags, tiny labels: never under 11.5px (R1's 11px floor) */
   --step--1: clamp(0.83rem, 0.8rem + 0.15vw, 0.9rem);   /* small print, captions */
   --step-0: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);    /* body text */
   --step-1: clamp(1.2rem, 1.1rem + 0.5vw, 1.45rem);     /* small headings */
@@ -520,7 +530,8 @@ hr {
   text-decoration-color: var(--color-sand);
 }
 
-.footer-link:focus-visible {
+.footer-link:focus-visible,
+.footer-link[aria-current="page"] {
   color: var(--color-active-footer);
 }
 
@@ -595,9 +606,13 @@ hr {
 
 /* Hover and Tab: subtle like the footer, so only the color and fake bold change,
    with no background or extra line. Covers the top links, the dropdown and the phone
-   menu (they all use .menu-link) */
+   menu (they all use .menu-link).
+   "You are here" gets the same look: each page marks its own link with aria-current="page"
+   in the HTML. Screen readers announce "current page", and styling the ATTRIBUTE (not a
+   separate class) means the visible marker and the spoken one can never disagree */
 .menu-link:hover,
-.menu-link:focus-visible {
+.menu-link:focus-visible,
+.menu-link[aria-current="page"] {
   color: var(--color-active-menu);
   text-shadow: var(--faux-bold);
 }
