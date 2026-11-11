@@ -57,16 +57,16 @@ Each change still goes **works → right** (layout, keyboard, phones) **→ nice
 
 ## ▶ Where we left off (update at the end of every session)
 
-*Last session: 2026-11-10*
-- **Branch:** `feat/refine-cad` (R2 carousel and popup). Phase R (refinement) still comes before Phase L (launch). Collect 3–4 commits per PR (owner, 2026-11-09).
-- **Merged:** #30 R2a gallery, #31 pictures fill their frames + the thumbwheel dimmer (D37, D38).
-- **Audit 2026-11-10:** validator 0 errors, all 6 pages load with no JS errors or sideways scroll at 320/1440. The theme picker is **frozen** (only the 1.14c sprites remain): it took 6 of 24 commits since 11-07 while the launch blockers didn't move.
-- **Built 2026-11-10 (uncommitted):** R2d carousel from the JSON as a ring of drawing sheets, R2e popup as a title block (D39), plus G1, G3, G4. Owner kept B (6 sheets, repeated). Then, on the owner's notes: more room between the ring and the frame on phones, sheets 1.15× tall so renders aren't cropped, Home's link now "View Projects"; the popup became a light summary, closing recentres on the carousel, and the ring is pushed back so the front sheet isn't enlarged (the "hazy" look; couldn't be reproduced headless, **owner to confirm on a real screen**). The spin stopped and started on its own (worse on phones): it now runs as a browser animation instead of a JavaScript frame loop (`will-change: transform` for smoothness). The hover pause is mouse-only and only on a sheet's picture; the zoom is clipped inside the dashed line. The theme wheel is wider with a 16px gap below the header, all its sizes are `--drum-*` tokens in `:root`, and `--page-top` now has a guard so the page always clears the wheel (amends D34: still a design value, but never smaller than the wheel needs; 86px today). The owner exempted this PR from the one-sitting size rule (UI first).
-- **Next:** owner reviews and commits; then R2b project pages. R2c kits may move after launch (owner to decide).
+*Last session: 2026-11-10 (second)*
+- **Branch:** `feat/refine-code` (R3 Code page + the CSS tidy). Phase R (refinement) still comes before Phase L (launch). Collect 3–4 commits per PR (owner, 2026-11-09).
+- **Merged:** #32 R2d carousel as drawing sheets from the JSON, R2e light popup (D39), the wider theme wheel. The "hazy" front sheet is fixed in code; **owner to confirm on a real screen**.
+- **Moved (owner, 2026-11-10):** R2b project pages and R2c kits go after launch. They are new features, and each CAD entry already works as the project's write-up (`projects.html#id`). R2 is done once its owner content (✱ below) is in.
+- **Built on this branch (uncommitted until the owner reviews):** R3 audit; "you are here" nav marker; Home stack clears the wheel; `--step--2`; the Code catalog (K6–K10, D40): 28 projects in `data/code.json`, 6 featured, all flip cards on cream card stock. Dice rolls are paused at the owner's request (2026-11-10) until they say to roll.
+- **Next:** owner reviews the card text in `data/code.json`, then commits, pushes and opens the PR. Then the **Sleek pass** (`feat/sleek-catalogs`, picks recorded under Polish), then R4 Browse Art (audit first).
 - **Polish rule (owner, 2026-11-10):** each polish item gets a done definition first and at most two preview rounds.
 - **Recruiting readiness:** résumé and real email are live. Blocking: not hosted; End Stop Cap and Latch Hinge stats are made up; Art is 56 placeholders. Each R task lists its page's content.
 - **Owner habits:** end every PR with the full git command list (CLAUDE.md). After editing `contact.html` text, regenerate the contact-sheet PDF (README).
-- **Merged so far:** #1 hygiene, #2–#10 and #14–#15 Phase 1, #11–#21 Phase 2, #22 CAD sheets, #23–#25 R1, #26–#31 R2 prep, résumé, page-top, thumbwheel, gallery.
+- **Merged so far:** #1 hygiene, #2–#10 and #14–#15 Phase 1, #11–#21 Phase 2, #22 CAD sheets, #23–#25 R1, #26–#31 R2 prep, résumé, page-top, thumbwheel, gallery, #32 R2d/R2e carousel and popup.
 - **Design reference:** https://dazprojects.com/collections/all (white, hairlines, centered logo, catalog grid), with our own fonts (Cinzel, Instrument Sans). Reference photos live in the git-ignored `references/` folder. Delete the old backup bundle once happy.
 
 ## Phase 0: Foundation cleanup ✅
@@ -122,41 +122,15 @@ Goal (owner, 2026-11-07): go through the site page by page, from Home down, refi
 - The QA checklist (Phase 1) passes, contrast holds in all three themes, and the W3C validator shows 0 errors.
 - `<!-- CONTENT -->` comments stay only where the owner fills in text later.
 
-- [ ] **R1 Home + shared shell** (`index.html`). The header, footer and tokens are on every page, so they go first.
-  Audited 2026-11-07; the owner's calls are below. Split into PRs: **R1a shell** (this branch), then **R1b home layout**.
-  - [x] **R1a Shell** (all six pages):
-    - The Lab link and its 7-link menu are `hidden` until the Lab exists (`thelab.html` untouched, D13). A small CSS rule makes `hidden` win over the desktop `display`.
-    - Footer: "© 2026 Zach Nott", Browse Art added to the footer nav, GitHub + **MakerWorld** (owner: no LinkedIn), also on About and Contact.
-    - One spelling everywhere: **"Contact and Resume"** and **"Resume"** (owner). The contact-sheet PDF was regenerated.
-  - [x] **Logo** (S1): **"ZN" in Sacramento** with a heavier stroke (owner, after trying blackletter) in place of `placeholder.svg`.
-    - One file, `assets/images/logo.svg`, shown with a plain `<img>`: a custom logo later just replaces the file.
-    - The letters are font outlines (OFL), made by a small fontTools script, so visitors download no font.
-    - The SVG's own `prefers-color-scheme` follows the theme picked on the site (checked in 7 OS × theme combinations).
-    - CSS sizes it by height, so any shape fits.
-    - **Centered in the burger layout too** (owner): the phone grid is `1fr auto 1fr`. Below 24rem the Menu button shows only ☰ (the word stays for screen readers), because a centered 128px logo and "☰ Menu" don't both fit.
-    - Fixed along the way: the logo link had **no keyboard focus indicator** (since Phase 1). It's now `inline-block` with a ring, and the header geometry is unchanged.
-  - [x] **Home, first pass** (owner: "make your recommended changes"):
-    - **H4:** "Open the carousel →" became "See all CAD projects →", then "View Projects" (owner, 2026-11-10).
-    - **H7:** the hero starts `--lantern-drop × φ` below the header (lantern : gap = φ : 1), not centered beside the card. 126px instead of 251px at 1440.
-    - **H1:** card text stays readable. The slot is 26rem wide, and text sizes have `max()` floors (description 11px). Narrow cards drop the flavor line. Measured: no overflow on any card from 320 to 1440px, About card included.
-    - **S5:** `.retro-label` in `styles.css` is the one shared label style. Home uses it now; other pages switch in their R tasks. **Bold band:** previewed; it cuts through the 70s stripes, so not recommended for now.
-  - [x] **Footer** (owner: "organize into aesthetic groupings", D28): one set of markup, two layouts.
-    - Phones (preview A): name, then labelled groups (**Pages** in two columns; **Elsewhere** and **Get in touch** side by side), © under a hairline.
-    - From 40rem (preview B): everything centered in rows; Elsewhere + Get in touch become one small-caps row split by dots. The labels are hidden but still read aloud.
-    - Faded text is white at 75%: 5.2 on pine, 6.2 on akabeni.
-  - [x] **R1b Home layout** (owner's pick B "retro boxes", D29):
-    - Projects are **full-width boxes in alternating rows** (image | text, then text | image) with their description. From 6 projects they become the tile grid (`:has(> li:nth-child(6))`, no JS).
-    - Only the name (`<h3>`) is a link, stretched over the box with `::after`; the focus ring goes round the whole box (`:has(a:focus-visible)`).
-    - The offset shadow is sage: pale grey under a wide box looked like a stray underline (owner).
-    - `joinMeta()` (`datacript.js`) puts a no-break space before each "·", so a dot never starts a line. Home and the CAD page both use it; measured 0 at 320/375/768.
-  - **Owner content:** re-export the renders square on one background (biggest visual win); real stats for End Stop Cap and Latch Hinge, or the cards are trimmed to what's true; `assets/docs/resume.pdf` (then the Resume buttons point straight at it).
+- [ ] **R1 Home + shared shell** (`index.html`). Built 2026-11-07/08 in R1a (shell: Lab hidden, footer, one spelling of "Contact and Resume"), the logo (S1, "ZN" in Sacramento as outlines), Home's first pass (H1, H4, H7, S5 `.retro-label`), the footer (D28) and R1b retro boxes (D29). Details: the merged PRs #23–#25 and the code comments. 2026-11-10: "you are here" nav marker (`aria-current`), and the card stack clears the theme wheel (`--stack-rise`).
+  - **Owner content:** re-export the renders square on one background (biggest visual win); real stats for End Stop Cap and Latch Hinge, or the cards are trimmed to what's true.
 - [ ] **R2 CAD Portfolio** (`projects.html`). Planned 2026-11-08 (owner), one PR each:
   - [x] **Contact card drags out as a PNG** (D30, `fix/contact-drag-png`). Sets up the picture method the kits reuse.
   - [x] **Whole boxes drag out** (2026-11-08, owner): Home boxes, featured cards and CAD entries, through `dragOutProject()` in `datacript.js`. Inner images and links get `draggable = false`, so a drag that starts on them moves the whole box. Drops the cover image until R2c adds kits. Trade-off: text inside a draggable box can't be selected with the mouse.
   - [x] **R2a Gallery** (D33, built 2026-11-09 in `feat/project-images`): `images[]` in `projects.json` (`src`, `alt`, `kind` "cad"/"photo", `caption`); sectcript's `buildGallery()` shows one big picture with its CAD/Photo tag and caption, plus 48px thumbnail buttons (`aria-pressed`) once there are two or more. `image` stays the cover for cards and boxes; a project without `images` falls back to it. New photos go in `assets/images/<id>/`.
   - [x] **Pictures fill their frames** (2026-11-09): `object-fit: cover` on Home and the CAD page (crops evenly, never stretches), and the picture sits 2px inside the dashed line (Home `padding: 2px`, CAD `calc(0.5rem + 2px)`), because at some widths the box lands between pixel rows and a picture filling it covered the top line. Best results: square 1600px exports with the part in the middle 75% (README).
-  - [ ] **R2b Project pages** (D31): `sheet.html?id=<id>` + `sheetyles.css` / `sheetcript.js`, filled from the JSON, Wikipedia-style like About: infobox, Contents, Background · Design · Iterations · Printing · Result, Downloads, References. Home boxes and CAD entries link to it. Unknown id → "Project not found".
-  - [ ] **R2c Kits** (D32): each project's box drags out as `<id>-kit.zip` (sheet PNG + PDF, manual, `files/`, `LICENSE.txt`), plus a "Download kit (.zip)" link for keyboards and other browsers. The drag code moves from `contcript.js` to `datacript.js`.
+  - [ ] **R2b Project pages** (D31; **after launch**, owner 2026-11-10): `sheet.html?id=<id>` + `sheetyles.css` / `sheetcript.js`, filled from the JSON, Wikipedia-style like About: infobox, Contents, Background · Design · Iterations · Printing · Result, Downloads, References. Home boxes and CAD entries link to it. Unknown id → "Project not found".
+  - [ ] **R2c Kits** (D32; **after launch**, owner 2026-11-10): each project's box drags out as `<id>-kit.zip` (sheet PNG + PDF, manual, `files/`, `LICENSE.txt`), plus a "Download kit (.zip)" link for keyboards and other browsers. The drag code moves from `contcript.js` to `datacript.js`.
   - Done early (owner, in R1a): crop marks on **all four corners** of each entry image. One `::before` paints eight solid-gradient bars.
   - [x] **The owner's parked blocks** `.larger-projects` and `.item-image-block`: removed 2026-11-08 (find them with `git log -S larger-projects`), idea kept as 3.10 in Experiments (owner, 2026-11-08). The code stays in git history.
   - **Audit 2026-11-10** (Day and Night, 320 / 768 / 1440). Owner marks each *finish / fill / remove*. The owner opened the carousel and popup to changes (2026-11-10):
@@ -176,10 +150,19 @@ Goal (owner, 2026-11-07): go through the site page by page, from Home down, refi
     - **Page:** ~~G1 tab title "Projects"~~ → "CAD Portfolio · Zach Nott". G2 the intro is 14 lines on a phone (**owner's text**). ~~G3 empty 4th index cell~~ (`auto-fit`). ~~G4 leftover comment after `</html>`~~.
   - **Owner content** (✱ blocks launch): ✱ real stats for End Stop Cap and Latch Hinge (made up 2026-11-05); ✱ the intro paragraph and tab title; ✱ one square render each (same angle, same background); photos (hero, in use, close-up, scale, iteration lineup), EXIF/GPS stripped; write-up notes (problem, what changed per version, print settings); files to share; MakerWorld links; references.
   - **Kit rules:** metadata stripped (STEP headers can hold your user name and folder paths, 3MF holds slicer profiles); each kit under ~20 MB, since git keeps every version forever; bigger models link to MakerWorld instead.
-- [ ] **R3 Code Portfolio** (`code.html`)
-  - Real projects in place of No. 002 and 003 (Source / Live are `#`).
-  - The intro line.
-  - A Live link for this site once it's on Pages.
+- [ ] **R3 Code Portfolio** (`code.html`). Audited 2026-11-10 (Day and Night, 320 / 768 / 1440); the owner's calls are below.
+  - [x] **Cards from the owner's GitHub** (owner's pick): MyWeb, INV.OS, GEX Terminal, AUDA in place of the two placeholders. One-liners, tools and statuses were drafted by Claude from each README and are marked `CONTENT` until the owner rewrites them.
+  - [x] **Fixed:** MyWeb's Source link was a 404 (the repo is now `Project-Website`). Cards go two per row from 18rem, so a 768px tablet no longer shows one wide, empty card.
+  - [x] **"You are here" in the nav** (all six pages): the current page's header and footer links carry `aria-current="page"` and get the hover look (D20). Screen readers say "current page".
+  - [x] **`--step--2` token** (CSS tidy; owner handed it to Claude): one size for chips and tags in place of 0.7 / 0.75 / 0.78rem.
+  - [x] **Fix (Home):** the card stack's back cards reached up to the theme wheel at 1920px+ (`translate`/`rotate` take no layout space). `--stack-rise` in `homyles.css` now reserves the room.
+  - **Code catalog** (owner, 2026-11-10; D40), built 2026-11-10 on this branch (owner: finish before committing), preview A. Tested: open/close, Esc, focus moves to the back and back again, the hidden face is `inert`, no JS errors; 320 / 768 / 1440, Day and Night:
+    - [x] **K6** Status colours (live green filled, in progress amber half, archived grey empty ring) as tokens, and every `codyles.css` value as a named token at the top of the file.
+    - [x] **K7** `data/code.json` + `js/codcript.js` build the cards (like D26), every local and public project the owner keeps. Private repos get no Source link ("Private repo").
+    - [x] **K8** Flip cards: small fronts (title + one line); click flips the card and grows it to two columns with the full entry; click or Esc flips back; reduced motion skips the spin.
+    - [x] **K9** Featured row: bigger cards first (TTask, YouScape, GooeyThang, Voice Assistant and more, via `"featured": true`), optional "hand-written" stamp for projects from before AI (`"handWritten": true`).
+    - [x] **K10** (owner, same day) Every card flips, Featured included (just bigger); a click anywhere on an open back flips it over again (links still work). **Paper look A** after previews A/B/C: cream card stock in both themes (`--color-cardstock`, `color-scheme: light` on the card), SVG grain, layered desk shadows, a slight tilt that straightens when opened. Two `@property` colours keep the punched hole and focus ring in the PAGE's colours. All values are tokens at the top of `codyles.css`.
+  - **Owner content:** ✱ rewrite the intro and the drafted one-liners in your words; ✱ confirm each status; ✱ which projects are featured and which were written before AI; which projects to leave out; a README for AUDA; the Live link for this site after L3.
 - [ ] **R4 Browse Art** (`art.html`)
   - Replace the 56 placeholder pieces with the owner's images (EXIF/GPS stripped).
   - The intro line, and tune the tilt tokens.
@@ -198,7 +181,12 @@ Goal (owner, 2026-11-07): go through the site page by page, from Home down, refi
 
 **Polish** (refinements to pages already done):
 - [x] **Page-top gap** (2026-11-08, owner handed it back): every page's content starts `--page-top` below the header (D34): 60px on phones, 72 at 1280, 80 max. Measured on all six pages at 320–1440: identical, 0 lantern overlaps.
-- [ ] **CSS tidy** (code only, no visual change; one `chore:` PR before launch): hard-coded fonts and px sizes that a token covers → tokens, `transition: all` → named properties. Each page's own leftovers stay in its R task.
+- [x] **CSS tidy** (2026-11-10, `feat/refine-code`). Checked 2026-11-10: no `transition: all` or stray font families are left; the only gap is 4 font sizes below the type scale, which `--step--2` covers (R3). Art's frame colours and the card's blueprint whites stay as local, named values (materials, not roles).
+- [ ] **Sleek pass** (owner, 2026-11-10, after comparing with dazprojects; mock-ups A/B/C per page). Branch `feat/sleek-catalogs`, after `feat/refine-code` merges. What makes daz sleek: one picture style, nothing around each item, one font, a tight even grid.
+  - **Home catalog: C.** Tiles (picture on a pale square, name, one meta line; no border, dashed frame or shadow), names in Instrument Sans, and a wider catalog on Home only (Code and CAD keep today's width). 3 tiles stretch to fill the row.
+  - **Code: B "quiet paper".** Tilt tokens to 0, no grain, no red rule, one soft shadow, fainter ruled lines, the "Flip" hint only on hover. Mono titles stay.
+  - **CAD: B "tidy".** Remove the repeated name row (`#cad-index`); stats as one line ("8 iterations · 5 parts · 6 h print · ★★★★"). Cinzel titles stay.
+  - Biggest win is content, not CSS: renders in one style (same angle, background, square) and app screenshots for the Code cards.
 
 ## Phase L: Launch
 
@@ -213,7 +201,7 @@ Goal (owner, 2026-11-07): go through the site page by page, from Home down, refi
   - Open Graph preview tags.
   - `.nojekyll`.
 - [ ] **L2** `feat/csp-404` (was 5.2):
-  - A CSP via `<meta>`, because GitHub Pages can't set headers.
+  - A CSP via `<meta>`, because GitHub Pages can't set headers. Allow `img-src 'self' data:` (the Code cards' paper grain is a data: SVG).
   - `rel="noopener noreferrer"` on external links.
   - An `innerHTML` audit.
   - A plain `404.html` with the site header (4.2 dresses it up later).
@@ -348,6 +336,7 @@ Design doc first (art style, room ↔ section map, controls), then build in smal
 | D37 | Brightness slider, option C: only decoration blends with the slider (stars, stripes, sun and moon, footer); the page and the header switch between Day and Night at the halfway point with a short crossfade | Owner's pick after mock-ups A–C with live contrast numbers. Blending everything drops text to 1.1:1 halfway; a safe blend can only dim the day page 12% before grey text fails. The header holds the menu links, so it switches with the page. Every word stays at 4.5:1 or more |
 | D38 | The thumbwheel is a smooth dimmer: its position is `--dim` (0 Day to 1 Night) on `<html>`. The stripes (toward their inverted colours, mixed `in oklch`), the stars, the footer and the white drum (at least a third of the screen wide) follow it; the page and header switch at halfway (D37). Tap: Auto, Day, Night; drag: any level; arrows: a tenth. Saved as `theme` plus `theme-level` | Owner's pick after mock-ups C and D: keep the wheel, not a stripe slider, but make it a real dimmer with interpolated colours. One CSS variable keeps every blend in the stylesheet; the script only sets a number. OKLCH keeps the stripes colourful halfway (sRGB went grey). The CSSOM `style.setProperty` stays allowed under a strict CSP |
 | D39 | The CAD carousel reads `projects.json` (3.2's data half, pulled forward) and is drawn as a drawing sheet like the entries: framed ring, small sheets with crop-marked viewports and DWG labels, blank paper backs, a light summary popup; the ring is pushed back by its radius so the front sheet shows at true size. Under 6 projects the list repeats (copies `aria-hidden`, out of the Tab order) | Owner, 2026-11-10: the carousel should match the projects below. One source of truth ends the placeholders and empty popups. Preview A (3 sheets) became a prism showing one sheet at a time and overflowed on phones; B keeps a ring (owner's pick). Frame and crop marks are shared selectors, not copies, so the two can't drift |
+| D40 | The Code page becomes a catalog built from `data/code.json` (like D26): every project a flip card that grows to two columns when opened (preview A), bigger ones in a featured row first, private repos shown without a Source link. The cards are cream card stock in both themes (paper preview A) | Owner, 2026-11-10: "load all of em". 20+ projects as hand-copied HTML would drift and break; one JSON entry per project is easy to review. Small fronts keep a long list short; growing on open leaves room for the full entry (B's same-size back was too cramped). A link to a private repo is a 404 for visitors. Replaces the plain-HTML pick from 2.3 |
 | D17 | Skeleton and layout are separate PRs; keep the `#page` wrapper; the width cap is a reusable `.wrapper` class; two `rem` breakpoints | Smaller reviews; respects the owner's structure; a class can be reused, and the carousel can skip it when it needs more width; breakpoints give more control than fluid sizing alone |
 
 ## Open questions

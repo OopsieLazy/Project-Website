@@ -21,7 +21,7 @@ Use a local server rather than double-clicking the file, because JS modules (Pha
 | `css/styles.css` | Shared header, footer, design tokens and base styles |
 | `css/cardyles.css` | The Blueprint trading card, shared by Home and About. Wrap each card in a `.card-holder` |
 | `art.html` + `css/artyles.css` | Browse Art as a salon wall of framed pictures with museum labels (copy an `<li>` to add a piece; `--salon-tilt` / `--salon-nudge` in `styles.css` set how crooked they hang) |
-| `code.html` + `css/codyles.css` | Code Portfolio: each project a library catalog card (plain HTML: copy an `<li>` to add one) |
+| `code.html` + `css/codyles.css` + `js/codcript.js` | Code Portfolio: every project a library catalog card, built from `data/code.json` (add one entry to add a project; `"featured": true` puts it in the top row, `"handWritten": true` stamps it, `"source": null` marks a private repo). All the page's sizes are tokens at the top of `codyles.css` |
 | `contact.html` + `css/contyles.css` + `js/contcript.js` | Contact & Résumé as a drawing title block: email with a Copy button, résumé PDF download |
 | `aboutme.html` + `css/aboutyles.css` | About page, laid out like an encyclopedia biography (fill in the `<!-- CONTENT -->` slots) |
 | `index.html` + `css/homyles.css` + `js/homcript.js` | Home page: hero, featured Blueprint card, project catalog |
