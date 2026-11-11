@@ -1,5 +1,5 @@
-// Shared project-data helpers (D26), used by the home page (homcript.js) and the
-// CAD page sections (sectcript.js). Load this FIRST, before the page script:
+// Shared project-data helpers (D26), used by the home page (homcript.js), the
+// CAD page (projcript.js, sectcript.js) and the Code page (codcript.js). Load this FIRST, before the page script:
 // scripts with `defer` run in the order they appear in the HTML.
 //
 // Plain (non-module) scripts on one page share one global scope, so the page
@@ -8,13 +8,14 @@
 
 const PROJECTS_URL = "data/projects.json";
 
-// Fetch the JSON and turn it into a JavaScript array.
+// Fetch a JSON file and turn it into JavaScript (an array, for our data files).
 // `async` lets us write `await` instead of chaining .then() calls.
-async function fetchProjects() {
-    const response = await fetch(PROJECTS_URL);
+// Takes the URL so every data file shares it: projects.json (CAD) and code.json (Code page, D40)
+async function fetchJson(url) {
+    const response = await fetch(url);
     // fetch() only fails on network errors; a missing file (404) still "succeeds", so check it
     if (!response.ok) {
-        throw new Error(`${PROJECTS_URL} answered ${response.status}`);
+        throw new Error(`${url} answered ${response.status}`);
     }
     // .json() throws a SyntaxError if the file has a typo (missing comma, trailing comma, comment)
     return response.json();
@@ -25,7 +26,7 @@ async function fetchProjects() {
 // instead of working it out again. ??= only assigns when the left side is still empty
 let projectsPromise = null;
 function loadProjects() {
-    projectsPromise ??= fetchProjects();
+    projectsPromise ??= fetchJson(PROJECTS_URL);
     return projectsPromise;
 }
 

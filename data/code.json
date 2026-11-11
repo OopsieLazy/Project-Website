@@ -1,0 +1,437 @@
+[
+  {
+    "id": "youscape",
+    "title": "YouScape",
+    "blurb": "A daily habit tally.",
+    "description": "A desktop habit tracker: tick off daily habits, then look back in calendar and stats views. Every pixel of its theme is drawn in code.",
+    "tools": [
+      "Python",
+      "PyQt6",
+      "SQLite",
+      "PyInstaller"
+    ],
+    "status": "wip",
+    "year": "2026",
+    "source": null,
+    "featured": true,
+    "handWritten": false
+  },
+  {
+    "id": "ttask",
+    "title": "TTask",
+    "blurb": "A desktop task manager.",
+    "description": "Tasks grouped into colour-coded projects, saved to a local SQLite file, with right-click editing and a Fallout-style skin. Packaged as a Windows app.",
+    "tools": [
+      "Python",
+      "PyQt6",
+      "SQLite",
+      "PyInstaller"
+    ],
+    "status": "live",
+    "year": "2026",
+    "source": null,
+    "featured": true,
+    "handWritten": false
+  },
+  {
+    "id": "gooeythang",
+    "title": "GooeyThang",
+    "blurb": "A trading journal, six times over.",
+    "description": "A trading journal rebuilt over six iterations: log trades, fees and notes to SQLite, filter them by date and chart the results.",
+    "tools": [
+      "Python",
+      "SQLite",
+      "matplotlib",
+      "pandas"
+    ],
+    "status": "archived",
+    "year": "2026",
+    "source": null,
+    "featured": true,
+    "handWritten": false
+  },
+  {
+    "id": "voice-assistant",
+    "title": "Voice Assistant",
+    "blurb": "Window control by voice.",
+    "description": "An offline voice-controlled window manager: move windows between screens, minimise, maximise and tile them by speaking. Speech recognition runs without internet.",
+    "tools": [
+      "Python",
+      "Vosk",
+      "pyttsx3",
+      "PyAutoGUI"
+    ],
+    "status": "archived",
+    "year": "2026",
+    "source": null,
+    "featured": true,
+    "handWritten": false
+  },
+  {
+    "id": "inv-os",
+    "title": "INV.OS",
+    "blurb": "An inventory terminal for a workshop.",
+    "description": "A keyboard-first inventory terminal for a small workshop: one file, no install, search by typing, real undo, and a graph of every part clustered by shelf.",
+    "tools": [
+      "Go",
+      "JavaScript",
+      "SQLite"
+    ],
+    "status": "wip",
+    "year": "2026",
+    "source": "https://github.com/OopsieLazy/INV.OS",
+    "featured": true,
+    "handWritten": false
+  },
+  {
+    "id": "gex-terminal",
+    "title": "GEX Terminal",
+    "blurb": "A gamma exposure dashboard.",
+    "description": "A self-refreshing gamma exposure dashboard: pulls option chains on a timer, finds the gamma flip, charts each strike and keeps every snapshot.",
+    "tools": [
+      "Python",
+      "Tkinter",
+      "yfinance"
+    ],
+    "status": "live",
+    "year": "2026",
+    "source": "https://github.com/OopsieLazy/GEXG",
+    "featured": true,
+    "handWritten": false
+  },
+  {
+    "id": "myweb",
+    "title": "MyWeb",
+    "blurb": "This portfolio, from scratch.",
+    "description": "This site: plain HTML, CSS and JavaScript, no framework, built step by step with an AI pair programmer.",
+    "tools": [
+      "HTML",
+      "CSS",
+      "JavaScript"
+    ],
+    "status": "wip",
+    "year": "2026",
+    "source": "https://github.com/OopsieLazy/Project-Website",
+    "featured": false,
+    "handWritten": false
+  },
+  {
+    "id": "gamma-bot",
+    "title": "Gamma Bot",
+    "blurb": "Signals for same-day options.",
+    "description": "A signal-only bot for SPY same-day options: it runs the maths and filters and prints trade alerts; trades are placed by hand.",
+    "tools": [
+      "Python",
+      "pandas",
+      "SciPy",
+      "yfinance"
+    ],
+    "status": "archived",
+    "year": "2026",
+    "source": null,
+    "featured": false,
+    "handWritten": false
+  },
+  {
+    "id": "cl-buddy",
+    "title": "CL Buddy",
+    "blurb": "A pet for the terminal.",
+    "description": "A Tamagotchi for the command line: a pet generated from a seed, with a species, rarity and stats, a full stat card and speech bubbles, all in ANSI colour.",
+    "tools": [
+      "Python"
+    ],
+    "status": "archived",
+    "year": "2026",
+    "source": null,
+    "featured": false,
+    "handWritten": false
+  },
+  {
+    "id": "bookret",
+    "title": "BookRet",
+    "blurb": "Fetches books for my library.",
+    "description": "Looks up the books in my personal library database and retrieves their ebook files.",
+    "tools": [
+      "Python",
+      "PyQt6",
+      "Playwright",
+      "Beautiful Soup"
+    ],
+    "status": "archived",
+    "year": "2026",
+    "source": null,
+    "featured": false,
+    "handWritten": false
+  },
+  {
+    "id": "bkdb-api",
+    "title": "BKDB API",
+    "blurb": "A small book search API.",
+    "description": "A web API: send a title and it finds the book.",
+    "tools": [
+      "Python",
+      "FastAPI"
+    ],
+    "status": "archived",
+    "year": "2026",
+    "source": null,
+    "featured": false,
+    "handWritten": false
+  },
+  {
+    "id": "redgreen",
+    "title": "RedGreen",
+    "blurb": "A trade P&L tracker.",
+    "description": "A desktop window for logging trades and following profit and loss, one tab per view.",
+    "tools": [
+      "Python",
+      "PyQt6"
+    ],
+    "status": "archived",
+    "year": "2026",
+    "source": null,
+    "featured": false,
+    "handWritten": false
+  },
+  {
+    "id": "yt-dsply",
+    "title": "YT-DSPLY",
+    "blurb": "A video downloader.",
+    "description": "Paste a link and it downloads the videos you need, catalogued in a simple list.",
+    "tools": [
+      "Python",
+      "PyQt6",
+      "yt-dlp",
+      "PyInstaller"
+    ],
+    "status": "archived",
+    "year": "2026",
+    "source": null,
+    "featured": false,
+    "handWritten": false
+  },
+  {
+    "id": "fer",
+    "title": "Full Elder Rumble",
+    "blurb": "A small fighting game.",
+    "description": "A fighting game with menus, game states, players and attacks, each in its own module.",
+    "tools": [
+      "Python",
+      "pygame"
+    ],
+    "status": "archived",
+    "year": "2026",
+    "source": null,
+    "featured": false,
+    "handWritten": false
+  },
+  {
+    "id": "pypong",
+    "title": "PyPong",
+    "blurb": "Pong, with a scoreboard.",
+    "description": "The classic Pong, written from scratch with a scoreboard.",
+    "tools": [
+      "Python",
+      "pygame"
+    ],
+    "status": "archived",
+    "year": "2026",
+    "source": null,
+    "featured": false,
+    "handWritten": false
+  },
+  {
+    "id": "pmodro",
+    "title": "PmoDro",
+    "blurb": "A Pomodoro timer.",
+    "description": "A focus timer: work, break, repeat.",
+    "tools": [
+      "Python",
+      "PyQt6"
+    ],
+    "status": "archived",
+    "year": "2026",
+    "source": null,
+    "featured": false,
+    "handWritten": false
+  },
+  {
+    "id": "fear-greed",
+    "title": "Fear & Greed Indicator",
+    "blurb": "A daily market mood score.",
+    "description": "A 0 to 100 market mood score, like CNN's, fetched automatically at set times each trading day.",
+    "tools": [
+      "Python"
+    ],
+    "status": "archived",
+    "year": "2026",
+    "source": null,
+    "featured": false,
+    "handWritten": false
+  },
+  {
+    "id": "trading-journal",
+    "title": "Trading Journal (PyQt)",
+    "blurb": "Database practice for a journal.",
+    "description": "SQLite and PyQt6 practice: tables, a form and a main window, the groundwork for a trading journal.",
+    "tools": [
+      "Python",
+      "PyQt6",
+      "SQLite"
+    ],
+    "status": "archived",
+    "year": "2026",
+    "source": null,
+    "featured": false,
+    "handWritten": false
+  },
+  {
+    "id": "modules",
+    "title": "Modules for Me",
+    "blurb": "My reusable UI parts.",
+    "description": "Buttons, forms, drag and drop, dropdowns and a speed gauge that I reuse across my apps.",
+    "tools": [
+      "Python",
+      "PyQt6",
+      "pygame"
+    ],
+    "status": "archived",
+    "year": "2026",
+    "source": null,
+    "featured": false,
+    "handWritten": false
+  },
+  {
+    "id": "project-folder-gen",
+    "title": "Project Folder Generator",
+    "blurb": "Sets up a new project folder.",
+    "description": "Creates a new project folder with the structure I always use. Packaged as an app.",
+    "tools": [
+      "Python",
+      "PyInstaller"
+    ],
+    "status": "archived",
+    "year": "2026",
+    "source": null,
+    "featured": false,
+    "handWritten": false
+  },
+  {
+    "id": "merry-melodies",
+    "title": "Merry Melodies Scraper",
+    "blurb": "Downloads a cartoon collection.",
+    "description": "Downloads a cartoon collection from the Internet Archive through its metadata API.",
+    "tools": [
+      "Python",
+      "Requests"
+    ],
+    "status": "archived",
+    "year": "2026",
+    "source": null,
+    "featured": false,
+    "handWritten": false
+  },
+  {
+    "id": "stock-scraper",
+    "title": "Stock Scraper",
+    "blurb": "Price alerts by email.",
+    "description": "Scrapes stock prices and emails them to me.",
+    "tools": [
+      "Python",
+      "Selenium"
+    ],
+    "status": "archived",
+    "year": "2025",
+    "source": null,
+    "featured": false,
+    "handWritten": false
+  },
+  {
+    "id": "pngico",
+    "title": "PngIco",
+    "blurb": "Turns images into icons.",
+    "description": "Converts a PNG into a Windows .ico file.",
+    "tools": [
+      "Python",
+      "Pillow"
+    ],
+    "status": "archived",
+    "year": "2026",
+    "source": null,
+    "featured": false,
+    "handWritten": false
+  },
+  {
+    "id": "char-count",
+    "title": "Live Character Counter",
+    "blurb": "Counts characters as you type.",
+    "description": "Counts words and characters in real time.",
+    "tools": [
+      "Python"
+    ],
+    "status": "archived",
+    "year": "2026",
+    "source": null,
+    "featured": false,
+    "handWritten": false
+  },
+  {
+    "id": "caesar",
+    "title": "Caesar Cipherizer",
+    "blurb": "A Caesar cipher.",
+    "description": "Encodes and decodes text with a Caesar shift.",
+    "tools": [
+      "Python"
+    ],
+    "status": "archived",
+    "year": "2026",
+    "source": null,
+    "featured": false,
+    "handWritten": false
+  },
+  {
+    "id": "leetcode",
+    "title": "LeetCode",
+    "blurb": "Practice problems.",
+    "description": "My solutions to LeetCode practice problems.",
+    "tools": [
+      "Python"
+    ],
+    "status": "archived",
+    "year": "2026",
+    "source": null,
+    "featured": false,
+    "handWritten": false
+  },
+  {
+    "id": "early-projects",
+    "title": "Early projects",
+    "blurb": "Scrapers, bots and a first app.",
+    "description": "My first projects: web scrapers, a small Flask app, a Kivy app and automation scripts.",
+    "tools": [
+      "Python",
+      "Kivy",
+      "Flask",
+      "Selenium"
+    ],
+    "status": "archived",
+    "year": "2020–25",
+    "source": null,
+    "featured": false,
+    "handWritten": false
+  },
+  {
+    "id": "auda",
+    "title": "AUDA",
+    "blurb": "A small audio visualizer.",
+    "description": "A small audio visualizer for my radio.",
+    "tools": [
+      "Python"
+    ],
+    "status": "archived",
+    "year": "2026",
+    "source": "https://github.com/OopsieLazy/AUDA",
+    "featured": false,
+    "handWritten": false
+  }
+]

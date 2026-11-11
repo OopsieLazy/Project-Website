@@ -1,8 +1,96 @@
-/* Code Portfolio page (task 2.3, owner's pick C): every project is a library catalog card.
+/* Code Portfolio page (R3, D40): a library catalog of every code project.
+   The cards are built by js/codcript.js from data/code.json; this file only styles them.
    Shared header, tokens and footer live in styles.css */
 
+/* =========================================================
+   TOKENS (K6): every number this page uses, in one place.
+   To change the look, change a value here; the rules below only read these.
+   Colours come from styles.css roles, so both themes keep working
+   ========================================================= */
+
+/* The cards are cream card stock in BOTH themes (owner's pick A, 2026-11-10), so inside a card
+   the day colours apply (color-scheme: light, below). But two things belong to the PAGE, not
+   the card: the punched hole shows the page through it, and the focus ring sits on the page.
+   A normal custom property is only text: var(--color-bg) inside the card would be worked out
+   with the card's light scheme (white hole on a dark page). @property registers these as real
+   <color>s, so they're worked out ONCE on the page's <body> and inherited as finished colours */
+@property --page-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: white;
+}
+
+@property --page-ring {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: black;
+}
+
+.thecodepage {
+  --page-color: var(--color-bg);       /* resolved here, on the page, then inherited as-is */
+  --page-ring: var(--color-accent);
+  /* Page layout */
+  --code-section-gap: var(--space-7);  /* space between the Featured row and All projects */
+  --code-featured-min: 19rem;          /* featured cards: narrowest width before the row drops a column */
+  --code-featured-gap: var(--space-6);
+  --code-card-min: 15rem;              /* flip cards: narrowest width (4 across at 1440, 2 on tablets, 1 on phones) */
+  --code-card-gap: var(--space-5);
+
+  /* The catalog card: everything is placed on the ruled lines.
+     Ruled lines sit at --ic-top + n × --ic-line (n = 0, 1, 2 …); the red rule is line n = 1 */
+  --ic-line: 1.55rem;                  /* one ruled line = one line of text */
+  --ic-top: var(--space-5);            /* top padding = where ruled line 0 sits */
+  --ic-pad-x: var(--space-5);          /* left and right padding */
+  --ic-pad-bottom: var(--space-7);     /* bottom padding: room for the punched hole */
+  --ic-ruled-ink: 18%;                 /* strength of the blue ruled lines */
+  --ic-red-ink: 60%;                   /* strength of the red header rule */
+  --ic-red-width: 2px;
+  --ic-hole: 1.1rem;                   /* the punched hole's size */
+  --ic-title-tracking: 0.06em;         /* letter spacing of the typed titles */
+  --ic-chip-radius: 3px;
+
+  /* Real paper (owner's pick A): card stock, grain, soft shadows, a slight tilt */
+  --paper-radius: 3px;                 /* card stock has softly rounded corners */
+  /* Paper grain: an SVG noise filter (feTurbulence) as a tiny tiling picture, made faint and warm
+     by feColorMatrix (its last row sets the opacity: .09). Inline as a data: URL, so no extra file.
+     CSP note for L2: data: images need img-src 'self' data: */
+  --paper-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .28 0 0 0 0 .18 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  /* Paper on a desk casts three shadows at once: a tight contact line, a short soft one, and a
+     wide faint one. Layering them is what makes it read as a real object, not a flat box */
+  --paper-shadow:
+    0 1px 1px rgb(0 0 0 / 0.12),
+    0 3px 6px rgb(0 0 0 / 0.10),
+    0 14px 22px -10px rgb(0 0 0 / 0.35);
+  --paper-shadow-lift:                 /* picked up a little (hover): the shadows spread */
+    0 2px 2px rgb(0 0 0 / 0.12),
+    0 8px 14px rgb(0 0 0 / 0.12),
+    0 22px 30px -12px rgb(0 0 0 / 0.38);
+  --paper-tilt-1: -0.7deg;             /* each card lies a little crooked; four angles in turn. */
+  --paper-tilt-2: 0.5deg;              /* Set all four to 0deg for straight rows */
+  --paper-tilt-3: -0.3deg;
+  --paper-tilt-4: 0.8deg;
+  --paper-settle: 300ms;               /* how fast a card straightens when opened */
+
+  /* Status dots (colours: --color-status-* in styles.css) */
+  --status-dot: 0.8rem;
+  --status-ring: 2px;
+
+  /* Flip cards (K8) */
+  --flip-front-lines: 7;               /* a closed card is this many ruled lines tall, so fronts line up:
+                                          number, gap, title (up to 2 lines), blurb (up to 2), "Flip" hint */
+  --flip-time: 500ms;                  /* how long the flip takes */
+  --flip-depth: 1200px;                /* perspective: smaller = a more dramatic 3D turn */
+  --flip-lift: 3px;                    /* how far a front lifts on hover */
+
+  /* "Hand-written" stamp (projects from before AI) */
+  --stamp-tracking: 0.08em;
+}
+
+/* =========================================================
+   PAGE HEAD AND SECTIONS
+   ========================================================= */
 .code-head {
-  margin-block: 0 var(--space-6);   /* the top comes from --page-top (styles.css) */
+  margin-block: 0 var(--space-6);      /* the top comes from --page-top (styles.css) */
 }
 
 .code-head h1 {
@@ -13,73 +101,107 @@
   margin: 0;
 }
 
-/* As many card columns as fit, no media queries. min(20rem, 100%) stops a
-   20rem minimum from overflowing a phone narrower than that */
-.index-cards {
+.code-section + .code-section {
+  margin-top: var(--code-section-gap);
+}
+
+/* The section names are <h2>s (screen readers can jump to them) dressed as .retro-label */
+.code-section-label {
+  margin: 0 0 var(--space-4);
+}
+
+/* Shown only if code.json fails to load (codcript.js fills it) */
+.code-note:empty {
+  display: none;
+}
+
+/* =========================================================
+   GRIDS: as many columns as fit, no media queries.
+   min(…, 100%) stops the minimum from overflowing a phone narrower than it
+   ========================================================= */
+.code-catalog {
+  /* Each list is a CONTAINER, so an open card can ask "is there room for two columns?"
+     with @container below. A media query would measure the window, not the list */
+  container: catalog / inline-size;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(20rem, 100%), 1fr));
-  gap: var(--space-6);
+  grid-template-columns: repeat(auto-fill, minmax(min(var(--code-card-min), 100%), 1fr));
+  gap: var(--code-card-gap);
+  align-items: start;                  /* an open (tall) card doesn't stretch its neighbours */
+  grid-auto-flow: dense;               /* later cards fill the hole an open card leaves */
   margin: 0 0 var(--space-8);
   padding: 0;
   list-style: none;
 }
 
+/* Featured: the same flip cards, bigger. Its own container name, because its
+   "room for two columns" width is different (see @container featured below) */
+.code-catalog.is-featured {
+  container-name: featured;
+  grid-template-columns: repeat(auto-fill, minmax(min(var(--code-featured-min), 100%), 1fr));
+  gap: var(--code-featured-gap);
+}
+
+.is-featured .flip-front .ic-title {
+  font-size: var(--step-1);            /* still one ruled line tall (line-height: --ic-line) */
+}
+
 /* =========================================================
-   THE CATALOG CARD. Two kinds of colour here:
-   - the card itself (paper, border, text) uses ROLE tokens, so it follows the theme
-   - the printed ink (blue ruled lines, red header rule) is part of the card, like
-     the stripes, so it uses fixed PALETTE colours mixed thin with color-mix()
+   THE CATALOG CARD: a real index card. It's an object, not part of the page,
+   so it keeps its own colours in both themes (like the Blueprint card on Home):
+   - color-scheme: light makes every light-dark() role inside the card pick its DAY value
+   - the printed ink (blue ruled lines, red header rule) uses fixed PALETTE colours
    ========================================================= */
 .index-card {
-  /* THE GRID: everything on the card is placed from these two values.
-     Ruled lines sit at --ic-top + n × --ic-line (n = 0, 1, 2 …); the red rule is line n = 1 */
-  --ic-line: 1.55rem;                  /* one ruled line = one line of text */
-  --ic-top: var(--space-5);            /* top padding = where ruled line 0 sits */
-  --ic-ruled: color-mix(in srgb, var(--color-gunjo) 18%, transparent);
-  --ic-rule-red: color-mix(in srgb, var(--color-beni) 60%, transparent);
+  --ic-ruled: color-mix(in srgb, var(--color-gunjo) var(--ic-ruled-ink), transparent);
+  --ic-rule-red: color-mix(in srgb, var(--color-beni) var(--ic-red-ink), transparent);
 
+  color-scheme: light;
+  /* Text colour is INHERITED from the page, already worked out (light grey at night).
+     Setting it here makes the card look it up again, under its own light scheme */
+  color: var(--color-ink);
   position: relative;
-  height: 100%;                        /* cards in one row share a height */
-  padding: var(--ic-top) var(--space-5) var(--space-7);
-  border: 1px solid var(--color-line);
-  background-color: var(--color-surface);
-  /* The ruled lines: a gradient whose pattern is EXACTLY one --ic-line tall, with the 1px
+  padding: var(--ic-top) var(--ic-pad-x) var(--ic-pad-bottom);
+  border-radius: var(--paper-radius);  /* no border: real card stock has an edge, not an outline */
+  background-color: var(--color-cardstock);
+  /* Two layers, top one first: the grain, then the ruled lines.
+     The ruled lines are a gradient whose pattern is EXACTLY one --ic-line tall, with the 1px
      line at its start. (The pattern repeats every "last stop": ending at --ic-line + 1px
      would make each repeat 1px too tall, and the lines would drift off the text.)
-     background-position puts line 0 at the top padding edge, where the text starts */
-  background-image: repeating-linear-gradient(
-    var(--ic-ruled) 0 1px,
-    transparent 1px var(--ic-line)
-  );
-  background-position: 0 var(--ic-top);
-  box-shadow: 4px 4px 0 var(--color-line); /* hard offset shadow: the retro "box" look */
+     Their position puts line 0 at the top padding edge, where the text starts */
+  background-image:
+    var(--paper-grain),
+    repeating-linear-gradient(var(--ic-ruled) 0 1px, transparent 1px var(--ic-line));
+  background-position: 0 0, 0 var(--ic-top);
+  box-shadow: var(--paper-shadow);
   font-family: var(--font-mono);
   font-size: var(--step--1);
 }
 
-/* The red header rule, drawn exactly over ruled line 1. It's 2px thick and the blue
-   line 1px, so -0.5px centres the red over the blue */
+/* The red header rule, drawn exactly over ruled line 1. Half its extra thickness
+   (red minus the 1px blue line) goes above, so the red centres over the blue */
 .index-card::before {
   content: "";
   position: absolute;
-  top: calc(var(--ic-top) + var(--ic-line) - 0.5px);
+  top: calc(var(--ic-top) + var(--ic-line) - (var(--ic-red-width) - 1px) / 2);
   left: 0;
   right: 0;
-  border-top: 2px solid var(--ic-rule-red);
+  border-top: var(--ic-red-width) solid var(--ic-rule-red);
 }
 
-/* The punched hole: a circle filled with the PAGE colour, so it looks cut through */
+/* The punched hole: a circle filled with the PAGE colour (--page-color, worked out on the
+   page, see @property at the top), so it looks cut through. The inner shadow is the hole's
+   wall: the cut edge of the card catching the light */
 .index-card::after {
   content: "";
   position: absolute;
   bottom: var(--space-3);
   left: 50%;
-  width: 1.1rem;
-  height: 1.1rem;
+  width: var(--ic-hole);
+  height: var(--ic-hole);
   translate: -50% 0;                   /* centre it on its own width */
-  border: 1px solid var(--color-line);
   border-radius: 50%;
-  background: var(--color-bg);
+  background: var(--page-color);
+  box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.35);
 }
 
 .index-card p {
@@ -87,8 +209,7 @@
 }
 
 /* Number left, status dot right, filling the band between ruled line 0 and the red rule.
-   Exactly one line tall + align-items: center = the dot sits in the middle of the band,
-   clear of both lines */
+   Exactly one line tall + align-items: center = the dot sits in the middle of the band */
 .ic-meta {
   display: flex;
   justify-content: space-between;
@@ -99,36 +220,98 @@
 
 .ic-no {
   color: var(--color-muted);
+  white-space: nowrap;
 }
 
-/* Status dot (owner's pick, replaces the word badge). Colour alone would fail WCAG 1.4.1
-   (colour-blind visitors couldn't tell them apart), so each status also has its own SHAPE:
-   filled = live, half = in progress, ring = archived. currentColor is the status colour,
-   used by both the ring and the fill. The word lives in hidden text for screen readers,
-   and the key at the top of the page explains the shapes */
+/* Typed title: the mono font in capitals. One empty band under the red rule, then the
+   title fills exactly one band, so the description below starts on the grid too */
+.ic-title {
+  margin: var(--ic-line) 0 0;
+  line-height: var(--ic-line);
+  font-family: var(--font-mono);
+  font-size: var(--step-0);
+  letter-spacing: var(--ic-title-tracking);
+  text-transform: uppercase;
+}
+
+.ic-desc {
+  line-height: var(--ic-line);         /* text sits on the ruled lines */
+}
+
+.ic-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: var(--space-3) 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--step--2);
+}
+
+.ic-chips li {
+  padding: 1px var(--space-2);
+  border: 1px solid var(--color-line);
+  border-radius: var(--ic-chip-radius);
+  background: var(--color-cardstock);  /* covers the ruled line behind the chip */
+  color: var(--color-muted);
+}
+
+/* .index-card .ic-links (0,2,0) beats .index-card p (0,1,1), so this margin wins
+   without !important */
+.index-card .ic-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-4);
+  margin-top: var(--space-3);
+}
+
+/* A private repo has no public page, so it gets a plain note instead of a dead link */
+.ic-private {
+  color: var(--color-muted);
+}
+
+/* Stamp for projects written before AI ("handWritten": true in code.json) */
+.ic-stamp {
+  margin-left: var(--space-2);
+  padding: 0 var(--space-1);
+  border: 1px solid currentColor;
+  color: var(--color-active);
+  font-size: var(--step--2);
+  letter-spacing: var(--stamp-tracking);
+  text-transform: uppercase;
+}
+
+/* =========================================================
+   STATUS DOTS. Colour alone would fail WCAG 1.4.1 (colour-blind visitors couldn't
+   tell them apart), so each status also has its own SHAPE:
+   filled = live, half = in progress, ring = archived. currentColor is the status
+   colour, used by both the ring and the fill. The word lives in hidden text for
+   screen readers, and the key at the top of the page explains the shapes
+   ========================================================= */
 .ic-status {
   display: inline-block;
   flex: none;                          /* never squashed by a long card number */
-  width: 0.8rem;
-  height: 0.8rem;
-  border: 2px solid currentColor;
+  width: var(--status-dot);
+  height: var(--status-dot);
+  border: var(--status-ring) solid currentColor;
   border-radius: 50%;
   vertical-align: middle;
 }
 
 .ic-status.is-live {
-  color: var(--color-accent);
+  color: var(--color-status-live);
   background: currentColor;
 }
 
 /* Half filled: a hard-edged gradient, left half colour, right half empty */
 .ic-status.is-wip {
-  color: var(--color-active);
+  color: var(--color-status-wip);
   background: linear-gradient(90deg, currentColor 50%, transparent 50%);
 }
 
 .ic-status.is-archived {
-  color: var(--color-muted);
+  color: var(--color-status-archived);
   background: transparent;
 }
 
@@ -149,44 +332,178 @@
   margin-right: var(--space-1);
 }
 
-/* Typed title: the mono font in capitals, not the display font */
-/* One empty band under the red rule, then the title fills exactly one band,
-   so the description below starts on the grid too */
-.ic-title {
-  margin: var(--ic-line) 0 0;
-  line-height: var(--ic-line);
-  font-family: var(--font-mono);
-  font-size: var(--step-0);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+/* =========================================================
+   FLIP CARDS (K8, preview A). Each <li> holds a .flip-inner with two faces:
+   the front (title + one line) and the back (the full entry).
+   Opening: the card turns over (rotateY) and grows to two columns.
+   Only the face you can see takes up space; the other is laid over it
+   (position: absolute) and made `inert` by the script, so Tab and
+   screen readers skip it
+   ========================================================= */
+.flip-item {
+  perspective: var(--flip-depth);      /* the 3D "camera": makes the turn look deep, not flat */
+  transition: rotate var(--paper-settle) ease;
 }
 
-.ic-desc {
-  line-height: var(--ic-line);         /* text sits on the ruled lines */
+/* Cards set down a little crooked, four angles in turn (tokens at the top).
+   rotate is its own property, separate from the flip's transform, so they never clash */
+.flip-item:nth-child(4n + 1) { rotate: var(--paper-tilt-1); }
+.flip-item:nth-child(4n + 2) { rotate: var(--paper-tilt-2); }
+.flip-item:nth-child(4n + 3) { rotate: var(--paper-tilt-3); }
+.flip-item:nth-child(4n + 4) { rotate: var(--paper-tilt-4); }
+
+.flip-item.is-open {
+  rotate: 0deg;                        /* an open card is picked up and squared to read */
 }
 
-.ic-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-  margin: var(--space-3) 0 0;
+.flip-inner {
+  position: relative;
+  transform-style: preserve-3d;        /* the faces keep their own 3D turn inside the turning card */
+  transition: transform var(--flip-time) ease;
+}
+
+.flip-face {
+  backface-visibility: hidden;         /* a face turned away from you is invisible */
+}
+
+/* The back starts turned away (180deg), so it shows when the whole card turns 180deg */
+.flip-back {
+  transform: rotateY(180deg);
+}
+
+/* Closed: the front sets the size; the back lies on top of it, the same size */
+.flip-item:not(.is-open) .flip-back,
+.flip-item.is-open .flip-front {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.flip-item.is-open .flip-inner {
+  transform: rotateY(180deg);
+}
+
+/* Open cards take two columns, but only when the catalog HAS two columns:
+   on a one-column phone, "span 2" would add a second column and push the page sideways.
+   31.5rem = 2 × --code-card-min + --code-card-gap (a container query can't read var()) */
+@container catalog (min-width: 31.5rem) {
+  .flip-item.is-open {
+    grid-column: span 2;
+  }
+}
+
+/* 40rem = 2 × --code-featured-min + --code-featured-gap */
+@container featured (min-width: 40rem) {
+  .flip-item.is-open {
+    grid-column: span 2;
+  }
+}
+
+/* The whole open back is clickable (it flips the card over again), so say so */
+.flip-item.is-open .flip-back {
+  cursor: pointer;
+}
+
+/* The front: shorter, no punched hole. The min-height is whole ruled lines, so every
+   front is the same height and the lines stay on the grid */
+.flip-front {
+  /* Whole ruled lines. (If the card ever gets a border back, add 2px here: min-height
+     includes the border, and the fullest fronts would come out 2px taller than the rest) */
+  min-height: calc(var(--ic-top) + var(--flip-front-lines) * var(--ic-line));
+  padding-bottom: var(--ic-line);      /* the last ruled line is kept free for the "Flip" hint */
+  transition: translate 150ms ease, box-shadow 150ms ease;
+}
+
+.flip-front::after {
+  display: none;
+}
+
+/* The title IS the button (like Home's stretched link, D29): a screen reader hears
+   "INV.OS, button, collapsed", and ::after stretches it over the whole front, so the
+   whole card is clickable. Its own look is reset to the title's */
+.flip-open {
   padding: 0;
-  list-style: none;
-  font-size: 0.78rem;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-align: left;
+  text-transform: inherit;
+  cursor: pointer;
 }
 
-.ic-chips li {
-  padding: 1px var(--space-2);
-  border: 1px solid var(--color-line);
-  border-radius: 3px;
-  background: var(--color-surface);    /* covers the ruled line behind the chip */
+.flip-open::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.flip-open:focus-visible {
+  outline: none;                       /* the ring goes round the whole card instead (below) */
+}
+
+.flip-front:has(.flip-open:focus-visible) {
+  outline: 2px solid var(--page-ring);  /* the ring sits on the PAGE, so it uses the page's colour */
+  outline-offset: 3px;
+}
+
+/* Hover: the card lifts off the desk a little, and its shadow spreads */
+.flip-front:hover {
+  translate: 0 calc(var(--flip-lift) * -1);
+  box-shadow: var(--paper-shadow-lift);
+}
+
+/* "Flip ↻" in the bottom corner, so it's clear the card turns over.
+   It fills the last ruled line (the front's bottom padding), so text can never run into it */
+.flip-hint {
+  position: absolute;
+  right: var(--ic-pad-x);
+  bottom: 0;
+  line-height: var(--ic-line);
   color: var(--color-muted);
+  font-size: var(--step--2);
 }
 
-/* .index-card .ic-links (0,2,0) beats .index-card p (0,1,1), so this margin wins
-   without !important */
-.index-card .ic-links {
-  display: flex;
-  gap: var(--space-4);
-  margin-top: var(--space-3);
+.flip-front:hover .flip-hint,
+.flip-front:has(.flip-open:focus-visible) .flip-hint {
+  color: var(--color-active);
+}
+
+/* The back's title gets focus when the card opens (so a screen reader reads it);
+   it isn't a control, so it needs no ring */
+.flip-back .ic-title:focus {
+  outline: none;
+}
+
+/* "Flip back" looks like the links next to it */
+.flip-close {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-accent);
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
+
+.flip-close:hover,
+.flip-close:focus-visible {
+  outline: none;
+  color: var(--color-active);
+  text-shadow: var(--faux-bold);
+}
+
+/* Reduced motion: the card swaps faces with no turn and no hover lift */
+@media (prefers-reduced-motion: reduce) {
+  .flip-item,
+  .flip-inner,
+  .flip-front {
+    transition: none;
+  }
+
+  .flip-front:hover {
+    translate: none;
+  }
 }
