@@ -10,6 +10,9 @@
         <link rel="stylesheet" href="css/styles.css">
         <link rel="stylesheet" href="css/codyles.css">
         <script src="js/script.js" defer></script>
+        <!-- datacript.js holds the shared JSON helpers, so it loads before codcript.js (defer keeps this order) -->
+        <script src="js/datacript.js" defer></script>
+        <script src="js/codcript.js" defer></script>
         <!-- No defer on purpose: it sets the saved theme before the page is drawn (no white flash) -->
         <script src="js/themcript.js"></script>
     </head>
@@ -35,7 +38,7 @@
                             <li class="header-left-item" id="item-cad">
                                 <a class="menu-link" href="projects.html">CAD Portfolio</a></li>
                             <li class="header-left-item" id="item-code">
-                                <a class="menu-link" href="code.html">Code Portfolio</a></li>
+                                <a class="menu-link" href="code.html" aria-current="page">Code Portfolio</a></li>
                             <li class="header-left-item" id="item-art">
                                 <a class="menu-link" href="art.html">Browse Art</a></li>
                         </ul>
@@ -112,13 +115,13 @@
 
             <!-- Landmarks: screen readers can jump straight to main or footer. The skip link targets #content -->
             <main id="content" class="site-main wrapper">
-                <!-- Code Portfolio (task 2.3, owner's pick C): each project is a library catalog card.
-                     Plain HTML on purpose (owner's pick): to add a project, copy one <li> block below,
-                     bump its number and change the text. Every text slot is marked CONTENT -->
+                <!-- Code Portfolio (R3, D40): a library catalog of every project.
+                     The cards are built by js/codcript.js from data/code.json:
+                     to add, edit or feature a project, change only that file -->
                 <header class="code-head">
                     <h1>Code Portfolio</h1>
-                    <!-- CONTENT: one line about the code you write -->
-                    <p>One line about the code you write.</p>
+                    <!-- CONTENT: one line about the code you write (drafted by Claude: rewrite it in your words) -->
+                    <p>Tools I build for my own workshop and hobbies: small, offline, and made to be used every day.</p>
                     <!-- Key for the status dots on the cards. The dots are drawn by CSS (codyles.css) -->
                     <ul class="status-key" role="list" aria-label="Status key">
                         <li><span class="ic-status is-live" aria-hidden="true"></span> Live</li>
@@ -127,52 +130,24 @@
                     </ul>
                 </header>
 
-                <!-- list-style: none makes Safari drop the list meaning, so role="list" adds it back -->
-                <ul class="index-cards" role="list">
-                    <li>
-                        <article class="index-card">
-                            <!-- Status dot: is-live (filled), is-wip (half) or is-archived (ring). Shape AND colour differ,
-                                 so colour is never the only clue; the hidden text gives screen readers the word -->
-                            <p class="ic-meta"><span class="ic-no">No. 001</span> <span class="ic-status is-wip" title="In progress"><span class="screen-reader-text">Status: in progress</span></span></p>
-                            <h2 class="ic-title">MyWeb</h2>
-                            <p class="ic-desc">This portfolio: plain HTML, CSS and JavaScript, no framework, built step by step with an AI pair programmer.</p>
-                            <ul class="ic-chips" role="list" aria-label="Built with">
-                                <li>HTML</li>
-                                <li>CSS</li>
-                                <li>JavaScript</li>
-                            </ul>
-                            <!-- CONTENT: add a "Live" link once GitHub Pages is on (task 5.1) -->
-                            <p class="ic-links"><a href="https://github.com/OopsieLazy/MyWeb">Source</a></p>
-                        </article>
-                    </li>
+                <!-- Featured: projects with "featured": true, on bigger flip cards -->
+                <section class="code-section" aria-labelledby="featured-label">
+                    <h2 class="retro-label code-section-label" id="featured-label">Featured</h2>
+                    <!-- list-style: none makes Safari drop the list meaning, so role="list" adds it back -->
+                    <ul class="code-catalog is-featured" id="code-featured" role="list"></ul>
+                </section>
 
-                    <!-- CONTENT: a placeholder project. Replace the text and links, or delete the <li> -->
-                    <li>
-                        <article class="index-card">
-                            <p class="ic-meta"><span class="ic-no">No. 002</span> <span class="ic-status is-live" title="Live"><span class="screen-reader-text">Status: live</span></span></p>
-                            <h2 class="ic-title">Project two</h2>
-                            <p class="ic-desc">One line: what it does and why you built it.</p>
-                            <ul class="ic-chips" role="list" aria-label="Built with">
-                                <li>Python</li>
-                            </ul>
-                            <p class="ic-links"><a href="#">Source</a> <a href="#">Live</a></p>
-                        </article>
-                    </li>
+                <!-- Everything else as small flip cards: pick one to turn it over -->
+                <section class="code-section" aria-labelledby="catalog-label">
+                    <h2 class="retro-label code-section-label" id="catalog-label">All projects</h2>
+                    <ul class="code-catalog" id="code-catalog" role="list"></ul>
+                </section>
 
-                    <!-- CONTENT: a placeholder project. Replace the text and links, or delete the <li> -->
-                    <li>
-                        <article class="index-card">
-                            <p class="ic-meta"><span class="ic-no">No. 003</span> <span class="ic-status is-archived" title="Archived"><span class="screen-reader-text">Status: archived</span></span></p>
-                            <h2 class="ic-title">Project three</h2>
-                            <p class="ic-desc">One line: what it does and what you learned.</p>
-                            <ul class="ic-chips" role="list" aria-label="Built with">
-                                <li>C++</li>
-                                <li>Arduino</li>
-                            </ul>
-                            <p class="ic-links"><a href="#">Source</a></p>
-                        </article>
-                    </li>
-                </ul>
+                <!-- Filled by codcript.js only if data/code.json fails to load -->
+                <p class="code-note" id="code-note" role="status"></p>
+                <noscript>
+                    <p>The project list needs JavaScript. My public code is on <a href="https://github.com/OopsieLazy">GitHub</a>.</p>
+                </noscript>
             </main>
 
             <!-- The footer is the full-width pine band; .footer-inner keeps the content lined up with the page -->
@@ -193,7 +168,7 @@
                         <ul class="footer-list footer-pages">
                             <li class="footer-item"><a class="footer-link" href="index.html">Home</a></li>
                             <li class="footer-item"><a class="footer-link" href="projects.html">CAD Portfolio</a></li>
-                            <li class="footer-item"><a class="footer-link" href="code.html">Code Portfolio</a></li>
+                            <li class="footer-item"><a class="footer-link" href="code.html" aria-current="page">Code Portfolio</a></li>
                             <li class="footer-item"><a class="footer-link" href="art.html">Browse Art</a></li>
                             <li class="footer-item"><a class="footer-link" href="aboutme.html">About Me</a></li>
                             <li class="footer-item"><a class="footer-link" href="contact.html">Contact and Resume</a></li>
